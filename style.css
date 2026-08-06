@@ -1,1 +1,16 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Courier New', monospace;
+    /* Usa a imagem e cobre a parte do texto */
+    background: url('1785989390651.png') center top no-repeat fixed;
+    background-size: cover;
+    background-position: center 0px; /* Ajuste esse valor pra cortar o texto */
+    color: #e0e0e0;
+    min-height: 100vh;
+    padding: 30px;
+    max-width: 800px;
+    margin: 0 auto;
+}
 
