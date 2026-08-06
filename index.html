@@ -7,51 +7,53 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
   <div class="game-container">
-    <h1>Meu Pou</h1>
+    <header class="stats">
+      <div class="stat-bar">
+        <span>Fome:</span>
+        <div class="bar"><div id="hunger-bar" class="fill"></div></div>
+      </div>
+      <div class="stat-bar">
+        <span>Felicidade:</span>
+        <div class="bar"><div id="happy-bar" class="fill"></div></div>
+      </div>
+      <div class="stat-bar">
+        <span>Energia:</span>
+        <div class="bar"><div id="energy-bar" class="fill"></div></div>
+      </div>
+    </header>
 
-    <div class="status-container">
-      <div class="status-box">
-        <span>🍎 Fome</span>
-        <div class="bar"><div id="bar-fome" class="fill"></div></div>
-      </div>
-      <div class="status-box">
-        <span>⚡ Energia</span>
-        <div class="bar"><div id="bar-energia" class="fill"></div></div>
-      </div>
-      <div class="status-box">
-        <span>⚽ Diversão</span>
-        <div class="bar"><div id="bar-diversao" class="fill"></div></div>
-      </div>
-      <div class="status-box">
-        <span>🧼 Higiene</span>
-        <div class="bar"><div id="bar-higiene" class="fill"></div></div>
-      </div>
-    </div>
+    <main class="room" id="room">
+      <div class="pou-wrapper" id="pou-container">
+        <!-- Pou desenhado em SVG -->
+        <svg id="pou" viewBox="0 0 200 200" width="180" height="180">
+          <!-- Corpo do Pou -->
+          <path class="pou-body" d="M100 30 C150 30, 185 80, 185 140 C185 180, 150 190, 100 190 C50 190, 15 180, 15 140 C15 80, 50 30, 100 30 Z" fill="#b08d57" stroke="#7a5c30" stroke-width="6"/>
+          
+          <!-- Olho Esquerdo -->
+          <circle cx="70" cy="95" r="22" fill="#ffffff" stroke="#7a5c30" stroke-width="4"/>
+          <circle id="pupil-left" cx="72" cy="95" r="9" fill="#000000"/>
+          
+          <!-- Olho Direito -->
+          <circle cx="130" cy="95" r="22" fill="#ffffff" stroke="#7a5c30" stroke-width="4"/>
+          <circle id="pupil-right" cx="128" cy="95" r="9" fill="#000000"/>
 
-    <div class="pou-wrapper">
-      <div id="pou" class="pou">
-        <div class="eyes">
-          <div class="eye"><div class="pupil"></div></div>
-          <div class="eye"><div class="pupil"></div></div>
-        </div>
-        <div id="mouth" class="mouth happy"></div>
-        <div id="dirty-spots" class="dirty hidden">💩</div>
+          <!-- Boca -->
+          <path id="pou-mouth" d="M 80 145 Q 100 160 120 145" fill="transparent" stroke="#5a3d1e" stroke-width="5" stroke-linecap="round"/>
+        </svg>
       </div>
-    </div>
 
-    <p id="status-text">O Pou está feliz!</p>
+      <!-- Item caindo ao interagir -->
+      <div id="action-effect" class="effect hidden"></div>
+    </main>
 
-    <div class="actions">
-      <button onclick="alimentar()">🍎 Comer</button>
-      <button onclick="dormir()">💤 Dormir</button>
-      <button onclick="brincar()">⚽ Brincar</button>
-      <button onclick="limpar()">🧼 Limpar</button>
-    </div>
+    <footer class="actions">
+      <button class="btn" id="btn-feed">🍎 Alimentar</button>
+      <button class="btn" id="btn-play">⚽ Brincar</button>
+      <button class="btn" id="btn-sleep">💤 Dormir</button>
+    </footer>
   </div>
 
   <script src="script.js"></script>
 </body>
-    </html>
-      
+</html>
