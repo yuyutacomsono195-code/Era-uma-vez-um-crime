@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meu Pou</title>
+  <title>Meu Pou com Mini-Game</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -21,12 +21,16 @@
         <span>Energia:</span>
         <div class="bar"><div id="energy-bar" class="fill"></div></div>
       </div>
+      <div class="score-board">
+        <span>Moedas: 🪙 <strong id="coin-count">0</strong></span>
+      </div>
     </header>
 
     <main class="room" id="room">
+      <div id="falling-coin" class="falling-coin hidden">🪙</div>
+
       <div class="pou-wrapper" id="pou-container">
-        <!-- Pou desenhado em SVG -->
-        <svg id="pou" viewBox="0 0 200 200" width="180" height="180">
+        <svg id="pou" viewBox="0 0 200 200" width="140" height="140">
           <path class="pou-body" d="M100 30 C150 30, 185 80, 185 140 C185 180, 150 190, 100 190 C50 190, 15 180, 15 140 C15 80, 50 30, 100 30 Z" fill="#b08d57" stroke="#7a5c30" stroke-width="6"/>
           
           <circle cx="70" cy="95" r="22" fill="#ffffff" stroke="#7a5c30" stroke-width="4"/>
@@ -40,15 +44,21 @@
       </div>
 
       <div id="action-effect" class="effect hidden"></div>
+
+      <div id="minigame-controls" class="minigame-controls hidden">
+        <button class="btn-arrow" id="btn-left">⬅️</button>
+        <button class="btn-arrow" id="btn-right">➡️</button>
+      </div>
     </main>
 
     <footer class="actions">
-      <button class="btn" id="btn-feed">🍎 Alimentar</button>
-      <button class="btn" id="btn-play">⚽ Brincar</button>
+      <button class="btn" id="btn-feed">🍎 Comer</button>
+      <button class="btn" id="btn-play">🎮 Jogar</button>
       <button class="btn" id="btn-sleep">💤 Dormir</button>
     </footer>
   </div>
 
   <script src="script.js"></script>
 </body>
-</html>
+            </html>
+                            
