@@ -3,26 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔍 Caso Misterioso</title>
+    <title>🔍 Detetive do Caso Misterioso</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>🔍 Caso Misterioso</h1>
-
-    <div class="caixa-texto">
-        <h3>Cenário:</h3>
-        <p id="cenario">Uma joia rara foi roubada da mansão. 3 suspeitos: a empregada, o filho e o jardineiro. Quem fez?</p>
+    <div class="tela-inicial" id="telaInicial">
+        <div class="caixa-centro">
+            <h1>🔍 DETETIVE MISTERIOSO</h1>
+            <p>Resolva os crimes, descubra os culpados e prove que você é um grande investigador!</p>
+            <button class="botao-principal" onclick="comecarJogo()">COMEÇAR INVESTIGAÇÃO</button>
+        </div>
     </div>
 
-    <div id="area-opcoes">
-        <button class="opcao" onclick="verificar('empregada')">A empregada: diz que estava arrumando o quarto</button>
-        <button class="opcao" onclick="verificar('filho')">O filho: diz que estava estudando</button>
-        <button class="opcao" onclick="verificar('jardineiro')">O jardineiro: diz que estava cortando a grama na chuva</button>
+    <div class="tela-jogo" id="telaJogo" style="display: none;">
+        <header class="cabecalho">
+            <div class="info">
+                <span>Pontos: <strong id="pontos">0</strong></span>
+                <span>Caso: <strong id="numeroCaso">1/3</strong></span>
+            </div>
+            <button class="botao-dica" onclick="mostrarDica()">💡 Dica</button>
+        </header>
+
+        <main class="conteudo">
+            <div class="caixa-cenario">
+                <h2 id="tituloCaso">Caso 1: A Joia Roubada</h2>
+                <p id="textoCenario">Uma joia rara foi roubada da mansão principal na noite de terça-feira. Três pessoas estavam no local:</p>
+            </div>
+
+            <div class="lista-suspeitos" id="listaSuspeitos">
+                <button class="botao-suspeito" onclick="escolherSuspeito('empregada')">
+                    <strong>A Empregada</strong><br>
+                    "Eu estava arrumando os quartos e organizando a cozinha, não saí de dentro da casa"
+                </button>
+                <button class="botao-suspeito" onclick="escolherSuspeito('filho')">
+                    <strong>O Filho</strong><br>
+                    "Fiquei no meu quarto estudando para a prova de amanhã, nem saí para jantar"
+                </button>
+                <button class="botao-suspeito" onclick="escolherSuspeito('jardineiro')">
+                    <strong>O Jardineiro</strong><br>
+                    "Estava cortando a grama e limpando as flores do jardim, mesmo com a chuva forte"
+                </button>
+            </div>
+
+            <div class="caixa-resultado" id="caixaResultado"></div>
+            <div class="caixa-dica" id="caixaDica" style="display: none;"></div>
+        </main>
+
+        <footer class="rodape">
+            <button class="botao-proximo" id="botaoProximo" onclick="proximoCaso()" style="display: none;">PRÓXIMO CASO ➡️</button>
+            <button class="botao-reiniciar" id="botaoReiniciar" onclick="reiniciarJogo()" style="display: none;">🔄 RECOMEÇAR</button>
+        </footer>
     </div>
 
-    <div id="resultado-final" class="resultado"></div>
+    <div class="tela-final" id="telaFinal" style="display: none;">
+        <div class="caixa-centro">
+            <h1>🏆 INVESTIGAÇÃO CONCLUÍDA!</h1>
+            <p id="resultadoFinal"></p>
+            <button class="botao-principal" onclick="reiniciarJogo()">JOGAR NOVAMENTE</button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
-</html>
-
+                </html>
+                
