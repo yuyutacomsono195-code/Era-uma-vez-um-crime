@@ -30,10 +30,10 @@ body {
 /* Barra de Status */
 .stats {
   background-color: #f8bbd0;
-  padding: 15px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .stat-bar {
@@ -42,12 +42,12 @@ body {
   justify-content: space-between;
   font-weight: bold;
   color: #4a148c;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .bar {
-  width: 200px;
-  height: 16px;
+  width: 180px;
+  height: 14px;
   background-color: #ffffff;
   border-radius: 8px;
   overflow: hidden;
@@ -61,52 +61,73 @@ body {
   transition: width 0.3s ease, background-color 0.3s ease;
 }
 
+.score-board {
+  text-align: right;
+  font-weight: bold;
+  color: #4a148c;
+  font-size: 14px;
+}
+
 /* Quarto do Pou */
 .room {
   flex: 1;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
+  padding-bottom: 20px;
   position: relative;
   background: radial-gradient(circle, #ffffff 20%, #f48fb1 100%);
   transition: background 0.5s;
+  overflow: hidden;
 }
 
 .room.night {
   background: radial-gradient(circle, #2c3e50 20%, #000000 100%);
 }
 
-/* Animações */
+/* Pou e Animação */
 .pou-wrapper {
+  position: absolute;
+  bottom: 30px;
+  left: 110px;
   cursor: pointer;
-  animation: bounce 2.5s infinite ease-in-out;
-  transition: transform 0.2s;
+  transition: left 0.1s linear;
 }
 
-.pou-wrapper:active {
-  transform: scale(0.92);
+/* Moeda Caindo no Mini-Game */
+.falling-coin {
+  position: absolute;
+  font-size: 32px;
+  top: 0;
+  z-index: 5;
 }
 
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0) scale(1, 1);
-  }
-  50% {
-    transform: translateY(-18px) scale(1.03, 0.97);
-  }
+/* Controles Touch */
+.minigame-controls {
+  position: absolute;
+  bottom: 5px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 10;
 }
 
-.pou-wrapper.happy-jump {
-  animation: happy 0.6s 2 ease-in-out;
+.btn-arrow {
+  background: rgba(255, 255, 255, 0.7);
+  border: 2px solid #ab47bc;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  font-size: 20px;
+  cursor: pointer;
 }
 
-@keyframes happy {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  25% { transform: translateY(-35px) rotate(-10deg); }
-  75% { transform: translateY(-35px) rotate(10deg); }
+.btn-arrow:active {
+  background: #ab47bc;
 }
 
-/* Botões */
+/* Botões de Ação */
 .actions {
   display: flex;
   justify-content: space-around;
@@ -138,10 +159,10 @@ body {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 @keyframes fall {
   0% { top: 10px; opacity: 1; }
-  100% { top: 220px; opacity: 0; }
+  100% { top: 200px; opacity: 0; }
 }
