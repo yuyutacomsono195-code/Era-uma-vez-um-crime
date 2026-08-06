@@ -1,157 +1,246 @@
-// Atributos do Pou
+// Atributos Principais
 let hunger = 100;
 let happy = 100;
 let energy = 100;
-let coins = 0;
+let coins = 50;
+let isDirty = false;
 let isSleeping = false;
-let isPlayingGame = false;
 
-// Posições e Mini-Game
-let pouX = 110;
+// Estado dos Cômodos
+const rooms = ['quarto', 'cozinha', 'banheiro', 'jogos', 'conversa', 'closet', 'laboratorio'];
+const roomNames = {
+  quarto: 'Quarto',
+  cozinha: 'Cozinha',
+  banheiro: 'Banheiro',
+  jogos: 'Sala de Jogos',
+  conversa: 'Chat com Amigo',
+  closet: 'Guarda-Roupa',
+  laboratorio: 'Laboratório'
+};
+let currentRoomIndex = 0;
+
+// Mini-Game Vars
+let isPlayingGame = false;
+let pouX = 105;
 let coinX = 150;
 let coinY = 0;
 let gameInterval = null;
 
 // Elementos HTML
-const hungerBar = document.getElementById('hunger-bar');
-const happyBar = document.getElementById('happy-bar');
-const energyBar = document.getElementById('energy-bar');
-const coinCount = document.getElementById('coin-count');
-
-const btnFeed = document.getElementById('btn-feed');
-const btnPlay = document.getElementById('btn-play');
-const btnSleep = document.getElementById('btn-sleep');
-
+const roomEl = document.getElementById('room');
+const roomTitleEl = document.getElementById('room-title');
+const roomActionsEl = document.getElementById('room-actions');
 const pouContainer = document.getElementById('pou-container');
+const pouBody = document.getElementById('pou-body');
 const pouMouth = document.getElementById('pou-mouth');
-const room = document.getElementById('room');
-const actionEffect = document.getElementById('action-effect');
+const pouDirt = document.getElementById('pou-dirt');
+
+const accGlasses = document.getElementById('acc-glasses');
+const accBow = document.getElementById('acc-bow');
+
+const chatBox = document.getElementById('chat-box');
+const chatMessages = document.getElementById('chat-messages');
+const chatInput = document.getElementById('chat-input');
+const btnSendChat = document.getElementById('btn-send-chat');
+
 const fallingCoin = document.getElementById('falling-coin');
 const minigameControls = document.getElementById('minigame-controls');
+const actionEffect = document.getElementById('action-effect');
 
-// --- SISTEMA DE ÁUDIO SINTETIZADO ---
+// --- ÁUDIO SINTETIZADO ---
 let audioCtx = null;
-
 function getAudioContext() {
-  if (!audioCtx) {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  }
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   return audioCtx;
 }
 
-function playEatSound() {
+function playSound(freqStart, freqEnd, type = 'sine', duration = 0.15) {
   const ctx = getAudioContext();
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
-  osc.type = 'triangle';
-  osc.frequency.setValueAtTime(300, ctx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(150, ctx.currentTime + 0.15);
-  gain.gain.setValueAtTime(0.3, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  osc.start();
-  osc.stop(ctx.currentTime + 0.15);
-}
-
-function playCoinSound() {
-  const ctx = getAudioContext();
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(987.77, ctx.currentTime); // B5
-  osc.frequency.setValueAtTime(1318.51, ctx.currentTime + 0.08); // E6
+  osc.type = type;
+  osc.frequency.setValueAtTime(freqStart, ctx.currentTime);
+  if (freqEnd) osc.frequency.exponentialRampToValueAtTime(freqEnd, ctx.currentTime + duration);
   gain.gain.setValueAtTime(0.2, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+  gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
   osc.connect(gain);
   gain.connect(ctx.destination);
   osc.start();
-  osc.stop(ctx.currentTime + 0.25);
+  osc.stop(ctx.currentTime + duration);
 }
 
-function playSwitchSound() {
-  const ctx = getAudioContext();
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = 'square';
-  osc.frequency.setValueAtTime(120, ctx.currentTime);
-  gain.gain.setValueAtTime(0.15, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.08);
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  osc.start();
-  osc.stop(ctx.currentTime + 0.08);
+// --- NAVEGAÇÃO DE SALAS ---
+document.getElementById('btn-prev-room').addEventListener('click', () => changeRoom(-1));
+document.getElementById('btn-next-room').addEventListener('click', () => changeRoom(1));
+
+function changeRoom(dir) {
+  if (isPlayingGame) stopMiniGame();
+  
+  playSound(400, 300, 'sine', 0.08);
+  currentRoomIndex = (currentRoomIndex + dir + rooms.length) % rooms.length;
+  updateRoomView();
 }
 
-function playPopSound() {
-  const ctx = getAudioContext();
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(400, ctx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.1);
-  gain.gain.setValueAtTime(0.2, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  osc.start();
-  osc.stop(ctx.currentTime + 0.1);
-}
+function updateRoomView() {
+  const currentRoom = rooms[currentRoomIndex];
+  
+  // Reseta classe da sala
+  roomEl.className = `room ${currentRoom}`;
+  if (isSleeping && currentRoom === 'quarto') roomEl.classList.add('night');
+  roomTitleEl.innerText = roomNames[currentRoom];
 
-// --- ATUALIZAR INTERFACE ---
-function updateUI() {
-  hungerBar.style.width = `${hunger}%`;
-  happyBar.style.width = `${happy}%`;
-  energyBar.style.width = `${energy}%`;
-  coinCount.innerText = coins;
+  // Esconde elementos específicos
+  chatBox.classList.add('hidden');
+  pouDirt.classList.toggle('hidden', !isDirty || currentRoom !== 'banheiro');
 
-  updateBarColor(hungerBar, hunger);
-  updateBarColor(happyBar, happy);
-  updateBarColor(energyBar, energy);
-
-  if (isSleeping) {
-    pouMouth.setAttribute('d', 'M 85 150 Q 100 150 115 150');
-  } else if (hunger < 30 || happy < 30) {
-    pouMouth.setAttribute('d', 'M 80 155 Q 100 135 120 155');
-  } else {
-    pouMouth.setAttribute('d', 'M 80 145 Q 100 160 120 145');
+  // Atualiza Botões do Rodapé conforme a Sala
+  roomActionsEl.innerHTML = '';
+  
+  if (currentRoom === 'quarto') {
+    addActionButton(isSleeping ? '☀️ Acordar' : '💤 Dormir', toggleSleep);
+  } else if (currentRoom === 'cozinha') {
+    addActionButton('🍎 Maçã (Grátis)', () => feedPou('🍎', 15));
+    addActionButton('🍕 Pizza (10 🪙)', () => feedPou('🍕', 35, 10));
+  } else if (currentRoom === 'banheiro') {
+    addActionButton('🧼 Limpar Pou', cleanPou);
+  } else if (currentRoom === 'jogos') {
+    addActionButton(isPlayingGame ? '❌ Sair' : '🎮 Pegar Moedas', toggleMiniGame);
+  } else if (currentRoom === 'conversa') {
+    chatBox.classList.remove('hidden');
+  } else if (currentRoom === 'closet') {
+    addActionButton('👓 Óculos', () => toggleAccessory(accGlasses));
+    addActionButton('🎀 Gravata', () => toggleAccessory(accBow));
+    addActionButton('🎨 Cor Rosa', () => changePouColor('#ec407a'));
+    addActionButton('🎨 Cor Clássica', () => changePouColor('#b08d57'));
+  } else if (currentRoom === 'laboratorio') {
+    addActionButton('🧪 Poção Saúde (15 🪙)', () => buyPotion('health'));
+    addActionButton('⚡ Energia Max (20 🪙)', () => buyPotion('energy'));
   }
 }
 
-function updateBarColor(element, value) {
-  if (value > 60) element.style.backgroundColor = '#66bb6a';
-  else if (value > 30) element.style.backgroundColor = '#ffa726';
-  else element.style.backgroundColor = '#ef5350';
+function addActionButton(text, callback) {
+  const btn = document.createElement('button');
+  btn.className = 'btn';
+  btn.innerText = text;
+  btn.onclick = callback;
+  roomActionsEl.appendChild(btn);
 }
 
-// --- MINI-GAME DE PEGAR MOEDAS ---
+// --- LÓGICA DE AÇÕES ---
+function feedPou(emoji, amount, cost = 0) {
+  if (isSleeping) return;
+  if (cost > 0 && coins < cost) return alert('Moedas insuficientes!');
+  
+  if (hunger < 100) {
+    coins -= cost;
+    hunger = Math.min(100, hunger + amount);
+    playSound(300, 150, 'triangle', 0.15);
+    showEffect(emoji);
+    updateUI();
+  }
+}
+
+function cleanPou() {
+  if (isDirty) {
+    isDirty = false;
+    happy = Math.min(100, happy + 20);
+    playSound(500, 800, 'sine', 0.2);
+    showEffect('✨');
+    updateRoomView();
+    updateUI();
+  }
+}
+
+function toggleSleep() {
+  isSleeping = !isSleeping;
+  playSound(120, null, 'square', 0.08);
+  updateRoomView();
+  updateUI();
+}
+
+function toggleAccessory(el) {
+  el.classList.toggle('hidden');
+  playSound(600, 700, 'sine', 0.1);
+}
+
+function changePouColor(color) {
+  pouBody.setAttribute('fill', color);
+  playSound(500, 600, 'sine', 0.1);
+}
+
+function buyPotion(type) {
+  if (type === 'health' && coins >= 15) {
+    coins -= 15;
+    hunger = 100;
+    happy = 100;
+    showEffect('🧪');
+    playSound(300, 900, 'sine', 0.3);
+  } else if (type === 'energy' && coins >= 20) {
+    coins -= 20;
+    energy = 100;
+    showEffect('⚡');
+    playSound(300, 900, 'sine', 0.3);
+  }
+  updateUI();
+}
+
+// --- SIMULAÇÃO DE CHAT ---
+btnSendChat.addEventListener('click', sendChatMessage);
+chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendChatMessage(); });
+
+function sendChatMessage() {
+  const txt = chatInput.value.trim();
+  if (!txt) return;
+
+  appendMsg('user', `Você: ${txt}`);
+  chatInput.value = '';
+  playSound(400, 500, 'sine', 0.05);
+
+  setTimeout(() => {
+    const replies = ["Que legal!", "O Pou está muito fofo hoje!", "Vamos jogar?", "Haha verdade!"];
+    const randReply = replies[Math.floor(Math.random() * replies.length)];
+    appendMsg('friend', `Amigo: ${randReply}`);
+    playSound(600, 400, 'sine', 0.1);
+  }, 1000);
+}
+
+function appendMsg(cls, text) {
+  const d = document.createElement('div');
+  d.className = `msg ${cls}`;
+  d.innerText = text;
+  chatMessages.appendChild(d);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// --- MINI-GAME ---
+function toggleMiniGame() {
+  if (isPlayingGame) stopMiniGame();
+  else if (energy > 10) startMiniGame();
+}
+
 function startMiniGame() {
   isPlayingGame = true;
   fallingCoin.classList.remove('hidden');
   minigameControls.classList.remove('hidden');
-  btnPlay.innerText = '❌ Sair';
+  updateRoomView();
 
   coinY = 0;
-  coinX = Math.floor(Math.random() * 280);
+  coinX = Math.floor(Math.random() * 260);
   fallingCoin.style.left = `${coinX}px`;
 
   gameInterval = setInterval(() => {
     coinY += 6;
     fallingCoin.style.top = `${coinY}px`;
 
-    // Checar Colisão com o Pou
-    if (coinY >= 320 && coinY <= 380 && Math.abs(coinX - pouX) < 50) {
+    if (coinY >= 320 && coinY <= 380 && Math.abs(coinX - pouX) < 45) {
       coins += 5;
-      happy = Math.min(100, happy + 10);
-      playCoinSound();
+      happy = Math.min(100, happy + 5);
+      playSound(987, 1318, 'sine', 0.2);
       resetCoin();
       updateUI();
     }
 
-    // Se a moeda cair no chão
-    if (coinY > 380) {
-      resetCoin();
-    }
+    if (coinY > 380) resetCoin();
   }, 30);
 }
 
@@ -160,29 +249,22 @@ function stopMiniGame() {
   clearInterval(gameInterval);
   fallingCoin.classList.add('hidden');
   minigameControls.classList.add('hidden');
-  btnPlay.innerText = '🎮 Jogar';
-  
-  // Retorna o Pou pro centro
-  pouX = 110;
+  pouX = 105;
   pouContainer.style.left = `${pouX}px`;
+  updateRoomView();
 }
 
 function resetCoin() {
   coinY = 0;
-  coinX = Math.floor(Math.random() * 280);
+  coinX = Math.floor(Math.random() * 260);
   fallingCoin.style.left = `${coinX}px`;
 }
 
-function movePou(direction) {
-  if (direction === 'left') {
-    pouX = Math.max(10, pouX - 25);
-  } else if (direction === 'right') {
-    pouX = Math.min(210, pouX + 25);
-  }
+function movePou(dir) {
+  pouX = dir === 'left' ? Math.max(10, pouX - 25) : Math.min(210, pouX + 25);
   pouContainer.style.left = `${pouX}px`;
 }
 
-// --- EVENTOS DE CONTROLE DO MINI-GAME ---
 document.addEventListener('keydown', (e) => {
   if (!isPlayingGame) return;
   if (e.key === 'ArrowLeft') movePou('left');
@@ -192,46 +274,17 @@ document.addEventListener('keydown', (e) => {
 document.getElementById('btn-left').addEventListener('click', () => movePou('left'));
 document.getElementById('btn-right').addEventListener('click', () => movePou('right'));
 
-// --- BOTÕES PRINCIPAIS ---
-btnFeed.addEventListener('click', () => {
-  if (isSleeping || isPlayingGame) return;
-  if (hunger < 100) {
-    hunger = Math.min(100, hunger + 25);
-    playEatSound();
-    showEffect('🍎');
-    updateUI();
-  }
-});
+// --- INTERFACE E CICLO ---
+function updateUI() {
+  document.getElementById('hunger-bar').style.width = `${hunger}%`;
+  document.getElementById('happy-bar').style.width = `${happy}%`;
+  document.getElementById('energy-bar').style.width = `${energy}%`;
+  document.getElementById('coin-count').innerText = coins;
 
-btnPlay.addEventListener('click', () => {
-  if (isSleeping) return;
-
-  if (isPlayingGame) {
-    stopMiniGame();
-  } else {
-    if (energy > 15) {
-      energy = Math.max(0, energy - 15);
-      startMiniGame();
-      updateUI();
-    }
-  }
-});
-
-btnSleep.addEventListener('click', () => {
-  if (isPlayingGame) stopMiniGame();
-
-  isSleeping = !isSleeping;
-  playSwitchSound();
-
-  if (isSleeping) {
-    room.classList.add('night');
-    btnSleep.innerText = '☀️ Acordar';
-  } else {
-    room.classList.remove('night');
-    btnSleep.innerText = '💤 Dormir';
-  }
-  updateUI();
-});
+  if (isSleeping) pouMouth.setAttribute('d', 'M 85 150 Q 100 150 115 150');
+  else if (hunger < 30 || happy < 30) pouMouth.setAttribute('d', 'M 80 155 Q 100 135 120 155');
+  else pouMouth.setAttribute('d', 'M 80 145 Q 100 160 120 145');
+}
 
 function showEffect(emoji) {
   actionEffect.innerText = emoji;
@@ -239,32 +292,26 @@ function showEffect(emoji) {
   setTimeout(() => actionEffect.classList.add('hidden'), 800);
 }
 
-pouContainer.addEventListener('click', () => {
-  if (!isSleeping && !isPlayingGame && happy < 100) {
-    happy = Math.min(100, happy + 5);
-    playPopSound();
-    showEffect('❤️');
-    updateUI();
-  }
-});
-
-// Loop principal de necessidades
+// Loop Principal do Jogo
 setInterval(() => {
   if (isSleeping) {
-    if (energy < 100) {
-      energy = Math.min(100, energy + 8);
-    } else {
-      isSleeping = false;
-      room.classList.remove('night');
-      btnSleep.innerText = '💤 Dormir';
-      playSwitchSound();
-    }
+    if (energy < 100) energy = Math.min(100, energy + 8);
+    else toggleSleep();
   } else if (!isPlayingGame) {
     hunger = Math.max(0, hunger - 2);
     happy = Math.max(0, happy - 2);
     energy = Math.max(0, energy - 1);
+    
+    // Chance de o Pou ficar sujo com o tempo
+    if (Math.random() < 0.1 && !isDirty) {
+      isDirty = true;
+      if (rooms[currentRoomIndex] === 'banheiro') updateRoomView();
+    }
   }
   updateUI();
-}, 2500);
+}, 3000);
 
+// Inicializar
+updateRoomView();
 updateUI();
+  
