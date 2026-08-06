@@ -3,12 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo de Detetive</title>
+    <title>Meu Bichinho - Estilo Pou</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="container">
+        <h1>🐾 Meu Bichinho</h1>
 
-    <!-- Conteúdo do jogo aqui -->
+        <div class="status">
+            <div class="linha">
+                <span>Fome</span>
+                <div class="barra-fundo">
+                    <div class="barra" id="barraFome"></div>
+                </div>
+            </div>
+            <div class="linha">
+                <span>Energia</span>
+                <div class="barra-fundo">
+                    <div class="barra" id="barraEnergia"></div>
+                </div>
+            </div>
+            <div class="linha">
+                <span>Felicidade</span>
+                <div class="barra-fundo">
+                    <div class="barra" id="barraFeliz"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bichinho" id="bichinho">
+            <div class="corpo"></div>
+            <div class="olhos">
+                <div class="olho"></div>
+                <div class="olho"></div>
+            </div>
+            <div class="boca"></div>
+        </div>
+
+        <p id="aviso">Clique nos botões para cuidar!</p>
+
+        <div class="botoes">
+            <button onclick="comer()">🍔 Comer</button>
+            <button onclick="dormir()">💤 Dormir</button>
+            <button onclick="brincar()">🎾 Brincar</button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
