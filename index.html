@@ -1,1 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Caso Misterioso</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>🔍 Caso Misterioso</h1>
+
+    <div class="caixa-texto">
+        <h3>Cenário:</h3>
+        <p id="cenario">Uma joia rara foi roubada da mansão. 3 suspeitos: a empregada, o filho e o jardineiro. Quem fez?</p>
+    </div>
+
+    <div id="area-opcoes">
+        <button class="opcao" onclick="verificar('empregada')">A empregada: diz que estava arrumando o quarto</button>
+        <button class="opcao" onclick="verificar('filho')">O filho: diz que estava estudando</button>
+        <button class="opcao" onclick="verificar('jardineiro')">O jardineiro: diz que estava cortando a grama na chuva</button>
+    </div>
+
+    <div id="resultado-final" class="resultado"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
 
