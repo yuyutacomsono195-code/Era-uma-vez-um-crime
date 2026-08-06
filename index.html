@@ -3,167 +3,139 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Configurações - GB</title>
+  <title>WhatsApp GB Pro</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="settings-container">
-    <!-- CABEÇALHO -->
-    <header class="settings-header">
-      <div class="header-left">
-        <span class="back-btn">&#8592;</span>
-        <h1 class="header-title">yuyu 愛</h1>
-      </div>
-      <div class="header-right">
-        <span class="header-icon">🔍</span>
-        <span class="header-icon">🔳</span>
-      </div>
-    </header>
-
-    <!-- LISTA DE CONFIGURAÇÕES -->
-    <div class="settings-list">
-      
-      <div class="setting-item">
-        <div class="icon">R$</div>
-        <div class="text-info">
-          <div class="title">Pagamentos</div>
-        </div>
-      </div>
-
-      <div class="setting-item">
-        <div class="icon">🔑</div>
-        <div class="text-info">
-          <div class="title">Conta</div>
-          <div class="subtitle">Notificações de segurança, mudança de número</div>
-        </div>
-      </div>
-
-      <div class="setting-item">
-        <div class="icon">🔒</div>
-        <div class="text-info">
-          <div class="title">Privacidade</div>
-          <div class="subtitle">Contas bloqueadas, mensagens temporárias</div>
-        </div>
-      </div>
-
-      <div class="setting-item">
-        <div class="icon">📇</div>
-        <div class="text-info">
-          <div class="title">Listas</div>
-          <div class="subtitle">Gerencie pessoas e grupos</div>
-        </div>
-      </div>
-
-      <div class="setting-item">
-        <div class="icon">💬</div>
-        <div class="text-info">
-          <div class="title">Conversas</div>
-          <div class="subtitle">Tema, papel de parede, histórico de conversas</div>
-        </div>
-      </div>
-
-      <div class="setting-item">
-        <div class="icon">📢</div>
-        <div class="text-info">
-          <div class="title">Listas de transmissão</div>
-          <div class="subtitle">Gerencie listas e envie transmissões.</div>
-        </div>
-      </div>
-
-      <div class="setting-item">
-        <div class="icon">🔔</div>
-        <div class="text-info">
-          <div class="title">Notificações</div>
-          <div class="subtitle">Mensagens, grupos, ligações</div>
-        </div>
-      </div>
-
-      <div class="setting-item">
-        <div class="icon">⏳</div>
-        <div class="text-info">
-          <div class="title">Armazenamento e dados</div>
-          <div class="subtitle">Uso de rede, download automático</div>
-        </div>
-      </div>
-
-      <div class="setting-item">
-        <div class="icon">🚶</div>
-        <div class="text-info">
-          <div class="title">Acessibilidade</div>
-          <div class="subtitle">Aumentar o contraste, animação</div>
-        </div>
-      </div>
-
-      <div class="setting-item">
-        <div class="icon">🌐</div>
-        <div class="text-info">
-          <div class="title">Idioma do app</div>
-          <div class="subtitle">Português (Brasil) (idioma do dispositivo)</div>
-        </div>
-      </div>
-
-      <div class="setting-item">
-        <div class="icon">❓</div>
-        <div class="text-info">
-          <div class="title">Ajuda e feedback</div>
-          <div class="subtitle">Central de Ajuda, fale conosco, Política de Privacidade</div>
-        </div>
-      </div>
-
-      <div class="setting-item">
-        <div class="icon">👥</div>
-        <div class="text-info">
-          <div class="title">Convidar amigos</div>
-        </div>
-      </div>
-
-      <div class="setting-item">
-        <div class="icon">📲</div>
-        <div class="text-info">
-          <div class="title">Atualizações do app</div>
-        </div>
-      </div>
-
-      <!-- SEÇÃO CENTRAL DE CONTAS / META -->
-      <div class="meta-section">
-        <div class="meta-header">
-          <div class="meta-icon">∞</div>
-          <div class="meta-text">
-            <div class="title">Central de Contas</div>
-            <div class="subtitle">Controle sua experiência no WhatsApp, no Facebook, no Instagram e mais.</div>
+  <div class="app-container">
+    
+    <!-- TELA 1: CHATS (TELA INICIAL) -->
+    <div class="main-screen" id="mainScreen">
+      <!-- BARRA LATERAL / LISTA DE CONVERSAS -->
+      <aside class="sidebar">
+        <header class="sidebar-header">
+          <div class="user-profile">
+            <div class="avatar" id="myAvatar">EU</div>
+            <div>
+              <span id="myName" style="font-weight: 500;">yuyu 愛</span>
+              <span class="gb-badge">GB PRO</span>
+            </div>
           </div>
-        </div>
-      </div>
+          <div>
+            <button class="icon-btn" id="openSettingsBtn" title="Configurações">⚙️</button>
+          </div>
+        </header>
 
-      <!-- RODAPÉ REDES DA META -->
-      <div class="meta-apps">
-        <span class="meta-apps-title">Também da Meta</span>
-        <div class="apps-grid">
-          <div class="app-item">
-            <div class="app-icon">📷</div>
-            <span>Instagram</span>
-          </div>
-          <div class="app-item">
-            <div class="app-icon">f</div>
-            <span>Facebook</span>
-          </div>
-          <div class="app-item">
-            <div class="app-icon">@</div>
-            <span>Threads</span>
-          </div>
-          <div class="app-item">
-            <div class="app-icon">🌀</div>
-            <span>Meta AI App</span>
-          </div>
-          <div class="app-item">
-            <div class="app-icon">▶</div>
-            <span>Vibes App</span>
-          </div>
-        </div>
-      </div>
+        <div class="chat-list" id="chatList"></div>
+      </aside>
 
+      <!-- ÁREA DE CONVERSA -->
+      <main class="content-area">
+        <header class="chat-header">
+          <div class="avatar" id="activeAvatar">?</div>
+          <div class="chat-details">
+            <h3 id="activeName">Carregando...</h3>
+            <span class="status">online</span>
+          </div>
+        </header>
+
+        <div class="messages-container" id="messagesContainer"></div>
+
+        <footer class="chat-input-area">
+          <form id="chatForm">
+            <input type="text" id="messageInput" placeholder="Enviar mensagem..." autocomplete="off" />
+            <button type="submit">Enviar</button>
+          </form>
+        </footer>
+      </main>
     </div>
+
+    <!-- TELA 2: CONFIGURAÇÕES (ESTILO DARK META) -->
+    <div class="settings-screen" id="settingsScreen">
+      <header class="settings-header">
+        <div class="header-left">
+          <!-- SETINHA QUE VOLTA PARA AS CONVERSAS -->
+          <span class="back-btn" id="backToChatsBtn">&#8592;</span>
+          <h1 class="header-title">yuyu 愛</h1>
+        </div>
+        <div class="header-right">
+          <span class="header-icon">🔍</span>
+          <span class="header-icon">🔳</span>
+        </div>
+      </header>
+
+      <div class="settings-list">
+        <div class="setting-item">
+          <div class="icon">R$</div>
+          <div class="text-info">
+            <div class="title">Pagamentos</div>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="icon">🔑</div>
+          <div class="text-info">
+            <div class="title">Conta</div>
+            <div class="subtitle">Notificações de segurança, mudança de número</div>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="icon">🔒</div>
+          <div class="text-info">
+            <div class="title">Privacidade</div>
+            <div class="subtitle">Contas bloqueadas, mensagens temporárias</div>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="icon">💬</div>
+          <div class="text-info">
+            <div class="title">Conversas</div>
+            <div class="subtitle">Tema, papel de parede, histórico de conversas</div>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="icon">🔔</div>
+          <div class="text-info">
+            <div class="title">Notificações</div>
+            <div class="subtitle">Mensagens, grupos, ligações</div>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="icon">🌐</div>
+          <div class="text-info">
+            <div class="title">Idioma do app</div>
+            <div class="subtitle">Português (Brasil) (idioma do dispositivo)</div>
+          </div>
+        </div>
+
+        <!-- SEÇÃO CENTRAL META -->
+        <div class="meta-section">
+          <div class="meta-header">
+            <div class="meta-icon">∞</div>
+            <div class="meta-text">
+              <div class="title">Central de Contas</div>
+              <div class="subtitle">Controle sua experiência no WhatsApp, Facebook, Instagram e mais.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="meta-apps">
+          <span class="meta-apps-title">Também da Meta</span>
+          <div class="apps-grid">
+            <div class="app-item"><div class="app-icon">📷</div><span>Instagram</span></div>
+            <div class="app-item"><div class="app-icon">f</div><span>Facebook</span></div>
+            <div class="app-item"><div class="app-icon">@</div><span>Threads</span></div>
+            <div class="app-item"><div class="app-icon">🌀</div><span>Meta AI</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <script src="script.js"></script>
