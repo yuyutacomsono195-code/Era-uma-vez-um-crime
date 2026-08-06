@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meu Pou com Mini-Game</title>
+  <title>Meu Pou - Multicômodos</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="game-container">
+    <!-- Topo / Status -->
     <header class="stats">
       <div class="stat-bar">
         <span>Fome:</span>
@@ -26,39 +27,76 @@
       </div>
     </header>
 
+    <!-- Área Principal (Cenário) -->
     <main class="room" id="room">
+      <!-- Navegação de Cenários -->
+      <button class="nav-btn left-arrow" id="btn-prev-room">❮</button>
+      <h2 id="room-title" class="room-title">Quarto</h2>
+      <button class="nav-btn right-arrow" id="btn-next-room">❯</button>
+
+      <!-- Mini-game: Moeda caindo -->
       <div id="falling-coin" class="falling-coin hidden">🪙</div>
 
+      <!-- Personagem Pou -->
       <div class="pou-wrapper" id="pou-container">
-        <svg id="pou" viewBox="0 0 200 200" width="140" height="140">
-          <path class="pou-body" d="M100 30 C150 30, 185 80, 185 140 C185 180, 150 190, 100 190 C50 190, 15 180, 15 140 C15 80, 50 30, 100 30 Z" fill="#b08d57" stroke="#7a5c30" stroke-width="6"/>
+        <svg id="pou" viewBox="0 0 200 200" width="150" height="150">
+          <!-- Corpo / Cor customizável pelo CSS/JS -->
+          <path id="pou-body" class="pou-body" d="M100 30 C150 30, 185 80, 185 140 C185 180, 150 190, 100 190 C50 190, 15 180, 15 140 C15 80, 50 30, 100 30 Z" fill="#b08d57" stroke="#7a5c30" stroke-width="6"/>
           
+          <!-- Olho Esquerdo -->
           <circle cx="70" cy="95" r="22" fill="#ffffff" stroke="#7a5c30" stroke-width="4"/>
           <circle id="pupil-left" cx="72" cy="95" r="9" fill="#000000"/>
           
+          <!-- Olho Direito -->
           <circle cx="130" cy="95" r="22" fill="#ffffff" stroke="#7a5c30" stroke-width="4"/>
           <circle id="pupil-right" cx="128" cy="95" r="9" fill="#000000"/>
 
+          <!-- Acessórios SVG -->
+          <!-- Óculos -->
+          <g id="acc-glasses" class="hidden">
+            <circle cx="70" cy="95" r="24" fill="none" stroke="#000" stroke-width="4"/>
+            <circle cx="130" cy="95" r="24" fill="none" stroke="#000" stroke-width="4"/>
+            <line x1="94" y1="95" x2="106" y2="95" stroke="#000" stroke-width="4"/>
+          </g>
+          <!-- Laço/Gravata -->
+          <path id="acc-bow" class="hidden" d="M 80 180 L 100 170 L 120 180 L 100 190 Z" fill="#e91e63"/>
+
+          <!-- Boca -->
           <path id="pou-mouth" d="M 80 145 Q 100 160 120 145" fill="transparent" stroke="#5a3d1e" stroke-width="5" stroke-linecap="round"/>
         </svg>
       </div>
 
+      <!-- Sujeira do Pou no Banheiro -->
+      <div id="pou-dirt" class="dirt hidden">💩</div>
+
+      <!-- Caixa de Chat Simulada (Sala de Conversa) -->
+      <div id="chat-box" class="chat-container hidden">
+        <div id="chat-messages" class="chat-messages">
+          <div class="msg friend">Amigo: Oi! Tudo bem com o Pou?</div>
+        </div>
+        <div class="chat-input-area">
+          <input type="text" id="chat-input" placeholder="Digite uma mensagem..." />
+          <button id="btn-send-chat">Enviar</button>
+        </div>
+      </div>
+
+      <!-- Efeito de Ação -->
       <div id="action-effect" class="effect hidden"></div>
 
+      <!-- Controles Touch do Mini-Game -->
       <div id="minigame-controls" class="minigame-controls hidden">
-        <button class="btn-arrow" id="btn-left">⬅️</button>
-        <button class="btn-arrow" id="btn-right">➡️</button>
+        <button class="btn-arrow-control" id="btn-left">⬅️</button>
+        <button class="btn-arrow-control" id="btn-right">➡️</button>
       </div>
     </main>
 
-    <footer class="actions">
-      <button class="btn" id="btn-feed">🍎 Comer</button>
-      <button class="btn" id="btn-play">🎮 Jogar</button>
-      <button class="btn" id="btn-sleep">💤 Dormir</button>
+    <!-- Rodapé com Botões Específicos por Sala -->
+    <footer class="actions" id="room-actions">
+      <!-- Injected via JavaScript -->
     </footer>
   </div>
 
   <script src="script.js"></script>
 </body>
-            </html>
-                            
+              </html>
+              
