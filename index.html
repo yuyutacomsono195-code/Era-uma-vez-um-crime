@@ -3,100 +3,405 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meu Pou - Multicômodos</title>
-  <link rel="stylesheet" href="style.css">
+  <title>WhatsApp Clone - Funcional</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #111b21;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .app-container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      background-color: #111b21;
+      color: #e9edef;
+    }
+
+    /* BARRA LATERAL */
+    .sidebar {
+      width: 30%;
+      min-width: 300px;
+      border-right: 1px solid #222d34;
+      display: flex;
+      flex-direction: column;
+      background-color: #111b21;
+    }
+
+    .sidebar-header {
+      height: 60px;
+      background-color: #202c33;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #6b7c85;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .chat-list {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .chat-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      gap: 12px;
+      cursor: pointer;
+      border-bottom: 1px solid #222d34;
+      transition: background 0.2s;
+    }
+
+    .chat-item:hover {
+      background-color: #202c33;
+    }
+
+    .chat-item.active {
+      background-color: #2a3942;
+    }
+
+    .chat-info {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .chat-title {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .chat-title h4 {
+      font-size: 16px;
+      color: #e9edef;
+    }
+
+    .chat-title .time {
+      font-size: 12px;
+      color: #8696a0;
+    }
+
+    .last-message {
+      font-size: 14px;
+      color: #8696a0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ÁREA DO CHAT */
+    .chat-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background-color: #0b141a;
+      background-image: radial-gradient(#111b21 1px, transparent 1px);
+      background-size: 16px 16px;
+    }
+
+    .chat-header {
+      height: 60px;
+      background-color: #202c33;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+      border-bottom: 1px solid #222d34;
+    }
+
+    .chat-details h3 {
+      font-size: 16px;
+      color: #e9edef;
+    }
+
+    .chat-details .status {
+      font-size: 12px;
+      color: #8696a0;
+    }
+
+    /* MENSAGENS */
+    .messages-container {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .message {
+      max-width: 65%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      position: relative;
+      word-break: break-word;
+      line-height: 1.4;
+    }
+
+    .message.received {
+      align-self: flex-start;
+      background-color: #202c33;
+      color: #e9edef;
+      border-top-left-radius: 0;
+    }
+
+    .message.sent {
+      align-self: flex-end;
+      background-color: #005c4b;
+      color: #e9edef;
+      border-top-right-radius: 0;
+    }
+
+    .message-time {
+      font-size: 10px;
+      color: #8696a0;
+      float: right;
+      margin-top: 4px;
+      margin-left: 10px;
+    }
+
+    /* CAIXA DE TEXTO */
+    .chat-input-area {
+      background-color: #202c33;
+      padding: 10px 16px;
+    }
+
+    #chatForm {
+      display: flex;
+      gap: 10px;
+    }
+
+    #messageInput {
+      flex: 1;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      background-color: #2a3942;
+      color: #e9edef;
+      font-size: 15px;
+    }
+
+    #messageInput::placeholder {
+      color: #8696a0;
+    }
+
+    #chatForm button {
+      background-color: #00a884;
+      color: #111b21;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+
+    #chatForm button:hover {
+      background-color: #029071;
+    }
+  </style>
 </head>
 <body>
-  <div class="game-container">
-    <!-- Topo / Status -->
-    <header class="stats">
-      <div class="stat-bar">
-        <span>Fome:</span>
-        <div class="bar"><div id="hunger-bar" class="fill"></div></div>
-      </div>
-      <div class="stat-bar">
-        <span>Felicidade:</span>
-        <div class="bar"><div id="happy-bar" class="fill"></div></div>
-      </div>
-      <div class="stat-bar">
-        <span>Energia:</span>
-        <div class="bar"><div id="energy-bar" class="fill"></div></div>
-      </div>
-      <div class="score-board">
-        <span>Moedas: 🪙 <strong id="coin-count">0</strong></span>
-      </div>
-    </header>
 
-    <!-- Área Principal (Cenário) -->
-    <main class="room" id="room">
-      <!-- Navegação de Cenários -->
-      <button class="nav-btn left-arrow" id="btn-prev-room">❮</button>
-      <h2 id="room-title" class="room-title">Quarto</h2>
-      <button class="nav-btn right-arrow" id="btn-next-room">❯</button>
+  <div class="app-container">
+    <!-- Lista de Contatos -->
+    <aside class="sidebar">
+      <header class="sidebar-header">
+        <div class="avatar">EU</div>
+        <span>Meu Perfil</span>
+      </header>
+      <div class="chat-list" id="chatList"></div>
+    </aside>
 
-      <!-- Mini-game: Moeda caindo -->
-      <div id="falling-coin" class="falling-coin hidden">🪙</div>
-
-      <!-- Personagem Pou -->
-      <div class="pou-wrapper" id="pou-container">
-        <svg id="pou" viewBox="0 0 200 200" width="150" height="150">
-          <!-- Corpo / Cor customizável pelo CSS/JS -->
-          <path id="pou-body" class="pou-body" d="M100 30 C150 30, 185 80, 185 140 C185 180, 150 190, 100 190 C50 190, 15 180, 15 140 C15 80, 50 30, 100 30 Z" fill="#b08d57" stroke="#7a5c30" stroke-width="6"/>
-          
-          <!-- Olho Esquerdo -->
-          <circle cx="70" cy="95" r="22" fill="#ffffff" stroke="#7a5c30" stroke-width="4"/>
-          <circle id="pupil-left" cx="72" cy="95" r="9" fill="#000000"/>
-          
-          <!-- Olho Direito -->
-          <circle cx="130" cy="95" r="22" fill="#ffffff" stroke="#7a5c30" stroke-width="4"/>
-          <circle id="pupil-right" cx="128" cy="95" r="9" fill="#000000"/>
-
-          <!-- Acessórios SVG -->
-          <!-- Óculos -->
-          <g id="acc-glasses" class="hidden">
-            <circle cx="70" cy="95" r="24" fill="none" stroke="#000" stroke-width="4"/>
-            <circle cx="130" cy="95" r="24" fill="none" stroke="#000" stroke-width="4"/>
-            <line x1="94" y1="95" x2="106" y2="95" stroke="#000" stroke-width="4"/>
-          </g>
-          <!-- Laço/Gravata -->
-          <path id="acc-bow" class="hidden" d="M 80 180 L 100 170 L 120 180 L 100 190 Z" fill="#e91e63"/>
-
-          <!-- Boca -->
-          <path id="pou-mouth" d="M 80 145 Q 100 160 120 145" fill="transparent" stroke="#5a3d1e" stroke-width="5" stroke-linecap="round"/>
-        </svg>
-      </div>
-
-      <!-- Sujeira do Pou no Banheiro -->
-      <div id="pou-dirt" class="dirt hidden">💩</div>
-
-      <!-- Caixa de Chat Simulada (Sala de Conversa) -->
-      <div id="chat-box" class="chat-container hidden">
-        <div id="chat-messages" class="chat-messages">
-          <div class="msg friend">Amigo: Oi! Tudo bem com o Pou?</div>
+    <!-- Conversa Ativa -->
+    <main class="chat-area">
+      <header class="chat-header">
+        <div class="avatar" id="activeAvatar">?</div>
+        <div class="chat-details">
+          <h3 id="activeName">Carregando...</h3>
+          <span class="status" id="activeStatus">online</span>
         </div>
-        <div class="chat-input-area">
-          <input type="text" id="chat-input" placeholder="Digite uma mensagem..." />
-          <button id="btn-send-chat">Enviar</button>
-        </div>
-      </div>
+      </header>
 
-      <!-- Efeito de Ação -->
-      <div id="action-effect" class="effect hidden"></div>
+      <div class="messages-container" id="messagesContainer"></div>
 
-      <!-- Controles Touch do Mini-Game -->
-      <div id="minigame-controls" class="minigame-controls hidden">
-        <button class="btn-arrow-control" id="btn-left">⬅️</button>
-        <button class="btn-arrow-control" id="btn-right">➡️</button>
-      </div>
+      <footer class="chat-input-area">
+        <form id="chatForm">
+          <input type="text" id="messageInput" placeholder="Digite uma mensagem..." autocomplete="off" />
+          <button type="submit">Enviar</button>
+        </form>
+      </footer>
     </main>
-
-    <!-- Rodapé com Botões Específicos por Sala -->
-    <footer class="actions" id="room-actions">
-      <!-- Injected via JavaScript -->
-    </footer>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    // Dados iniciais dos contatos
+    const defaultContacts = [
+      {
+        id: '1',
+        name: 'Maria Silva',
+        avatar: 'MS',
+        messages: [
+          { text: 'Oi! Conseguiu olhar o projeto?', type: 'received', time: '10:14' }
+        ],
+        autoReply: 'Oi! Tudo bem? Deixa eu dar uma olhada e te respondo!'
+      },
+      {
+        id: '2',
+        name: 'Lucas Dev',
+        avatar: 'LD',
+        messages: [
+          { text: 'Bora codar hoje à noite?', type: 'received', time: '09:30' }
+        ],
+        autoReply: 'Com certeza! Só me mandar o link do repositório.'
+      },
+      {
+        id: '3',
+        name: 'Grupo da Família',
+        avatar: 'GF',
+        messages: [
+          { text: 'Alguém sabe onde está a chave?', type: 'received', time: '08:00' }
+        ],
+        autoReply: 'Acho que ficou em cima da mesa da sala!'
+      }
+    ];
+
+    // Carrega do LocalStorage ou usa o padrão
+    let contacts = JSON.parse(localStorage.getItem('whatsapp_contacts')) || defaultContacts;
+    let activeChatId = contacts[0].id;
+
+    const chatList = document.getElementById('chatList');
+    const messagesContainer = document.getElementById('messagesContainer');
+    const activeName = document.getElementById('activeName');
+    const activeAvatar = document.getElementById('activeAvatar');
+    const chatForm = document.getElementById('chatForm');
+    const messageInput = document.getElementById('messageInput');
+
+    function saveToStorage() {
+      localStorage.setItem('whatsapp_contacts', JSON.stringify(contacts));
+    }
+
+    function getCurrentTime() {
+      const now = new Date();
+      return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+    }
+
+    // Renderiza a barra lateral
+    function renderChatList() {
+      chatList.innerHTML = '';
+      contacts.forEach(contact => {
+        const lastMsg = contact.messages[contact.messages.length - 1];
+        const lastText = lastMsg ? lastMsg.text : 'Nenhuma mensagem';
+        const lastTime = lastMsg ? lastMsg.time : '';
+
+        const item = document.createElement('div');
+        item.className = `chat-item ${contact.id === activeChatId ? 'active' : ''}`;
+        item.onclick = () => selectChat(contact.id);
+
+        item.innerHTML = `
+          <div class="avatar">${contact.avatar}</div>
+          <div class="chat-info">
+            <div class="chat-title">
+              <h4>${contact.name}</h4>
+              <span class="time">${lastTime}</span>
+            </div>
+            <p class="last-message">${lastText}</p>
+          </div>
+        `;
+        chatList.appendChild(item);
+      });
+    }
+
+    // Seleciona um contato
+    function selectChat(id) {
+      activeChatId = id;
+      renderChatList();
+      renderMessages();
+    }
+
+    // Renderiza as mensagens do contato selecionado
+    function renderMessages() {
+      const contact = contacts.find(c => c.id === activeChatId);
+      activeName.textContent = contact.name;
+      activeAvatar.textContent = contact.avatar;
+      messagesContainer.innerHTML = '';
+
+      contact.messages.forEach(msg => {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${msg.type}`;
+        msgDiv.innerHTML = `
+          <p>${msg.text}</p>
+          <span class="message-time">${msg.time}</span>
+        `;
+        messagesContainer.appendChild(msgDiv);
+      });
+
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    // Envio de mensagem
+    chatForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = messageInput.value.trim();
+      if (!text) return;
+
+      const contact = contacts.find(c => c.id === activeChatId);
+      const currentTime = getCurrentTime();
+
+      // Adiciona mensagem enviada
+      contact.messages.push({
+        text: text,
+        type: 'sent',
+        time: currentTime
+      });
+
+      messageInput.value = '';
+      saveToStorage();
+      renderChatList();
+      renderMessages();
+
+      // Resposta automática simulada
+      setTimeout(() => {
+        contact.messages.push({
+          text: contact.autoReply,
+          type: 'received',
+          time: getCurrentTime()
+        });
+        saveToStorage();
+        renderChatList();
+        if (activeChatId === contact.id) {
+          renderMessages();
+        }
+      }, 1200);
+    });
+
+    // Inicialização
+    renderChatList();
+    renderMessages();
+  </script>
 </body>
-              </html>
-              
+</html>
