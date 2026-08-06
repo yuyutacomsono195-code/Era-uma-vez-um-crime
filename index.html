@@ -1,54 +1,57 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Bichinho - Estilo Pou</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Pou</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>🐾 Meu Bichinho</h1>
 
-        <div class="status">
-            <div class="linha">
-                <span>Fome</span>
-                <div class="barra-fundo">
-                    <div class="barra" id="barraFome"></div>
-                </div>
-            </div>
-            <div class="linha">
-                <span>Energia</span>
-                <div class="barra-fundo">
-                    <div class="barra" id="barraEnergia"></div>
-                </div>
-            </div>
-            <div class="linha">
-                <span>Felicidade</span>
-                <div class="barra-fundo">
-                    <div class="barra" id="barraFeliz"></div>
-                </div>
-            </div>
-        </div>
+  <div class="game-container">
+    <h1>Meu Pou</h1>
 
-        <div class="bichinho" id="bichinho">
-            <div class="corpo"></div>
-            <div class="olhos">
-                <div class="olho"></div>
-                <div class="olho"></div>
-            </div>
-            <div class="boca"></div>
-        </div>
-
-        <p id="aviso">Clique nos botões para cuidar!</p>
-
-        <div class="botoes">
-            <button onclick="comer()">🍔 Comer</button>
-            <button onclick="dormir()">💤 Dormir</button>
-            <button onclick="brincar()">🎾 Brincar</button>
-        </div>
+    <div class="status-container">
+      <div class="status-box">
+        <span>🍎 Fome</span>
+        <div class="bar"><div id="bar-fome" class="fill"></div></div>
+      </div>
+      <div class="status-box">
+        <span>⚡ Energia</span>
+        <div class="bar"><div id="bar-energia" class="fill"></div></div>
+      </div>
+      <div class="status-box">
+        <span>⚽ Diversão</span>
+        <div class="bar"><div id="bar-diversao" class="fill"></div></div>
+      </div>
+      <div class="status-box">
+        <span>🧼 Higiene</span>
+        <div class="bar"><div id="bar-higiene" class="fill"></div></div>
+      </div>
     </div>
 
-    <script src="script.js"></script>
+    <div class="pou-wrapper">
+      <div id="pou" class="pou">
+        <div class="eyes">
+          <div class="eye"><div class="pupil"></div></div>
+          <div class="eye"><div class="pupil"></div></div>
+        </div>
+        <div id="mouth" class="mouth happy"></div>
+        <div id="dirty-spots" class="dirty hidden">💩</div>
+      </div>
+    </div>
+
+    <p id="status-text">O Pou está feliz!</p>
+
+    <div class="actions">
+      <button onclick="alimentar()">🍎 Comer</button>
+      <button onclick="dormir()">💤 Dormir</button>
+      <button onclick="brincar()">⚽ Brincar</button>
+      <button onclick="limpar()">🧼 Limpar</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
-</html>
+    </html>
+      
