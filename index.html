@@ -3,519 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WhatsApp Web - Perfil Completo</title>
-  <style>
-    :root {
-      --wa-teal: #00a884;
-      --wa-header-bg: #f0f2f5;
-      --wa-bg-app: #d1d7db;
-      --wa-sidebar-bg: #ffffff;
-      --wa-chat-bg: #efeae2;
-      --wa-border: #e9edef;
-      --wa-sent: #d9fdd3;
-      --wa-received: #ffffff;
-      --wa-text-primary: #111b21;
-      --wa-text-secondary: #667781;
-      --wa-hover: #f5f6f6;
-      --wa-active: #f0f2f5;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
-
-    body {
-      background-color: var(--wa-bg-app);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      color: var(--wa-text-primary);
-    }
-
-    body::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 127px;
-      background-color: #00a884;
-      z-index: 0;
-    }
-
-    .app-container {
-      width: 100vw;
-      height: 100vh;
-      max-width: 1600px;
-      max-height: 100%;
-      display: flex;
-      background-color: #fff;
-      z-index: 1;
-      box-shadow: 0 6px 18px rgba(11, 20, 26, 0.05);
-      position: relative;
-    }
-
-    /* BARRA LATERAL */
-    .sidebar {
-      width: 30%;
-      min-width: 320px;
-      max-width: 450px;
-      border-right: 1px solid var(--wa-border);
-      display: flex;
-      flex-direction: column;
-      background-color: var(--wa-sidebar-bg);
-      position: relative;
-    }
-
-    .sidebar-header {
-      height: 60px;
-      background-color: var(--wa-header-bg);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 16px;
-      border-right: 1px solid var(--wa-border);
-    }
-
-    .user-profile {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-    }
-
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-color: #6b7c85;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 500;
-      color: #fff;
-      font-size: 14px;
-      flex-shrink: 0;
-      overflow: hidden;
-      background-size: cover;
-      background-position: center;
-    }
-
-    .icon-btn {
-      background: none;
-      border: none;
-      color: var(--wa-text-secondary);
-      font-size: 18px;
-      cursor: pointer;
-      padding: 8px;
-      border-radius: 50%;
-      transition: background 0.2s;
-    }
-
-    .icon-btn:hover {
-      background-color: rgba(11, 20, 26, 0.05);
-    }
-
-    .note-bar {
-      background-color: #f0f2f5;
-      padding: 10px 16px;
-      border-bottom: 1px solid var(--wa-border);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .note-bubble {
-      background: #fff;
-      border-radius: 12px;
-      padding: 6px 12px;
-      font-size: 13px;
-      color: var(--wa-text-primary);
-      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-      flex: 1;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      position: relative;
-    }
-
-    .search-box {
-      background-color: #fff;
-      padding: 7px 12px;
-      border-bottom: 1px solid var(--wa-border);
-    }
-
-    .search-input-wrapper {
-      background-color: var(--wa-header-bg);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      padding: 0 12px;
-      height: 35px;
-    }
-
-    .search-input-wrapper input {
-      border: none;
-      background: transparent;
-      outline: none;
-      width: 100%;
-      padding-left: 8px;
-      font-size: 14px;
-      color: var(--wa-text-primary);
-    }
-
-    .chat-list {
-      flex: 1;
-      overflow-y: auto;
-    }
-
-    .chat-item {
-      display: flex;
-      align-items: center;
-      padding: 12px 16px;
-      gap: 15px;
-      cursor: pointer;
-      border-bottom: 1px solid var(--wa-border);
-      transition: background 0.15s;
-    }
-
-    .chat-item:hover {
-      background-color: var(--wa-hover);
-    }
-
-    .chat-item.active {
-      background-color: var(--wa-active);
-    }
-
-    .chat-info {
-      flex: 1;
-      overflow: hidden;
-    }
-
-    .chat-title {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 3px;
-    }
-
-    .chat-title h4 {
-      font-size: 16px;
-      font-weight: 400;
-      color: var(--wa-text-primary);
-    }
-
-    .chat-title .time {
-      font-size: 12px;
-      color: var(--wa-text-secondary);
-    }
-
-    .last-message {
-      font-size: 14px;
-      color: var(--wa-text-secondary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* ÁREA DE CONVERSA */
-    .content-area {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      background-color: var(--wa-chat-bg);
-      position: relative;
-    }
-
-    .chat-header {
-      height: 60px;
-      background-color: var(--wa-header-bg);
-      display: flex;
-      align-items: center;
-      padding: 0 16px;
-      gap: 15px;
-      border-bottom: 1px solid var(--wa-border);
-      cursor: pointer;
-    }
-
-    .chat-details h3 {
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--wa-text-primary);
-    }
-
-    .chat-details .status {
-      font-size: 13px;
-      color: var(--wa-text-secondary);
-    }
-
-    /* MENSAGENS */
-    .messages-container {
-      flex: 1;
-      padding: 20px 5%;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      background-image: radial-gradient(rgba(11, 20, 26, 0.06) 1px, transparent 0);
-      background-size: 12px 12px;
-    }
-
-    .message {
-      max-width: 65%;
-      padding: 6px 9px 8px 9px;
-      border-radius: 7.5px;
-      font-size: 14.2px;
-      position: relative;
-      word-break: break-word;
-      line-height: 1.4;
-      box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13);
-    }
-
-    .message.received {
-      align-self: flex-start;
-      background-color: var(--wa-received);
-      color: var(--wa-text-primary);
-      border-top-left-radius: 0;
-    }
-
-    .message.sent {
-      align-self: flex-end;
-      background-color: var(--wa-sent);
-      color: var(--wa-text-primary);
-      border-top-right-radius: 0;
-    }
-
-    .message-time {
-      font-size: 11px;
-      color: var(--wa-text-secondary);
-      float: right;
-      margin-top: 4px;
-      margin-left: 12px;
-    }
-
-    .chat-input-area {
-      background-color: var(--wa-header-bg);
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    #chatForm {
-      display: flex;
-      width: 100%;
-      gap: 10px;
-      align-items: center;
-    }
-
-    #messageInput {
-      flex: 1;
-      padding: 9px 12px;
-      border: 1px solid #fff;
-      border-radius: 8px;
-      outline: none;
-      background-color: #ffffff;
-      color: var(--wa-text-primary);
-      font-size: 15px;
-    }
-
-    #messageInput::placeholder {
-      color: var(--wa-text-secondary);
-    }
-
-    #chatForm button {
-      background-color: var(--wa-teal);
-      color: #fff;
-      border: none;
-      padding: 9px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 500;
-    }
-
-    /* PAINEL LATERAL DE CONFIGURAÇÕES / PERFIL */
-    .profile-panel {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 30%;
-      min-width: 320px;
-      max-width: 450px;
-      height: 100%;
-      background-color: #f0f2f5;
-      z-index: 10;
-      display: none;
-      flex-direction: column;
-      border-right: 1px solid var(--wa-border);
-    }
-
-    .profile-panel.active {
-      display: flex;
-    }
-
-    .profile-header {
-      height: 108px;
-      background-color: #008069;
-      color: #ffffff;
-      display: flex;
-      align-items: flex-end;
-      padding: 0 20px 18px 20px;
-      gap: 20px;
-    }
-
-    .profile-header h2 {
-      font-size: 19px;
-      font-weight: 500;
-    }
-
-    .profile-content {
-      flex: 1;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .avatar-upload-section {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 28px 0;
-      background-color: #f0f2f5;
-    }
-
-    .big-avatar-wrapper {
-      position: relative;
-      width: 160px;
-      height: 160px;
-      border-radius: 50%;
-      overflow: hidden;
-      cursor: pointer;
-    }
-
-    .big-avatar {
-      width: 100%;
-      height: 100%;
-      background-color: #6b7c85;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 48px;
-      font-weight: 500;
-      background-size: cover;
-      background-position: center;
-    }
-
-    .avatar-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(11, 20, 26, 0.6);
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      text-align: center;
-      opacity: 0;
-      transition: opacity 0.2s;
-      padding: 10px;
-    }
-
-    .big-avatar-wrapper:hover .avatar-overlay {
-      opacity: 1;
-    }
-
-    .profile-field {
-      background-color: #ffffff;
-      padding: 14px 30px;
-      box-shadow: 0 1px 3px rgba(11, 20, 26, 0.08);
-      margin-bottom: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .profile-field label {
-      font-size: 13px;
-      color: #008069;
-      font-weight: 500;
-    }
-
-    .field-input-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .profile-field input {
-      border: none;
-      outline: none;
-      font-size: 16px;
-      color: var(--wa-text-primary);
-      width: 100%;
-      background: transparent;
-    }
-
-    .profile-field input:focus {
-      border-bottom: 2px solid #008069;
-    }
-
-    .btn-secondary {
-      background: none;
-      border: 1px solid var(--wa-border);
-      padding: 6px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 12px;
-      color: #ea0038;
-      align-self: flex-start;
-      margin-top: 4px;
-    }
-
-    /* PAINEL DE INFORMAÇÕES DO CONTATO DA CONVERSA */
-    .contact-info-panel {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 300px;
-      height: 100%;
-      background-color: #f0f2f5;
-      z-index: 9;
-      display: none;
-      flex-direction: column;
-      border-left: 1px solid var(--wa-border);
-    }
-
-    .contact-info-panel.active {
-      display: flex;
-    }
-
-    .contact-info-header {
-      height: 60px;
-      background-color: var(--wa-header-bg);
-      display: flex;
-      align-items: center;
-      padding: 0 16px;
-      gap: 15px;
-      border-bottom: 1px solid var(--wa-border);
-    }
-
-    .contact-info-content {
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-  </style>
+  <title>WhatsApp GB Pro</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -523,76 +12,93 @@
     <!-- BARRA LATERAL -->
     <aside class="sidebar">
       <header class="sidebar-header">
-        <div class="user-profile" id="openProfileHeader" title="Ver seu perfil">
+        <div class="user-profile" id="openProfileBtn">
           <div class="avatar" id="myAvatar">EU</div>
-          <span id="myName" style="font-weight: 500; font-size: 15px;">Meu Nome</span>
+          <div>
+            <span id="myName" style="font-weight: 500;">Meu Nome</span>
+            <span class="gb-badge">GB PRO</span>
+          </div>
         </div>
-        <button class="icon-btn" id="openProfileBtn" title="Perfil & Configurações">⚙️</button>
+        <div>
+          <button class="icon-btn" id="openGbModsBtn" title="Configurações GB Mods">⚡ GB</button>
+        </div>
       </header>
 
       <div class="note-bar">
-        <span style="font-size: 16px;">✏️</span>
+        <span>✏️</span>
         <div class="note-bubble" id="sidebarNoteText">
-          <em>Sua nota aparecerá aqui...</em>
-        </div>
-      </div>
-
-      <div class="search-box">
-        <div class="search-input-wrapper">
-          <span>🔍</span>
-          <input type="text" placeholder="Pesquisar ou começar uma nova conversa">
+          <em>Sua nota GB aparecerá aqui...</em>
         </div>
       </div>
 
       <div class="chat-list" id="chatList"></div>
     </aside>
 
-    <!-- PAINEL DE PERFIL (MEU PERFIL) -->
-    <div class="profile-panel" id="profilePanel">
-      <header class="profile-header">
-        <button class="icon-btn" id="closeProfileBtn" style="color: #fff;" title="Voltar">⬅️</button>
-        <h2>Perfil</h2>
+    <!-- PAINEL PERFIL PESSOAL -->
+    <div class="side-panel" id="profilePanel">
+      <header class="panel-header">
+        <button class="icon-btn" id="closeProfileBtn" style="color:#fff;">⬅️</button>
+        <h2>Meu Perfil GB</h2>
       </header>
 
-      <div class="profile-content">
-        <div class="avatar-upload-section">
-          <div class="big-avatar-wrapper" onclick="document.getElementById('avatarFileInput').click();">
-            <div class="big-avatar" id="myBigAvatar">EU</div>
-            <div class="avatar-overlay">
-              <span>📷</span>
-              <span>MUDAR FOTO DE PERFIL</span>
-            </div>
-          </div>
-          <input type="file" id="avatarFileInput" accept="image/*" style="display: none;">
+      <div class="panel-content">
+        <div class="avatar-upload-wrapper" onclick="document.getElementById('avatarFileInput').click();">
+          <div class="avatar" id="myBigAvatar" style="width:100%; height:100%; font-size:36px;">EU</div>
+          <div class="avatar-upload-overlay">Mudar Foto</div>
+        </div>
+        <input type="file" id="avatarFileInput" accept="image/*" style="display:none;">
+
+        <div class="field-card">
+          <label>Seu Nome</label>
+          <input type="text" id="inputProfileName" value="Meu Nome">
         </div>
 
-        <div class="profile-field">
-          <label>Seu nome</label>
-          <div class="field-input-container">
-            <input type="text" id="inputProfileName" value="Meu Nome">
-          </div>
-        </div>
-
-        <div class="profile-field">
+        <div class="field-card">
           <label>Seu Número de Telefone</label>
-          <div class="field-input-container">
-            <input type="text" id="inputProfilePhone" placeholder="+55 (83) 99999-9999">
-          </div>
+          <input type="text" id="inputProfilePhone" placeholder="+55 (83) 99999-9999">
         </div>
 
-        <div class="profile-field">
+        <div class="field-card">
           <label>Recado / Biografia</label>
-          <div class="field-input-container">
-            <input type="text" id="inputProfileBio" value="Disponível">
-          </div>
+          <input type="text" id="inputProfileBio" value="Usando WhatsApp GB!">
         </div>
 
-        <div class="profile-field">
-          <label>Sua Nota (Visível por 24h)</label>
-          <div class="field-input-container">
-            <input type="text" id="inputProfileNote" placeholder="O que você está pensando?" maxlength="60">
-          </div>
-          <button class="btn-secondary" id="deleteNoteBtn" style="display: none;">Apagar Nota</button>
+        <div class="field-card">
+          <label>Sua Nota (24 Horas)</label>
+          <input type="text" id="inputProfileNote" placeholder="Escreva algo..." maxlength="60">
+        </div>
+      </div>
+    </div>
+
+    <!-- PAINEL DE CONFIGURAÇÕES GB MODS -->
+    <div class="side-panel" id="gbModsPanel">
+      <header class="panel-header">
+        <button class="icon-btn" id="closeGbModsBtn" style="color:#fff;">⬅️</button>
+        <h2>GB Mods & Temas</h2>
+      </header>
+
+      <div class="panel-content">
+        <div class="field-card">
+          <label>Cor Principal do GB</label>
+          <input type="color" id="gbColorPicker" value="#00a884" style="height:40px; cursor:pointer;">
+        </div>
+
+        <div class="field-card">
+          <label>Estilo dos Balões de Mensagem</label>
+          <select id="bubbleStyleSelect">
+            <option value="8px">Padrão Arredondado (8px)</option>
+            <option value="20px">Ultra Redondo (20px)</option>
+            <option value="0px">Quadrado Clássico (0px)</option>
+          </select>
+        </div>
+
+        <div class="field-card">
+          <label>Fonte do App</label>
+          <select id="fontStyleSelect">
+            <option value="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Padrão do Sistema</option>
+            <option value="'Courier New', Courier, monospace">Monoespaçada (Coder)</option>
+            <option value="Georgia, serif">Serifada (Elegante)</option>
+          </select>
         </div>
       </div>
     </div>
@@ -611,140 +117,31 @@
 
       <footer class="chat-input-area">
         <form id="chatForm">
-          <input type="text" id="messageInput" placeholder="Mensagem" autocomplete="off" />
+          <input type="text" id="messageInput" placeholder="Enviar mensagem GB..." autocomplete="off" />
           <button type="submit">Enviar</button>
         </form>
       </footer>
 
-      <!-- PAINEL DE INFORMAÇÕES DO CONTATO SELECIONADO -->
+      <!-- PAINEL DADOS DO CONTATO ATIVO -->
       <div class="contact-info-panel" id="contactInfoPanel">
-        <header class="contact-info-header">
+        <header class="sidebar-header">
           <button class="icon-btn" id="closeContactInfoBtn">✖</button>
-          <h4 style="font-weight: 500;">Dados do Contato</h4>
+          <h4 style="font-weight:500;">Dados do Contato</h4>
         </header>
-        <div class="contact-info-content">
-          <div class="profile-field">
+        <div style="padding: 20px;" class="panel-content">
+          <div class="field-card">
             <label>Nome do Contato</label>
             <input type="text" id="contactNameInput">
           </div>
-          <div class="profile-field">
+          <div class="field-card">
             <label>Número de Telefone</label>
-            <input type="text" id="contactPhoneInput" placeholder="+55 (00) 00000-0000">
+            <input type="text" id="contactPhoneInput" placeholder="+55 (83) 90000-0000">
           </div>
         </div>
       </div>
     </main>
   </div>
 
-  <script>
-    const defaultContacts = [
-      {
-        id: '1',
-        name: 'Maria Silva',
-        phone: '+55 (83) 98877-6655',
-        avatar: 'MS',
-        messages: [{ text: 'Oi! Tudo bem?', type: 'received', time: '10:14' }],
-        autoReply: 'Oi! Já anotei seu número por aqui.'
-      },
-      {
-        id: '2',
-        name: 'Lucas Dev',
-        phone: '+55 (83) 99911-2233',
-        avatar: 'LD',
-        messages: [{ text: 'Me manda uma mensagem!', type: 'received', time: '09:30' }],
-        autoReply: 'Show, número cadastrado com sucesso.'
-      }
-    ];
-
-    let contacts = JSON.parse(localStorage.getItem('wa_orig_contacts')) || defaultContacts;
-    let activeChatId = contacts[0].id;
-    let userProfile = JSON.parse(localStorage.getItem('wa_orig_profile')) || {
-      name: 'Meu Nome',
-      phone: '+55 (83) 99999-8888',
-      bio: 'Disponível',
-      note: 'Codando...',
-      avatarImg: ''
-    };
-
-    const chatList = document.getElementById('chatList');
-    const messagesContainer = document.getElementById('messagesContainer');
-    const activeName = document.getElementById('activeName');
-    const activeAvatar = document.getElementById('activeAvatar');
-    const activePhoneDisplay = document.getElementById('activePhoneDisplay');
-    const chatForm = document.getElementById('chatForm');
-    const messageInput = document.getElementById('messageInput');
-
-    const profilePanel = document.getElementById('profilePanel');
-    const openProfileBtn = document.getElementById('openProfileBtn');
-    const openProfileHeader = document.getElementById('openProfileHeader');
-    const closeProfileBtn = document.getElementById('closeProfileBtn');
-
-    const inputProfileName = document.getElementById('inputProfileName');
-    const inputProfilePhone = document.getElementById('inputProfilePhone');
-    const inputProfileBio = document.getElementById('inputProfileBio');
-    const inputProfileNote = document.getElementById('inputProfileNote');
-    const avatarFileInput = document.getElementById('avatarFileInput');
-    const deleteNoteBtn = document.getElementById('deleteNoteBtn');
-
-    const myName = document.getElementById('myName');
-    const myAvatar = document.getElementById('myAvatar');
-    const myBigAvatar = document.getElementById('myBigAvatar');
-    const sidebarNoteText = document.getElementById('sidebarNoteText');
-
-    const chatHeader = document.getElementById('chatHeader');
-    const contactInfoPanel = document.getElementById('contactInfoPanel');
-    const closeContactInfoBtn = document.getElementById('closeContactInfoBtn');
-    const contactNameInput = document.getElementById('contactNameInput');
-    const contactPhoneInput = document.getElementById('contactPhoneInput');
-
-    function saveProfile() {
-      localStorage.setItem('wa_orig_profile', JSON.stringify(userProfile));
-      updateProfileUI();
-    }
-
-    function saveContacts() {
-      localStorage.setItem('wa_orig_contacts', JSON.stringify(contacts));
-    }
-
-    function updateProfileUI() {
-      myName.textContent = userProfile.name;
-      inputProfileName.value = userProfile.name;
-      inputProfilePhone.value = userProfile.phone || '';
-      inputProfileBio.value = userProfile.bio || '';
-      inputProfileNote.value = userProfile.note || '';
-
-      if (userProfile.note && userProfile.note.trim() !== '') {
-        sidebarNoteText.innerHTML = `<strong>Nota:</strong> ${userProfile.note}`;
-        deleteNoteBtn.style.display = 'block';
-      } else {
-        sidebarNoteText.innerHTML = `<em>Nenhuma nota publicada...</em>`;
-        deleteNoteBtn.style.display = 'none';
-      }
-
-      if (userProfile.avatarImg) {
-        myAvatar.style.backgroundImage = `url(${userProfile.avatarImg})`;
-        myAvatar.textContent = '';
-        myBigAvatar.style.backgroundImage = `url(${userProfile.avatarImg})`;
-        myBigAvatar.textContent = '';
-      } else {
-        const initials = userProfile.name.substring(0, 2).toUpperCase() || 'EU';
-        myAvatar.style.backgroundImage = 'none';
-        myAvatar.textContent = initials;
-        myBigAvatar.style.backgroundImage = 'none';
-        myBigAvatar.textContent = initials;
-      }
-    }
-
-    function getCurrentTime() {
-      const now = new Date();
-      return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-    }
-
-    function renderChatList() {
-      chatList.innerHTML = '';
-      contacts.forEach(contact => {
-        const lastMsg = contact.messages[contact.messages.length - 1];
-        const lastText = lastMsg ? lastMsg.text : 'Nenhuma mensagem';
-        const lastTime = lastMsg ? lastMsg.time : '';
-
-        const item = document.c
+  <script src="script.js"></script>
+</body>
+</html>
