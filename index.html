@@ -469,13 +469,6 @@
       border-bottom: 2px solid #008069;
     }
 
-    .profile-info-text {
-      padding: 4px 30px 16px 30px;
-      font-size: 13px;
-      color: var(--wa-text-secondary);
-      line-height: 1.4;
-    }
-
     .btn-secondary {
       background: none;
       border: 1px solid var(--wa-border);
@@ -751,4 +744,7 @@
       chatList.innerHTML = '';
       contacts.forEach(contact => {
         const lastMsg = contact.messages[contact.messages.length - 1];
-   
+        const lastText = lastMsg ? lastMsg.text : 'Nenhuma mensagem';
+        const lastTime = lastMsg ? lastMsg.time : '';
+
+        const item = document.c
