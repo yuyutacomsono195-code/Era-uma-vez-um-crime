@@ -1,16 +1,78 @@
-body {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Courier New', monospace;
-    /* Usa a imagem e cobre a parte do texto */
-    background: url('1785989390651.png') center top no-repeat fixed;
+}
+
+body {
+    background: url('fundo.png') center top no-repeat fixed;
     background-size: cover;
-    background-position: center 0px; /* Ajuste esse valor pra cortar o texto */
+    background-position: center -80px;
     color: #e0e0e0;
     min-height: 100vh;
-    padding: 30px;
-    max-width: 800px;
+    padding: 30px 20px;
+    max-width: 850px;
     margin: 0 auto;
 }
 
+h1 {
+    color: #d32f2f;
+    text-align: center;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #d32f2f;
+    padding-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.caixa-texto {
+    background: rgba(30, 30, 30, 0.92);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #d32f2f;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.caixa-texto h3 {
+    color: #ffd700;
+    margin-bottom: 10px;
+}
+
+.opcao {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin: 10px 0;
+    background: rgba(45, 45, 45, 0.9);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+    text-align: left;
+    font-size: 16px;
+}
+
+.opcao:hover {
+    background: #d32f2f;
+    padding-left: 20px;
+}
+
+.resultado {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.correto {
+    background: rgba(27, 94, 32, 0.95);
+    color: white;
+}
+
+.errado {
+    background: rgba(183, 28, 28, 0.95);
+    color: white;
+}
