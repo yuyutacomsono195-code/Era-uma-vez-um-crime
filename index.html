@@ -3,19 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WhatsApp Clone - Personalizável</title>
+  <title>WhatsApp Clone - Com Configurações</title>
   <style>
     :root {
-      /* Cores Padrão (Tema Verde Escuro) */
+      /* Cores Dinâmicas */
       --main-color: #00a884;
       --bg-dark: #111b21;
       --panel-bg: #202c33;
       --chat-bg: #0b141a;
       --sent-msg: #005c4b;
+      --received-msg: #202c33;
       --hover-color: #2a3942;
       --text-main: #e9edef;
       --text-muted: #8696a0;
       --border-color: #222d34;
+      --input-bg: #2a3942;
+    }
+
+    /* Tema Claro */
+    body.light-theme {
+      --bg-dark: #f0f2f5;
+      --panel-bg: #f0f2f5;
+      --chat-bg: #efeae2;
+      --received-msg: #ffffff;
+      --hover-color: #e9edef;
+      --text-main: #111b21;
+      --text-muted: #667781;
+      --border-color: #e9edef;
+      --input-bg: #ffffff;
     }
 
     * {
@@ -31,6 +46,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      color: var(--text-main);
       transition: background-color 0.3s;
     }
 
@@ -39,13 +55,12 @@
       height: 100vh;
       display: flex;
       background-color: var(--bg-dark);
-      color: var(--text-main);
     }
 
     /* BARRA LATERAL */
     .sidebar {
       width: 30%;
-      min-width: 300px;
+      min-width: 320px;
       border-right: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
@@ -57,7 +72,13 @@
       background-color: var(--panel-bg);
       display: flex;
       align-items: center;
+      justify-content: space-between;
       padding: 0 16px;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
       gap: 12px;
     }
 
@@ -71,6 +92,23 @@
       justify-content: center;
       font-weight: bold;
       color: #fff;
+      flex-shrink: 0;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 50%;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .icon-btn:hover {
+      background-color: var(--hover-color);
+      color: var(--text-main);
     }
 
     .chat-list {
@@ -125,12 +163,13 @@
       text-overflow: ellipsis;
     }
 
-    /* ÁREA DO CHAT */
-    .chat-area {
+    /* ÁREA DO CHAT E CONFIGURAÇÕES */
+    .content-area {
       flex: 1;
       display: flex;
       flex-direction: column;
       background-color: var(--chat-bg);
+      position: relative;
     }
 
     .chat-header {
@@ -138,15 +177,9 @@
       background-color: var(--panel-bg);
       display: flex;
       align-items: center;
-      justify-content: space-between;
       padding: 0 16px;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .header-user-info {
-      display: flex;
-      align-items: center;
       gap: 12px;
+      border-bottom: 1px solid var(--border-color);
     }
 
     .chat-details h3 {
@@ -157,60 +190,6 @@
     .chat-details .status {
       font-size: 12px;
       color: var(--text-muted);
-    }
-
-    /* PAINEL DE PERSONALIZAÇÃO DE CORES */
-    .theme-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(0,0,0,0.2);
-      padding: 6px 12px;
-      border-radius: 20px;
-    }
-
-    .theme-controls label {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    .color-picker-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    input[type="color"] {
-      -webkit-appearance: none;
-      border: none;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      cursor: pointer;
-      background: none;
-    }
-
-    input[type="color"]::-webkit-color-swatch-wrapper {
-      padding: 0;
-    }
-
-    input[type="color"]::-webkit-color-swatch {
-      border: 2px solid var(--text-main);
-      border-radius: 50%;
-    }
-
-    .preset-btn {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      border: 1px solid #fff;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-
-    .preset-btn:hover {
-      transform: scale(1.2);
     }
 
     /* MENSAGENS */
@@ -235,7 +214,7 @@
 
     .message.received {
       align-self: flex-start;
-      background-color: var(--panel-bg);
+      background-color: var(--received-msg);
       color: var(--text-main);
       border-top-left-radius: 0;
     }
@@ -243,7 +222,7 @@
     .message.sent {
       align-self: flex-end;
       background-color: var(--sent-msg);
-      color: var(--text-main);
+      color: #ffffff;
       border-top-right-radius: 0;
     }
 
@@ -253,6 +232,10 @@
       float: right;
       margin-top: 4px;
       margin-left: 10px;
+    }
+
+    .message.sent .message-time {
+      color: rgba(255, 255, 255, 0.7);
     }
 
     /* CAIXA DE TEXTO */
@@ -272,7 +255,7 @@
       border: none;
       border-radius: 8px;
       outline: none;
-      background-color: var(--hover-color);
+      background-color: var(--input-bg);
       color: var(--text-main);
       font-size: 15px;
     }
@@ -295,42 +278,202 @@
     #chatForm button:hover {
       filter: brightness(0.9);
     }
+
+    /* TELA DE CONFIGURAÇÕES */
+    .settings-panel {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-dark);
+      z-index: 10;
+      display: none;
+      flex-direction: column;
+    }
+
+    .settings-panel.active {
+      display: flex;
+    }
+
+    .settings-header {
+      height: 60px;
+      background-color: var(--panel-bg);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .settings-content {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .setting-group {
+      background-color: var(--panel-bg);
+      padding: 16px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .setting-group h4 {
+      font-size: 14px;
+      color: var(--main-color);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .setting-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .setting-row label {
+      font-size: 15px;
+    }
+
+    .setting-row input[type="text"] {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background-color: var(--input-bg);
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .color-picker-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    input[type="color"] {
+      -webkit-appearance: none;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      background: none;
+    }
+
+    input[type="color"]::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    input[type="color"]::-webkit-color-swatch {
+      border: 2px solid var(--text-main);
+      border-radius: 50%;
+    }
+
+    .preset-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1px solid #fff;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .preset-btn:hover {
+      transform: scale(1.2);
+    }
+
+    .btn-danger {
+      background-color: #ea0038;
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-danger:hover {
+      filter: brightness(0.9);
+    }
+
+    /* Toggle Switch */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: var(--border-color);
+      transition: .3s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--main-color);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
   </style>
 </head>
 <body>
 
   <div class="app-container">
-    <!-- Lista de Contatos -->
+    <!-- BARRA LATERAL -->
     <aside class="sidebar">
       <header class="sidebar-header">
-        <div class="avatar">EU</div>
-        <span>Meu Perfil</span>
+        <div class="user-profile">
+          <div class="avatar" id="myAvatar">EU</div>
+          <span id="myName">Meu Nome</span>
+        </div>
+        <button class="icon-btn" id="openSettingsBtn" title="Configurações">⚙️</button>
       </header>
       <div class="chat-list" id="chatList"></div>
     </aside>
 
-    <!-- Conversa Ativa -->
-    <main class="chat-area">
+    <!-- ÁREA PRINCIPAL -->
+    <main class="content-area">
+      <!-- PAINEL DE CHAT -->
       <header class="chat-header">
-        <div class="header-user-info">
-          <div class="avatar" id="activeAvatar">?</div>
-          <div class="chat-details">
-            <h3 id="activeName">Carregando...</h3>
-            <span class="status" id="activeStatus">online</span>
-          </div>
-        </div>
-
-        <!-- Seletor de Cores -->
-        <div class="theme-controls">
-          <label>Tema Customizado:</label>
-          <div class="color-picker-wrapper">
-            <input type="color" id="themeColorPicker" value="#00a884" title="Escolha qualquer cor">
-          </div>
-          <!-- Presets rápidos -->
-          <button class="preset-btn" style="background: #00a884;" onclick="applyTheme('#00a884')" title="Verde Padrão"></button>
-          <button class="preset-btn" style="background: #7289da;" onclick="applyTheme('#7289da')" title="Roxo Discord"></button>
-          <button class="preset-btn" style="background: #e1306c;" onclick="applyTheme('#e1306c')" title="Rosa Instagram"></button>
-          <button class="preset-btn" style="background: #ff7a00;" onclick="applyTheme('#ff7a00')" title="Laranja"></button>
+        <div class="avatar" id="activeAvatar">?</div>
+        <div class="chat-details">
+          <h3 id="activeName">Carregando...</h3>
+          <span class="status">online</span>
         </div>
       </header>
 
@@ -342,6 +485,60 @@
           <button type="submit">Enviar</button>
         </form>
       </footer>
+
+      <!-- PAINEL DE CONFIGURAÇÕES -->
+      <div class="settings-panel" id="settingsPanel">
+        <header class="settings-header">
+          <button class="icon-btn" id="closeSettingsBtn" title="Voltar">⬅️</button>
+          <h2>Configurações</h2>
+        </header>
+
+        <div class="settings-content">
+          <!-- Perfil -->
+          <div class="setting-group">
+            <h4>Perfil</h4>
+            <div class="setting-row">
+              <label for="userNameInput">Seu Nome:</label>
+              <input type="text" id="userNameInput" value="Meu Nome" />
+            </div>
+            <div class="setting-row">
+              <label for="userAvatarInput">Iniciais do Perfil:</label>
+              <input type="text" id="userAvatarInput" maxlength="2" value="EU" style="width: 60px; text-align: center;" />
+            </div>
+          </div>
+
+          <!-- Aparência -->
+          <div class="setting-group">
+            <h4>Aparência & Cores</h4>
+            <div class="setting-row">
+              <label>Cor Principal do App:</label>
+              <div class="color-picker-container">
+                <input type="color" id="themeColorPicker" value="#00a884">
+                <button class="preset-btn" style="background: #00a884;" onclick="applyMainColor('#00a884')"></button>
+                <button class="preset-btn" style="background: #7289da;" onclick="applyMainColor('#7289da')"></button>
+                <button class="preset-btn" style="background: #e1306c;" onclick="applyMainColor('#e1306c')"></button>
+                <button class="preset-btn" style="background: #ff7a00;" onclick="applyMainColor('#ff7a00')"></button>
+              </div>
+            </div>
+            <div class="setting-row">
+              <label for="themeToggle">Modo Escuro:</label>
+              <label class="switch">
+                <input type="checkbox" id="themeToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Dados e Reset -->
+          <div class="setting-group">
+            <h4>Gerenciamento</h4>
+            <div class="setting-row">
+              <span>Restaurar Conversas Originais:</span>
+              <button class="btn-danger" id="resetDataBtn">Restaurar</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
 
@@ -351,30 +548,49 @@
         id: '1',
         name: 'Maria Silva',
         avatar: 'MS',
-        messages: [{ text: 'Oi! Conseguiu mudar a cor do app?', type: 'received', time: '10:14' }],
-        autoReply: 'Ficou ótimo com essa nova cor!'
+        messages: [{ text: 'Oi! Vi que você alterou as configurações.', type: 'received', time: '10:14' }],
+        autoReply: 'Tudo funcionando perfeitamente por aqui!'
       },
       {
         id: '2',
         name: 'Lucas Dev',
         avatar: 'LD',
-        messages: [{ text: 'Muda a cor aí pra ver como fica', type: 'received', time: '09:30' }],
-        autoReply: 'Top! Qualquer cor funciona perfeitamente.'
+        messages: [{ text: 'Testa trocar o tema no menu de configurações!', type: 'received', time: '09:30' }],
+        autoReply: 'Top! O modo claro/escuro e as cores ficaram ótimos.'
       }
     ];
 
-    let contacts = JSON.parse(localStorage.getItem('whatsapp_contacts')) || defaultContacts;
+    // Estado da aplicação
+    let contacts = JSON.parse(localStorage.getItem('wa_contacts')) || defaultContacts;
     let activeChatId = contacts[0].id;
+    let userSettings = JSON.parse(localStorage.getItem('wa_settings')) || {
+      name: 'Meu Nome',
+      avatar: 'EU',
+      color: '#00a884',
+      darkMode: true
+    };
 
+    // Elementos DOM
     const chatList = document.getElementById('chatList');
     const messagesContainer = document.getElementById('messagesContainer');
     const activeName = document.getElementById('activeName');
     const activeAvatar = document.getElementById('activeAvatar');
     const chatForm = document.getElementById('chatForm');
     const messageInput = document.getElementById('messageInput');
-    const colorPicker = document.getElementById('themeColorPicker');
 
-    // CONVERTE HEX PARA RGB PARA CRIAR VARIANTES ESCURAS
+    // Configurações DOM
+    const settingsPanel = document.getElementById('settingsPanel');
+    const openSettingsBtn = document.getElementById('openSettingsBtn');
+    const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+    const userNameInput = document.getElementById('userNameInput');
+    const userAvatarInput = document.getElementById('userAvatarInput');
+    const themeColorPicker = document.getElementById('themeColorPicker');
+    const themeToggle = document.getElementById('themeToggle');
+    const resetDataBtn = document.getElementById('resetDataBtn');
+    const myName = document.getElementById('myName');
+    const myAvatar = document.getElementById('myAvatar');
+
+    // Utilitários de Cor
     function hexToRgb(hex) {
       let c = hex.replace('#', '');
       if (c.length === 3) c = c.split('').map(x => x + x).join('');
@@ -382,28 +598,36 @@
       return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
     }
 
-    // APLICA A COR ESCOLHIDA EM TODO O APP
-    function applyTheme(hexColor) {
-      colorPicker.value = hexColor;
+    function applyMainColor(hexColor) {
+      userSettings.color = hexColor;
+      themeColorPicker.value = hexColor;
       const rgb = hexToRgb(hexColor);
-      
-      // Gera uma versão mais escura da cor para o balão de mensagem enviada
       const darkSent = `rgb(${Math.floor(rgb.r * 0.4)}, ${Math.floor(rgb.g * 0.4)}, ${Math.floor(rgb.b * 0.4)})`;
 
       document.documentElement.style.setProperty('--main-color', hexColor);
       document.documentElement.style.setProperty('--sent-msg', darkSent);
-
-      // Salva a preferência de cor
-      localStorage.setItem('whatsapp_theme_color', hexColor);
+      saveSettings();
     }
 
-    // EVANTO DO COLOR PICKER (TODAS AS CORES EXISTENTES)
-    colorPicker.addEventListener('input', (e) => {
-      applyTheme(e.target.value);
-    });
+    function applyDarkMode(isDark) {
+      userSettings.darkMode = isDark;
+      themeToggle.checked = isDark;
+      if (isDark) {
+        document.body.classList.remove('light-theme');
+      } else {
+        document.body.classList.add('light-theme');
+      }
+      saveSettings();
+    }
 
-    function saveToStorage() {
-      localStorage.setItem('whatsapp_contacts', JSON.stringify(contacts));
+    function saveSettings() {
+      localStorage.setItem('wa_settings', JSON.stringify(userSettings));
+      myName.textContent = userSettings.name;
+      myAvatar.textContent = userSettings.avatar;
+    }
+
+    function saveContacts() {
+      localStorage.setItem('wa_contacts', JSON.stringify(contacts));
     }
 
     function getCurrentTime() {
@@ -411,6 +635,7 @@
       return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
     }
 
+    // Renderização
     function renderChatList() {
       chatList.innerHTML = '';
       contacts.forEach(contact => {
@@ -444,6 +669,8 @@
 
     function renderMessages() {
       const contact = contacts.find(c => c.id === activeChatId);
+      if (!contact) return;
+
       activeName.textContent = contact.name;
       activeAvatar.textContent = contact.avatar;
       messagesContainer.innerHTML = '';
@@ -461,6 +688,7 @@
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
 
+    // Envio de mensagem
     chatForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const text = messageInput.value.trim();
@@ -476,7 +704,7 @@
       });
 
       messageInput.value = '';
-      saveToStorage();
+      saveContacts();
       renderChatList();
       renderMessages();
 
@@ -486,7 +714,7 @@
           type: 'received',
           time: getCurrentTime()
         });
-        saveToStorage();
+        saveContacts();
         renderChatList();
         if (activeChatId === contact.id) {
           renderMessages();
@@ -494,13 +722,52 @@
       }, 1200);
     });
 
-    // CARREGA TEMA SALVO OU PADRÃO
-    const savedTheme = localStorage.getItem('whatsapp_theme_color') || '#00a884';
-    applyTheme(savedTheme);
+    // Eventos da Tela de Configurações
+    openSettingsBtn.addEventListener('click', () => {
+      settingsPanel.classList.add('active');
+    });
+
+    closeSettingsBtn.addEventListener('click', () => {
+      settingsPanel.classList.remove('active');
+    });
+
+    userNameInput.addEventListener('input', (e) => {
+      userSettings.name = e.target.value || 'Meu Nome';
+      saveSettings();
+    });
+
+    userAvatarInput.addEventListener('input', (e) => {
+      userSettings.avatar = (e.target.value || 'EU').toUpperCase();
+      saveSettings();
+    });
+
+    themeColorPicker.addEventListener('input', (e) => {
+      applyMainColor(e.target.value);
+    });
+
+    themeToggle.addEventListener('change', (e) => {
+      applyDarkMode(e.target.checked);
+    });
+
+    resetDataBtn.addEventListener('click', () => {
+      if (confirm('Deseja restaurar as conversas padrões? Suas mensagens atuais serão apagadas.')) {
+        contacts = defaultContacts;
+        saveContacts();
+        renderChatList();
+        renderMessages();
+        alert('Conversas restauradas!');
+      }
+    });
+
+    // Inicialização
+    userNameInput.value = userSettings.name;
+    userAvatarInput.value = userSettings.avatar;
+    applyMainColor(userSettings.color);
+    applyDarkMode(userSettings.darkMode);
+    saveSettings();
 
     renderChatList();
     renderMessages();
   </script>
 </body>
-      </html>
-      
+<
