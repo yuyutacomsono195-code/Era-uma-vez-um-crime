@@ -1,272 +1,195 @@
+
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  user-select: none;
+  box-sizing: border-box;
+  font-family: Segoe UI, Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
 body {
-  background-color: #1e293b;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
-.game-container {
-  width: 360px;
-  height: 640px;
-  background-color: #fce4ec;
-  border-radius: 24px;
-  box-shadow: 0 12px 28px rgba(0,0,0,0.5);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
-  border: 6px solid #f8bbd0;
-}
-
-/* Status */
-.stats {
-  background-color: #f8bbd0;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  z-index: 10;
-}
-
-.stat-bar {
+  background-color: #d1d7db;
+  height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  font-weight: bold;
-  color: #4a148c;
-  font-size: 12px;
-}
-
-.bar {
-  width: 170px;
-  height: 12px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 2px solid #ce93d8;
-}
-
-.fill {
-  height: 100%;
-  width: 100%;
-  background-color: #66bb6a;
-  transition: width 0.3s ease, background-color 0.3s ease;
-}
-
-.score-board {
-  text-align: right;
-  font-weight: bold;
-  color: #4a148c;
-  font-size: 13px;
-}
-
-/* Áreas / Cenários */
-.room {
-  flex: 1;
-  display: flex;
   justify-content: center;
-  align-items: flex-end;
-  padding-bottom: 20px;
-  position: relative;
-  background-size: cover;
-  transition: background 0.4s ease;
-  overflow: hidden;
 }
 
-/* Estilos de Fundo de Cada Sala */
-.room.quarto { background: radial-gradient(circle, #fff 20%, #f48fb1 100%); }
-.room.quarto.night { background: radial-gradient(circle, #1e293b 20%, #000 100%); }
-.room.cozinha { background: radial-gradient(circle, #fff 20%, #ffe082 100%); }
-.room.banheiro { background: radial-gradient(circle, #fff 20%, #80deea 100%); }
-.room.jogos { background: radial-gradient(circle, #fff 20%, #a5d6a7 100%); }
-.room.conversa { background: radial-gradient(circle, #fff 20%, #ce93d8 100%); }
-.room.closet { background: radial-gradient(circle, #fff 20%, #ffab91 100%); }
-.room.laboratorio { background: radial-gradient(circle, #fff 20%, #b39ddb 100%); }
-
-/* Botões de Troca de Sala */
-.room-title {
-  position: absolute;
-  top: 10px;
-  font-size: 18px;
-  color: #4a148c;
-  background: rgba(255,255,255,0.7);
-  padding: 4px 12px;
-  border-radius: 12px;
+.app-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  background-color: #fff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
 
-.nav-btn {
-  position: absolute;
-  top: 45%;
-  transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.8);
-  border: 2px solid #ab47bc;
-  color: #ab47bc;
-  font-size: 22px;
-  font-weight: bold;
+/* Avatar Padrão */
+.avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  cursor: pointer;
-  z-index: 10;
-  transition: all 0.2s;
+  background-color: #ccc;
+  flex-shrink: 0;
 }
 
-.nav-btn:active { transform: translateY(-50%) scale(0.9); }
-.left-arrow { left: 8px; }
-.right-arrow { right: 8px; }
-
-/* Pou */
-.pou-wrapper {
-  position: absolute;
-  bottom: 30px;
-  left: 105px;
-  cursor: pointer;
-  transition: left 0.1s linear;
-  z-index: 4;
-}
-
-.dirt {
-  position: absolute;
-  bottom: 35px;
-  right: 110px;
-  font-size: 30px;
-  cursor: pointer;
-  z-index: 5;
-}
-
-/* Chat */
-.chat-container {
-  position: absolute;
-  top: 45px;
-  width: 90%;
-  height: 180px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 12px;
-  border: 2px solid #ab47bc;
+/* Sidebar */
+.sidebar {
+  width: 30%;
+  min-width: 280px;
+  border-right: 1px solid #e9edef;
   display: flex;
   flex-direction: column;
-  padding: 8px;
-  z-index: 8;
+  background-color: #fff;
 }
 
-.chat-messages {
+.sidebar-header {
+  height: 60px;
+  background-color: #f0f2f5;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+}
+
+.chat-list {
   flex: 1;
+  overflow-y: auto;
+}
+
+.chat-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.chat-item.active {
+  background-color: #f0f2f5;
+}
+
+.chat-info {
+  flex: 1;
+}
+
+.chat-title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.chat-title h4 {
+  font-size: 16px;
+  color: #111b21;
+}
+
+.chat-title .time {
+  font-size: 12px;
+  color: #667781;
+}
+
+.last-message {
+  font-size: 14px;
+  color: #667781;
+}
+
+/* Área de Chat */
+.chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #efeae2;
+}
+
+.chat-header {
+  height: 60px;
+  background-color: #f0f2f5;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  border-bottom: 1px solid #e9edef;
+}
+
+.chat-details h3 {
+  font-size: 16px;
+  color: #111b21;
+}
+
+.chat-details .status {
+  font-size: 12px;
+  color: #667781;
+}
+
+/* Mensagens */
+.messages-container {
+  flex: 1;
+  padding: 20px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  font-size: 12px;
-}
-
-.msg {
-  padding: 4px 8px;
-  border-radius: 8px;
-  max-width: 80%;
-}
-
-.msg.friend { background: #e1bee7; align-self: flex-start; }
-.msg.user { background: #c8e6c9; align-self: flex-end; }
-
-.chat-input-area {
-  display: flex;
-  gap: 4px;
-  margin-top: 6px;
-}
-
-.chat-input-area input {
-  flex: 1;
-  padding: 4px 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  user-select: text;
-}
-
-.chat-input-area button {
-  background: #ab47bc;
-  color: white;
-  border: none;
-  padding: 4px 8px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-/* Mini-Game */
-.falling-coin {
-  position: absolute;
-  font-size: 32px;
-  top: 0;
-  z-index: 5;
-}
-
-.minigame-controls {
-  position: absolute;
-  bottom: 5px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 20px;
-  z-index: 10;
-}
-
-.btn-arrow-control {
-  background: rgba(255, 255, 255, 0.8);
-  border: 2px solid #ab47bc;
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-/* Ações Dinâmicas (Rodapé) */
-.actions {
-  display: flex;
-  justify-content: center;
   gap: 8px;
-  padding: 12px;
-  background-color: #f8bbd0;
-  min-height: 65px;
-  flex-wrap: wrap;
 }
 
-.btn {
-  background-color: #ab47bc;
+.message {
+  max-width: 65%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  position: relative;
+  word-wrap: break-word;
+}
+
+.message.received {
+  align-self: flex-start;
+  background-color: #ffffff;
+  color: #111b21;
+}
+
+.message.sent {
+  align-self: flex-end;
+  background-color: #d9fdd3;
+  color: #111b21;
+}
+
+.message-time {
+  font-size: 10px;
+  color: #667781;
+  float: right;
+  margin-top: 4px;
+  margin-left: 8px;
+}
+
+/* Campo de entrada */
+.chat-input-area {
+  background-color: #f0f2f5;
+  padding: 10px 16px;
+}
+
+#chatForm {
+  display: flex;
+  gap: 10px;
+}
+
+#messageInput {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 15px;
+}
+
+#chatForm button {
+  background-color: #00a884;
   color: white;
   border: none;
-  padding: 8px 12px;
-  border-radius: 12px;
-  font-weight: bold;
-  font-size: 13px;
+  padding: 10px 20px;
+  border-radius: 8px;
   cursor: pointer;
-  box-shadow: 0 4px 0 #7b1fa2;
-  transition: all 0.1s;
+  font-weight: bold;
 }
 
-.btn:active {
-  transform: translateY(3px);
-  box-shadow: 0 1px 0 #7b1fa2;
+#chatForm button:hover {
+  background-color: #008f70;
 }
-
-.effect {
-  position: absolute;
-  font-size: 40px;
-  animation: fall 0.8s forwards ease-in;
-  z-index: 7;
-}
-
-.hidden { display: none !important; }
-
-@keyframes fall {
-  0% { top: 10px; opacity: 1; }
-  100% { top: 200px; opacity: 0; }
-  }
-  
