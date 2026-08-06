@@ -6,7 +6,7 @@
 
 body {
     /* Comando para usar a imagem de fundo */
-    background-image: url('imagens/fundo.png');
+    background-image: url('fundo.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center top;
