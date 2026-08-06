@@ -121,7 +121,6 @@
       background-color: rgba(11, 20, 26, 0.05);
     }
 
-    /* BARRINHA DE NOTAS DA BARRA LATERAL */
     .note-bar {
       background-color: #f0f2f5;
       padding: 10px 16px;
@@ -240,6 +239,7 @@
       padding: 0 16px;
       gap: 15px;
       border-bottom: 1px solid var(--wa-border);
+      cursor: pointer;
     }
 
     .chat-details h3 {
@@ -380,7 +380,6 @@
       flex-direction: column;
     }
 
-    /* FOTO DE PERFIL COM BOTAO DE UPLOAD */
     .avatar-upload-section {
       display: flex;
       justify-content: center;
@@ -435,7 +434,6 @@
       opacity: 1;
     }
 
-    /* CAMPOS DO PERFIL */
     .profile-field {
       background-color: #ffffff;
       padding: 14px 30px;
@@ -489,6 +487,41 @@
       align-self: flex-start;
       margin-top: 4px;
     }
+
+    /* PAINEL DE INFORMAÇÕES DO CONTATO DA CONVERSA */
+    .contact-info-panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 100%;
+      background-color: #f0f2f5;
+      z-index: 9;
+      display: none;
+      flex-direction: column;
+      border-left: 1px solid var(--wa-border);
+    }
+
+    .contact-info-panel.active {
+      display: flex;
+    }
+
+    .contact-info-header {
+      height: 60px;
+      background-color: var(--wa-header-bg);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 15px;
+      border-bottom: 1px solid var(--wa-border);
+    }
+
+    .contact-info-content {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
   </style>
 </head>
 <body>
@@ -504,7 +537,6 @@
         <button class="icon-btn" id="openProfileBtn" title="Perfil & Configurações">⚙️</button>
       </header>
 
-      <!-- BARRA DE NOTA RÁPIDA DA SUA CONTA -->
       <div class="note-bar">
         <span style="font-size: 16px;">✏️</span>
         <div class="note-bubble" id="sidebarNoteText">
@@ -522,7 +554,7 @@
       <div class="chat-list" id="chatList"></div>
     </aside>
 
-    <!-- PAINEL DE PERFIL & CONFIGURAÇÕES (LADO ESQUERDO/SOBREPOSIÇÃO) -->
+    <!-- PAINEL DE PERFIL (MEU PERFIL) -->
     <div class="profile-panel" id="profilePanel">
       <header class="profile-header">
         <button class="icon-btn" id="closeProfileBtn" style="color: #fff;" title="Voltar">⬅️</button>
@@ -530,7 +562,6 @@
       </header>
 
       <div class="profile-content">
-        <!-- Foto de Perfil com troca -->
         <div class="avatar-upload-section">
           <div class="big-avatar-wrapper" onclick="document.getElementById('avatarFileInput').click();">
             <div class="big-avatar" id="myBigAvatar">EU</div>
@@ -542,24 +573,20 @@
           <input type="file" id="avatarFileInput" accept="image/*" style="display: none;">
         </div>
 
-        <!-- Campo: Nome -->
         <div class="profile-field">
           <label>Seu nome</label>
           <div class="field-input-container">
             <input type="text" id="inputProfileName" value="Meu Nome">
           </div>
         </div>
-        <p class="profile-info-text">Esse não é seu nome de usuário nem um PIN. Esse nome será visível para seus contatos do WhatsApp.</p>
 
-        <!-- Campo: Telefone -->
         <div class="profile-field">
-          <label>Número de Telefone</label>
+          <label>Seu Número de Telefone</label>
           <div class="field-input-container">
             <input type="text" id="inputProfilePhone" placeholder="+55 (83) 99999-9999">
           </div>
         </div>
 
-        <!-- Campo: Biografia / Recado -->
         <div class="profile-field">
           <label>Recado / Biografia</label>
           <div class="field-input-container">
@@ -567,7 +594,6 @@
           </div>
         </div>
 
-        <!-- Campo: Nota -->
         <div class="profile-field">
           <label>Sua Nota (Visível por 24h)</label>
           <div class="field-input-container">
@@ -580,11 +606,11 @@
 
     <!-- ÁREA PRINCIPAL DO CHAT -->
     <main class="content-area">
-      <header class="chat-header">
+      <header class="chat-header" id="chatHeader">
         <div class="avatar" id="activeAvatar">?</div>
         <div class="chat-details">
           <h3 id="activeName">Carregando...</h3>
-          <span class="status">visto por último hoje às 12:45</span>
+          <span class="status" id="activePhoneDisplay">+55 (83) 98888-0000</span>
         </div>
       </header>
 
@@ -596,6 +622,24 @@
           <button type="submit">Enviar</button>
         </form>
       </footer>
+
+      <!-- PAINEL DE INFORMAÇÕES DO CONTATO SELECIONADO -->
+      <div class="contact-info-panel" id="contactInfoPanel">
+        <header class="contact-info-header">
+          <button class="icon-btn" id="closeContactInfoBtn">✖</button>
+          <h4 style="font-weight: 500;">Dados do Contato</h4>
+        </header>
+        <div class="contact-info-content">
+          <div class="profile-field">
+            <label>Nome do Contato</label>
+            <input type="text" id="contactNameInput">
+          </div>
+          <div class="profile-field">
+            <label>Número de Telefone</label>
+            <input type="text" id="contactPhoneInput" placeholder="+55 (00) 00000-0000">
+          </div>
+        </div>
+      </div>
     </main>
   </div>
 
@@ -604,43 +648,44 @@
       {
         id: '1',
         name: 'Maria Silva',
+        phone: '+55 (83) 98877-6655',
         avatar: 'MS',
-        messages: [{ text: 'Oi! Já adicionou suas fotos e notas?', type: 'received', time: '10:14' }],
-        autoReply: 'Adorei a nova biografia e a foto de perfil!'
+        messages: [{ text: 'Oi! Tudo bem?', type: 'received', time: '10:14' }],
+        autoReply: 'Oi! Já anotei seu número por aqui.'
       },
       {
         id: '2',
         name: 'Lucas Dev',
+        phone: '+55 (83) 99911-2233',
         avatar: 'LD',
-        messages: [{ text: 'Me passa seu número novo depois!', type: 'received', time: '09:30' }],
-        autoReply: 'Show, atualizei o cadastro aqui.'
+        messages: [{ text: 'Me manda uma mensagem!', type: 'received', time: '09:30' }],
+        autoReply: 'Show, número cadastrado com sucesso.'
       }
     ];
 
-    let contacts = JSON.parse(localStorage.getItem('wa_full_contacts')) || defaultContacts;
+    let contacts = JSON.parse(localStorage.getItem('wa_orig_contacts')) || defaultContacts;
     let activeChatId = contacts[0].id;
-    let userProfile = JSON.parse(localStorage.getItem('wa_full_profile')) || {
+    let userProfile = JSON.parse(localStorage.getItem('wa_orig_profile')) || {
       name: 'Meu Nome',
       phone: '+55 (83) 99999-8888',
-      bio: 'Disponível para conversas!',
-      note: 'Codando um clone do WhatsApp 🚀',
+      bio: 'Disponível',
+      note: 'Codando...',
       avatarImg: ''
     };
 
-    // DOM Elements
     const chatList = document.getElementById('chatList');
     const messagesContainer = document.getElementById('messagesContainer');
     const activeName = document.getElementById('activeName');
     const activeAvatar = document.getElementById('activeAvatar');
+    const activePhoneDisplay = document.getElementById('activePhoneDisplay');
     const chatForm = document.getElementById('chatForm');
     const messageInput = document.getElementById('messageInput');
 
-    // Profile Elements
     const profilePanel = document.getElementById('profilePanel');
     const openProfileBtn = document.getElementById('openProfileBtn');
     const openProfileHeader = document.getElementById('openProfileHeader');
     const closeProfileBtn = document.getElementById('closeProfileBtn');
-    
+
     const inputProfileName = document.getElementById('inputProfileName');
     const inputProfilePhone = document.getElementById('inputProfilePhone');
     const inputProfileBio = document.getElementById('inputProfileBio');
@@ -653,13 +698,19 @@
     const myBigAvatar = document.getElementById('myBigAvatar');
     const sidebarNoteText = document.getElementById('sidebarNoteText');
 
+    const chatHeader = document.getElementById('chatHeader');
+    const contactInfoPanel = document.getElementById('contactInfoPanel');
+    const closeContactInfoBtn = document.getElementById('closeContactInfoBtn');
+    const contactNameInput = document.getElementById('contactNameInput');
+    const contactPhoneInput = document.getElementById('contactPhoneInput');
+
     function saveProfile() {
-      localStorage.setItem('wa_full_profile', JSON.stringify(userProfile));
+      localStorage.setItem('wa_orig_profile', JSON.stringify(userProfile));
       updateProfileUI();
     }
 
     function saveContacts() {
-      localStorage.setItem('wa_full_contacts', JSON.stringify(contacts));
+      localStorage.setItem('wa_orig_contacts', JSON.stringify(contacts));
     }
 
     function updateProfileUI() {
@@ -669,7 +720,6 @@
       inputProfileBio.value = userProfile.bio || '';
       inputProfileNote.value = userProfile.note || '';
 
-      // Atualiza Nota
       if (userProfile.note && userProfile.note.trim() !== '') {
         sidebarNoteText.innerHTML = `<strong>Nota:</strong> ${userProfile.note}`;
         deleteNoteBtn.style.display = 'block';
@@ -678,7 +728,6 @@
         deleteNoteBtn.style.display = 'none';
       }
 
-      // Atualiza Foto de Perfil
       if (userProfile.avatarImg) {
         myAvatar.style.backgroundImage = `url(${userProfile.avatarImg})`;
         myAvatar.textContent = '';
@@ -702,46 +751,4 @@
       chatList.innerHTML = '';
       contacts.forEach(contact => {
         const lastMsg = contact.messages[contact.messages.length - 1];
-        const lastText = lastMsg ? lastMsg.text : 'Nenhuma mensagem';
-        const lastTime = lastMsg ? lastMsg.time : '';
-
-        const item = document.createElement('div');
-        item.className = `chat-item ${contact.id === activeChatId ? 'active' : ''}`;
-        item.onclick = () => selectChat(contact.id);
-
-        item.innerHTML = `
-          <div class="avatar">${contact.avatar}</div>
-          <div class="chat-info">
-            <div class="chat-title">
-              <h4>${contact.name}</h4>
-              <span class="time">${lastTime}</span>
-            </div>
-            <p class="last-message">${lastText}</p>
-          </div>
-        `;
-        chatList.appendChild(item);
-      });
-    }
-
-    function selectChat(id) {
-      activeChatId = id;
-      renderChatList();
-      renderMessages();
-    }
-
-    function renderMessages() {
-      const contact = contacts.find(c => c.id === activeChatId);
-      if (!contact) return;
-
-      activeName.textContent = contact.name;
-      activeAvatar.textContent = contact.avatar;
-      messagesContainer.innerHTML = '';
-
-      contact.messages.forEach(msg => {
-        const msgDiv = document.createElement('div');
-        msgDiv.className = `message ${msg.type}`;
-        msgDiv.innerHTML = `
-          <p>${msg.text}</p>
-          <span class="message-time">${msg.time}</span>
-        `;
-        messagesContai
+   
