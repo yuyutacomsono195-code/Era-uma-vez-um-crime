@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WhatsApp Web Original</title>
+  <title>WhatsApp Web - Perfil Completo</title>
   <style>
     :root {
       --wa-teal: #00a884;
@@ -37,7 +37,6 @@
       color: var(--wa-text-primary);
     }
 
-    /* Faixa verde no topo típica do WhatsApp Web */
     body::before {
       content: "";
       position: absolute;
@@ -58,6 +57,7 @@
       background-color: #fff;
       z-index: 1;
       box-shadow: 0 6px 18px rgba(11, 20, 26, 0.05);
+      position: relative;
     }
 
     /* BARRA LATERAL */
@@ -69,6 +69,7 @@
       display: flex;
       flex-direction: column;
       background-color: var(--wa-sidebar-bg);
+      position: relative;
     }
 
     .sidebar-header {
@@ -85,6 +86,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
+      cursor: pointer;
     }
 
     .avatar {
@@ -99,6 +101,9 @@
       color: #fff;
       font-size: 14px;
       flex-shrink: 0;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
     }
 
     .icon-btn {
@@ -114,6 +119,30 @@
 
     .icon-btn:hover {
       background-color: rgba(11, 20, 26, 0.05);
+    }
+
+    /* BARRINHA DE NOTAS DA BARRA LATERAL */
+    .note-bar {
+      background-color: #f0f2f5;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--wa-border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .note-bubble {
+      background: #fff;
+      border-radius: 12px;
+      padding: 6px 12px;
+      font-size: 13px;
+      color: var(--wa-text-primary);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      position: relative;
     }
 
     .search-box {
@@ -139,10 +168,6 @@
       padding-left: 8px;
       font-size: 14px;
       color: var(--wa-text-primary);
-    }
-
-    .search-input-wrapper input::placeholder {
-      color: var(--wa-text-secondary);
     }
 
     .chat-list {
@@ -228,7 +253,7 @@
       color: var(--wa-text-secondary);
     }
 
-    /* CONTAINER DE MENSAGENS */
+    /* MENSAGENS */
     .messages-container {
       flex: 1;
       padding: 20px 5%;
@@ -273,7 +298,6 @@
       margin-left: 12px;
     }
 
-    /* CAMPO DE MENSAGEM */
     .chat-input-area {
       background-color: var(--wa-header-bg);
       padding: 10px 16px;
@@ -312,31 +336,29 @@
       border-radius: 8px;
       cursor: pointer;
       font-weight: 500;
-      transition: filter 0.2s;
     }
 
-    #chatForm button:hover {
-      filter: brightness(0.95);
-    }
-
-    /* PAINEL DE CONFIGURAÇÕES */
-    .settings-panel {
+    /* PAINEL LATERAL DE CONFIGURAÇÕES / PERFIL */
+    .profile-panel {
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
+      width: 30%;
+      min-width: 320px;
+      max-width: 450px;
       height: 100%;
       background-color: #f0f2f5;
       z-index: 10;
       display: none;
       flex-direction: column;
+      border-right: 1px solid var(--wa-border);
     }
 
-    .settings-panel.active {
+    .profile-panel.active {
       display: flex;
     }
 
-    .settings-header {
+    .profile-header {
       height: 108px;
       background-color: #008069;
       color: #ffffff;
@@ -346,60 +368,126 @@
       gap: 20px;
     }
 
-    .settings-header h2 {
+    .profile-header h2 {
       font-size: 19px;
       font-weight: 500;
     }
 
-    .settings-content {
+    .profile-content {
       flex: 1;
-      padding: 20px;
       overflow-y: auto;
-      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* FOTO DE PERFIL COM BOTAO DE UPLOAD */
+    .avatar-upload-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 28px 0;
+      background-color: #f0f2f5;
+    }
+
+    .big-avatar-wrapper {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .big-avatar {
       width: 100%;
-      margin: 0 auto;
+      height: 100%;
+      background-color: #6b7c85;
       display: flex;
-      flex-direction: column;
-      gap: 20px;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 48px;
+      font-weight: 500;
+      background-size: cover;
+      background-position: center;
     }
 
-    .setting-card {
+    .avatar-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(11, 20, 26, 0.6);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+      padding: 10px;
+    }
+
+    .big-avatar-wrapper:hover .avatar-overlay {
+      opacity: 1;
+    }
+
+    /* CAMPOS DO PERFIL */
+    .profile-field {
       background-color: #ffffff;
-      padding: 16px;
-      border-radius: 8px;
+      padding: 14px 30px;
       box-shadow: 0 1px 3px rgba(11, 20, 26, 0.08);
+      margin-bottom: 10px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 6px;
     }
 
-    .setting-card h4 {
-      font-size: 14px;
+    .profile-field label {
+      font-size: 13px;
       color: #008069;
       font-weight: 500;
     }
 
-    .setting-row {
+    .field-input-container {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
     }
 
-    .setting-row input[type="text"] {
-      padding: 8px;
-      border-radius: 4px;
-      border: 1px solid var(--wa-border);
-      outline: none;
-    }
-
-    .btn-danger {
-      background-color: #ea0038;
-      color: #fff;
+    .profile-field input {
       border: none;
-      padding: 8px 14px;
+      outline: none;
+      font-size: 16px;
+      color: var(--wa-text-primary);
+      width: 100%;
+      background: transparent;
+    }
+
+    .profile-field input:focus {
+      border-bottom: 2px solid #008069;
+    }
+
+    .profile-info-text {
+      padding: 4px 30px 16px 30px;
+      font-size: 13px;
+      color: var(--wa-text-secondary);
+      line-height: 1.4;
+    }
+
+    .btn-secondary {
+      background: none;
+      border: 1px solid var(--wa-border);
+      padding: 6px 12px;
       border-radius: 4px;
       cursor: pointer;
-      font-weight: 500;
+      font-size: 12px;
+      color: #ea0038;
+      align-self: flex-start;
+      margin-top: 4px;
     }
   </style>
 </head>
@@ -409,12 +497,20 @@
     <!-- BARRA LATERAL -->
     <aside class="sidebar">
       <header class="sidebar-header">
-        <div class="user-profile">
+        <div class="user-profile" id="openProfileHeader" title="Ver seu perfil">
           <div class="avatar" id="myAvatar">EU</div>
           <span id="myName" style="font-weight: 500; font-size: 15px;">Meu Nome</span>
         </div>
-        <button class="icon-btn" id="openSettingsBtn" title="Configurações">⚙️</button>
+        <button class="icon-btn" id="openProfileBtn" title="Perfil & Configurações">⚙️</button>
       </header>
+
+      <!-- BARRA DE NOTA RÁPIDA DA SUA CONTA -->
+      <div class="note-bar">
+        <span style="font-size: 16px;">✏️</span>
+        <div class="note-bubble" id="sidebarNoteText">
+          <em>Sua nota aparecerá aqui...</em>
+        </div>
+      </div>
 
       <div class="search-box">
         <div class="search-input-wrapper">
@@ -426,9 +522,64 @@
       <div class="chat-list" id="chatList"></div>
     </aside>
 
-    <!-- ÁREA PRINCIPAL -->
+    <!-- PAINEL DE PERFIL & CONFIGURAÇÕES (LADO ESQUERDO/SOBREPOSIÇÃO) -->
+    <div class="profile-panel" id="profilePanel">
+      <header class="profile-header">
+        <button class="icon-btn" id="closeProfileBtn" style="color: #fff;" title="Voltar">⬅️</button>
+        <h2>Perfil</h2>
+      </header>
+
+      <div class="profile-content">
+        <!-- Foto de Perfil com troca -->
+        <div class="avatar-upload-section">
+          <div class="big-avatar-wrapper" onclick="document.getElementById('avatarFileInput').click();">
+            <div class="big-avatar" id="myBigAvatar">EU</div>
+            <div class="avatar-overlay">
+              <span>📷</span>
+              <span>MUDAR FOTO DE PERFIL</span>
+            </div>
+          </div>
+          <input type="file" id="avatarFileInput" accept="image/*" style="display: none;">
+        </div>
+
+        <!-- Campo: Nome -->
+        <div class="profile-field">
+          <label>Seu nome</label>
+          <div class="field-input-container">
+            <input type="text" id="inputProfileName" value="Meu Nome">
+          </div>
+        </div>
+        <p class="profile-info-text">Esse não é seu nome de usuário nem um PIN. Esse nome será visível para seus contatos do WhatsApp.</p>
+
+        <!-- Campo: Telefone -->
+        <div class="profile-field">
+          <label>Número de Telefone</label>
+          <div class="field-input-container">
+            <input type="text" id="inputProfilePhone" placeholder="+55 (83) 99999-9999">
+          </div>
+        </div>
+
+        <!-- Campo: Biografia / Recado -->
+        <div class="profile-field">
+          <label>Recado / Biografia</label>
+          <div class="field-input-container">
+            <input type="text" id="inputProfileBio" value="Disponível">
+          </div>
+        </div>
+
+        <!-- Campo: Nota -->
+        <div class="profile-field">
+          <label>Sua Nota (Visível por 24h)</label>
+          <div class="field-input-container">
+            <input type="text" id="inputProfileNote" placeholder="O que você está pensando?" maxlength="60">
+          </div>
+          <button class="btn-secondary" id="deleteNoteBtn" style="display: none;">Apagar Nota</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ÁREA PRINCIPAL DO CHAT -->
     <main class="content-area">
-      <!-- CONVERSA ATIVA -->
       <header class="chat-header">
         <div class="avatar" id="activeAvatar">?</div>
         <div class="chat-details">
@@ -445,38 +596,6 @@
           <button type="submit">Enviar</button>
         </form>
       </footer>
-
-      <!-- TELA DE CONFIGURAÇÕES -->
-      <div class="settings-panel" id="settingsPanel">
-        <header class="settings-header">
-          <button class="icon-btn" id="closeSettingsBtn" style="color: #fff;" title="Voltar">⬅️</button>
-          <h2>Configurações</h2>
-        </header>
-
-        <div class="settings-content">
-          <div class="setting-card">
-            <h4>Seu nome</h4>
-            <div class="setting-row">
-              <input type="text" id="userNameInput" value="Meu Nome" style="width: 100%;" />
-            </div>
-          </div>
-
-          <div class="setting-card">
-            <h4>Iniciais do Perfil</h4>
-            <div class="setting-row">
-              <input type="text" id="userAvatarInput" maxlength="2" value="EU" style="width: 80px; text-align: center;" />
-            </div>
-          </div>
-
-          <div class="setting-card">
-            <h4>Conversas</h4>
-            <div class="setting-row">
-              <span>Restaurar mensagens padrão</span>
-              <button class="btn-danger" id="resetDataBtn">Restaurar</button>
-            </div>
-          </div>
-        </div>
-      </div>
     </main>
   </div>
 
@@ -486,25 +605,29 @@
         id: '1',
         name: 'Maria Silva',
         avatar: 'MS',
-        messages: [{ text: 'Oi! Tudo bem?', type: 'received', time: '10:14' }],
-        autoReply: 'Oi! Tudo ótimo por aqui, e com você?'
+        messages: [{ text: 'Oi! Já adicionou suas fotos e notas?', type: 'received', time: '10:14' }],
+        autoReply: 'Adorei a nova biografia e a foto de perfil!'
       },
       {
         id: '2',
         name: 'Lucas Dev',
         avatar: 'LD',
-        messages: [{ text: 'Conseguiu rodar o código?', type: 'received', time: '09:30' }],
-        autoReply: 'Sim! Rodou perfeitamente igual ao WhatsApp original.'
+        messages: [{ text: 'Me passa seu número novo depois!', type: 'received', time: '09:30' }],
+        autoReply: 'Show, atualizei o cadastro aqui.'
       }
     ];
 
-    let contacts = JSON.parse(localStorage.getItem('wa_orig_contacts')) || defaultContacts;
+    let contacts = JSON.parse(localStorage.getItem('wa_full_contacts')) || defaultContacts;
     let activeChatId = contacts[0].id;
-    let userSettings = JSON.parse(localStorage.getItem('wa_orig_settings')) || {
+    let userProfile = JSON.parse(localStorage.getItem('wa_full_profile')) || {
       name: 'Meu Nome',
-      avatar: 'EU'
+      phone: '+55 (83) 99999-8888',
+      bio: 'Disponível para conversas!',
+      note: 'Codando um clone do WhatsApp 🚀',
+      avatarImg: ''
     };
 
+    // DOM Elements
     const chatList = document.getElementById('chatList');
     const messagesContainer = document.getElementById('messagesContainer');
     const activeName = document.getElementById('activeName');
@@ -512,23 +635,62 @@
     const chatForm = document.getElementById('chatForm');
     const messageInput = document.getElementById('messageInput');
 
-    const settingsPanel = document.getElementById('settingsPanel');
-    const openSettingsBtn = document.getElementById('openSettingsBtn');
-    const closeSettingsBtn = document.getElementById('closeSettingsBtn');
-    const userNameInput = document.getElementById('userNameInput');
-    const userAvatarInput = document.getElementById('userAvatarInput');
-    const resetDataBtn = document.getElementById('resetDataBtn');
+    // Profile Elements
+    const profilePanel = document.getElementById('profilePanel');
+    const openProfileBtn = document.getElementById('openProfileBtn');
+    const openProfileHeader = document.getElementById('openProfileHeader');
+    const closeProfileBtn = document.getElementById('closeProfileBtn');
+    
+    const inputProfileName = document.getElementById('inputProfileName');
+    const inputProfilePhone = document.getElementById('inputProfilePhone');
+    const inputProfileBio = document.getElementById('inputProfileBio');
+    const inputProfileNote = document.getElementById('inputProfileNote');
+    const avatarFileInput = document.getElementById('avatarFileInput');
+    const deleteNoteBtn = document.getElementById('deleteNoteBtn');
+
     const myName = document.getElementById('myName');
     const myAvatar = document.getElementById('myAvatar');
+    const myBigAvatar = document.getElementById('myBigAvatar');
+    const sidebarNoteText = document.getElementById('sidebarNoteText');
 
-    function saveSettings() {
-      localStorage.setItem('wa_orig_settings', JSON.stringify(userSettings));
-      myName.textContent = userSettings.name;
-      myAvatar.textContent = userSettings.avatar;
+    function saveProfile() {
+      localStorage.setItem('wa_full_profile', JSON.stringify(userProfile));
+      updateProfileUI();
     }
 
     function saveContacts() {
-      localStorage.setItem('wa_orig_contacts', JSON.stringify(contacts));
+      localStorage.setItem('wa_full_contacts', JSON.stringify(contacts));
+    }
+
+    function updateProfileUI() {
+      myName.textContent = userProfile.name;
+      inputProfileName.value = userProfile.name;
+      inputProfilePhone.value = userProfile.phone || '';
+      inputProfileBio.value = userProfile.bio || '';
+      inputProfileNote.value = userProfile.note || '';
+
+      // Atualiza Nota
+      if (userProfile.note && userProfile.note.trim() !== '') {
+        sidebarNoteText.innerHTML = `<strong>Nota:</strong> ${userProfile.note}`;
+        deleteNoteBtn.style.display = 'block';
+      } else {
+        sidebarNoteText.innerHTML = `<em>Nenhuma nota publicada...</em>`;
+        deleteNoteBtn.style.display = 'none';
+      }
+
+      // Atualiza Foto de Perfil
+      if (userProfile.avatarImg) {
+        myAvatar.style.backgroundImage = `url(${userProfile.avatarImg})`;
+        myAvatar.textContent = '';
+        myBigAvatar.style.backgroundImage = `url(${userProfile.avatarImg})`;
+        myBigAvatar.textContent = '';
+      } else {
+        const initials = userProfile.name.substring(0, 2).toUpperCase() || 'EU';
+        myAvatar.style.backgroundImage = 'none';
+        myAvatar.textContent = initials;
+        myBigAvatar.style.backgroundImage = 'none';
+        myBigAvatar.textContent = initials;
+      }
     }
 
     function getCurrentTime() {
@@ -582,79 +744,4 @@
           <p>${msg.text}</p>
           <span class="message-time">${msg.time}</span>
         `;
-        messagesContainer.appendChild(msgDiv);
-      });
-
-      messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }
-
-    chatForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const text = messageInput.value.trim();
-      if (!text) return;
-
-      const contact = contacts.find(c => c.id === activeChatId);
-      const currentTime = getCurrentTime();
-
-      contact.messages.push({
-        text: text,
-        type: 'sent',
-        time: currentTime
-      });
-
-      messageInput.value = '';
-      saveContacts();
-      renderChatList();
-      renderMessages();
-
-      setTimeout(() => {
-        contact.messages.push({
-          text: contact.autoReply,
-          type: 'received',
-          time: getCurrentTime()
-        });
-        saveContacts();
-        renderChatList();
-        if (activeChatId === contact.id) {
-          renderMessages();
-        }
-      }, 1200);
-    });
-
-    openSettingsBtn.addEventListener('click', () => {
-      settingsPanel.classList.add('active');
-    });
-
-    closeSettingsBtn.addEventListener('click', () => {
-      settingsPanel.classList.remove('active');
-    });
-
-    userNameInput.addEventListener('input', (e) => {
-      userSettings.name = e.target.value || 'Meu Nome';
-      saveSettings();
-    });
-
-    userAvatarInput.addEventListener('input', (e) => {
-      userSettings.avatar = (e.target.value || 'EU').toUpperCase();
-      saveSettings();
-    });
-
-    resetDataBtn.addEventListener('click', () => {
-      if (confirm('Restaurar conversas originais?')) {
-        contacts = defaultContacts;
-        saveContacts();
-        renderChatList();
-        renderMessages();
-      }
-    });
-
-    userNameInput.value = userSettings.name;
-    userAvatarInput.value = userSettings.avatar;
-    saveSettings();
-
-    renderChatList();
-    renderMessages();
-  </script>
-</body>
-              </html>
-  
+        messagesContai
