@@ -7,7 +7,7 @@
 }
 
 body {
-  background-color: #2c3e50;
+  background-color: #1e293b;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,10 +16,10 @@ body {
 
 .game-container {
   width: 360px;
-  height: 600px;
+  height: 640px;
   background-color: #fce4ec;
   border-radius: 24px;
-  box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.5);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -27,13 +27,14 @@ body {
   border: 6px solid #f8bbd0;
 }
 
-/* Barra de Status */
+/* Status */
 .stats {
   background-color: #f8bbd0;
-  padding: 12px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
+  z-index: 10;
 }
 
 .stat-bar {
@@ -42,12 +43,12 @@ body {
   justify-content: space-between;
   font-weight: bold;
   color: #4a148c;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .bar {
-  width: 180px;
-  height: 14px;
+  width: 170px;
+  height: 12px;
   background-color: #ffffff;
   border-radius: 8px;
   overflow: hidden;
@@ -65,10 +66,10 @@ body {
   text-align: right;
   font-weight: bold;
   color: #4a148c;
-  font-size: 14px;
+  font-size: 13px;
 }
 
-/* Quarto do Pou */
+/* Áreas / Cenários */
 .room {
   flex: 1;
   display: flex;
@@ -76,25 +77,129 @@ body {
   align-items: flex-end;
   padding-bottom: 20px;
   position: relative;
-  background: radial-gradient(circle, #ffffff 20%, #f48fb1 100%);
-  transition: background 0.5s;
+  background-size: cover;
+  transition: background 0.4s ease;
   overflow: hidden;
 }
 
-.room.night {
-  background: radial-gradient(circle, #2c3e50 20%, #000000 100%);
+/* Estilos de Fundo de Cada Sala */
+.room.quarto { background: radial-gradient(circle, #fff 20%, #f48fb1 100%); }
+.room.quarto.night { background: radial-gradient(circle, #1e293b 20%, #000 100%); }
+.room.cozinha { background: radial-gradient(circle, #fff 20%, #ffe082 100%); }
+.room.banheiro { background: radial-gradient(circle, #fff 20%, #80deea 100%); }
+.room.jogos { background: radial-gradient(circle, #fff 20%, #a5d6a7 100%); }
+.room.conversa { background: radial-gradient(circle, #fff 20%, #ce93d8 100%); }
+.room.closet { background: radial-gradient(circle, #fff 20%, #ffab91 100%); }
+.room.laboratorio { background: radial-gradient(circle, #fff 20%, #b39ddb 100%); }
+
+/* Botões de Troca de Sala */
+.room-title {
+  position: absolute;
+  top: 10px;
+  font-size: 18px;
+  color: #4a148c;
+  background: rgba(255,255,255,0.7);
+  padding: 4px 12px;
+  border-radius: 12px;
 }
 
-/* Pou e Animação */
+.nav-btn {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid #ab47bc;
+  color: #ab47bc;
+  font-size: 22px;
+  font-weight: bold;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s;
+}
+
+.nav-btn:active { transform: translateY(-50%) scale(0.9); }
+.left-arrow { left: 8px; }
+.right-arrow { right: 8px; }
+
+/* Pou */
 .pou-wrapper {
   position: absolute;
   bottom: 30px;
-  left: 110px;
+  left: 105px;
   cursor: pointer;
   transition: left 0.1s linear;
+  z-index: 4;
 }
 
-/* Moeda Caindo no Mini-Game */
+.dirt {
+  position: absolute;
+  bottom: 35px;
+  right: 110px;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 5;
+}
+
+/* Chat */
+.chat-container {
+  position: absolute;
+  top: 45px;
+  width: 90%;
+  height: 180px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  border: 2px solid #ab47bc;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  z-index: 8;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.msg {
+  padding: 4px 8px;
+  border-radius: 8px;
+  max-width: 80%;
+}
+
+.msg.friend { background: #e1bee7; align-self: flex-start; }
+.msg.user { background: #c8e6c9; align-self: flex-end; }
+
+.chat-input-area {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.chat-input-area input {
+  flex: 1;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  user-select: text;
+}
+
+.chat-input-area button {
+  background: #ab47bc;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Mini-Game */
 .falling-coin {
   position: absolute;
   font-size: 32px;
@@ -102,7 +207,6 @@ body {
   z-index: 5;
 }
 
-/* Controles Touch */
 .minigame-controls {
   position: absolute;
   bottom: 5px;
@@ -113,8 +217,8 @@ body {
   z-index: 10;
 }
 
-.btn-arrow {
-  background: rgba(255, 255, 255, 0.7);
+.btn-arrow-control {
+  background: rgba(255, 255, 255, 0.8);
   border: 2px solid #ab47bc;
   border-radius: 50%;
   width: 45px;
@@ -123,46 +227,46 @@ body {
   cursor: pointer;
 }
 
-.btn-arrow:active {
-  background: #ab47bc;
-}
-
-/* Botões de Ação */
+/* Ações Dinâmicas (Rodapé) */
 .actions {
   display: flex;
-  justify-content: space-around;
-  padding: 15px;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
   background-color: #f8bbd0;
+  min-height: 65px;
+  flex-wrap: wrap;
 }
 
 .btn {
   background-color: #ab47bc;
   color: white;
   border: none;
-  padding: 10px 14px;
+  padding: 8px 12px;
   border-radius: 12px;
   font-weight: bold;
+  font-size: 13px;
   cursor: pointer;
   box-shadow: 0 4px 0 #7b1fa2;
   transition: all 0.1s;
 }
 
 .btn:active {
-  transform: translateY(4px);
-  box-shadow: 0 0 0 #7b1fa2;
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #7b1fa2;
 }
 
 .effect {
   position: absolute;
   font-size: 40px;
   animation: fall 0.8s forwards ease-in;
+  z-index: 7;
 }
 
-.hidden {
-  display: none !important;
-}
+.hidden { display: none !important; }
 
 @keyframes fall {
   0% { top: 10px; opacity: 1; }
   100% { top: 200px; opacity: 0; }
-}
+  }
+  
