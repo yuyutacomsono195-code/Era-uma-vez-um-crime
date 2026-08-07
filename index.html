@@ -22,7 +22,7 @@
             <input type="text" value="Brasil" readonly>
           </div>
           <div class="phone-input-row">
-            <input type="text" class="country-code" value="+55" placeholder="+55">
+            <input type="text" class="country-code" value="+55" placeholder="+55" readonly>
             <input type="tel" class="phone-number" id="phoneInput" placeholder="Número de telefone">
           </div>
         </div>
@@ -33,7 +33,7 @@
     
     <!-- TELA 2: TELA INICIAL (CONVERSAS) -->
     <div class="screen" id="mainScreen">
-      <!-- BARRA LATERAL (CONVERSAS E MENU) -->
+      <!-- BARRA LATERAL -->
       <aside class="sidebar">
         <header class="sidebar-header">
           <div class="user-profile">
@@ -61,12 +61,11 @@
         </header>
 
         <div class="chat-list" id="chatList">
-          <!-- Exemplo de chat para preencher a tela -->
           <div class="chat-item active">
             <div class="avatar">GB</div>
             <div class="chat-info">
               <h4>Equipe GB</h4>
-              <p>Bem-vindo ao app!</p>
+              <p id="lastMessagePreview">Bem-vindo ao app!</p>
             </div>
           </div>
         </div>
@@ -78,14 +77,19 @@
           <div class="avatar">GB</div>
           <div class="chat-details">
             <h3>Equipe GB</h3>
-            <span class="status">online</span>
+            <span class="status" id="chatStatus">online</span>
           </div>
         </header>
-        <div class="messages-container">
-          <div class="message received">Seja bem-vindo ao WhatsApp GB! Teste as configurações no menu de 3 pontos.</div>
+        
+        <div class="messages-container" id="messagesContainer">
+          <div class="message received">Seja bem-vindo ao WhatsApp GB! Teste o envio de mensagens abaixo.</div>
         </div>
+        
         <footer class="chat-input-area">
-          <div class="mock-input">Digite uma mensagem...</div>
+          <form id="chatForm">
+            <input type="text" id="msgInput" placeholder="Digite uma mensagem..." autocomplete="off">
+            <button type="submit" id="sendBtn">Enviar</button>
+          </form>
         </footer>
       </main>
     </div>
@@ -94,7 +98,6 @@
     <div class="screen" id="settingsScreen">
       <header class="settings-header">
         <div class="header-left">
-          <!-- BOTÃO VOLTAR -->
           <span class="back-btn" id="backToMainBtn" title="Voltar">&#8592;</span>
           <h1 class="header-title">Configurações</h1>
         </div>
@@ -117,6 +120,8 @@
         <div class="setting-item"><div class="icon">❓</div><div class="title">Ajuda e feedback</div></div>
         <div class="setting-item"><div class="icon">👥</div><div class="title">Convidar amigos</div></div>
         <div class="setting-item"><div class="icon">📲</div><div class="title">Atualizações do app</div></div>
+        
+        <div class="setting-item" id="logoutBtn" style="margin-top: 20px;"><div class="icon">🚪</div><div class="title" style="color: #ef5350;">Sair (Fazer Logout)</div></div>
 
         <!-- SEÇÃO META -->
         <div class="meta-section">
@@ -129,7 +134,6 @@
           </div>
         </div>
 
-        <!-- LOGOS DA META -->
         <div class="meta-apps">
           <span class="meta-apps-title">Também da Meta</span>
           <div class="apps-grid">
@@ -147,5 +151,4 @@
 
   <script src="script.js"></script>
 </body>
-                                    </html>
-                                    
+</html>
