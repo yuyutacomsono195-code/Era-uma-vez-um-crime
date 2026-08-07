@@ -2,42 +2,49 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Clone do Instagram</title>
+  <title>Fazenda dos Gatinhos</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="app-container">
-    <!-- Cabeçalho -->
-    <header class="navbar">
-      <h1>InstaClone</h1>
-    </header>
+  <!-- TELA INICIAL -->
+  <div id="start-screen" class="screen">
+    <h1>Fazenda dos Gatinhos 🐾</h1>
+    <p>Bem-vindo ao seu novo lar de resgate!</p>
+    
+    <div class="cat-images">
+      <!-- Usando um site que gera fotos aleatórias de gatos -->
+      <img src="https://cataas.com/cat/cute" alt="Gatinho 1" class="cat-pic">
+      <img src="https://cataas.com/cat/orange" alt="Gatinho 2" class="cat-pic">
+    </div>
+    
+    <button id="btn-start">Iniciar Jogo 🎮</button>
+  </div>
 
-    <!-- Feed de Postagens -->
-    <main class="feed">
-      <article class="post">
-        <div class="post-header">
-          <div class="avatar"></div>
-          <strong>usuario_exemplo</strong>
-        </div>
-        
-        <!-- Área da Foto -->
-        <div class="post-image">
-          <p>Sua foto aqui</p>
-        </div>
-        
-        <!-- Ações do Post -->
-        <div class="post-actions">
-          <button class="like-btn" id="likeButton">🤍 Curtir</button>
-        </div>
-        <div class="post-caption">
-          <strong>usuario_exemplo</strong> Aprendendo a programar hoje! 💻🚀
-        </div>
-      </article>
+  <!-- TELA DO JOGO (FAZENDA) -->
+  <div id="game-screen" class="screen hidden">
+    <header class="farm-header">
+      <h2>Sua Fazenda 🏡</h2>
+      <div class="stats">
+        <p>Nível da Fazenda: <strong id="farm-level">1</strong></p>
+        <p>Gatinhos: <strong id="cat-count">0</strong></p>
+      </div>
+    </header>
+    
+    <!-- O gramado onde os gatos vão aparecer -->
+    <main class="farm-area" id="farm-area">
+      <!-- Os emojis de gatos vão entrar aqui via JavaScript -->
     </main>
+
+    <!-- Botões de ação do jogo -->
+    <div class="actions">
+      <button id="btn-adopt">🐱 Adotar Gatinho</button>
+      <button id="btn-care">🍼 Cuidar (Ganha XP)</button>
+    </div>
+    
+    <p id="game-message" class="message">Adote seu primeiro gatinho!</p>
   </div>
 
   <script src="script.js"></script>
 </body>
 </html>
-
