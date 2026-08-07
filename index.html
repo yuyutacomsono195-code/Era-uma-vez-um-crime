@@ -3,22 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WhatsApp GB Pro</title>
+  <title>WhatsApp GB Client</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div class="app-container">
     
-    <!-- TELA 1: CHATS (TELA INICIAL) -->
+    <!-- TELA 1: CONVERSAS E CHAT (TELA INICIAL) -->
     <div class="main-screen" id="mainScreen">
-      <!-- BARRA LATERAL / LISTA DE CONVERSAS -->
+      <!-- BARRA LATERAL (LISTA DE CONTATOS) -->
       <aside class="sidebar">
         <header class="sidebar-header">
           <div class="user-profile">
             <div class="avatar" id="myAvatar">EU</div>
             <div>
-              <span id="myName" style="font-weight: 500;">yuyu 愛</span>
+              <span id="myName">yuyu 愛</span>
               <span class="gb-badge">GB PRO</span>
             </div>
           </div>
@@ -30,13 +30,13 @@
         <div class="chat-list" id="chatList"></div>
       </aside>
 
-      <!-- ÁREA DE CONVERSA -->
+      <!-- ÁREA PRINCIPAL DE MENSAGENS -->
       <main class="content-area">
-        <header class="chat-header">
+        <header class="chat-header" id="chatHeader">
           <div class="avatar" id="activeAvatar">?</div>
           <div class="chat-details">
             <h3 id="activeName">Carregando...</h3>
-            <span class="status">online</span>
+            <span class="status" id="activePhoneDisplay">+55 (83) 98888-0000</span>
           </div>
         </header>
 
@@ -44,7 +44,7 @@
 
         <footer class="chat-input-area">
           <form id="chatForm">
-            <input type="text" id="messageInput" placeholder="Enviar mensagem..." autocomplete="off" />
+            <input type="text" id="messageInput" placeholder="Digite uma mensagem..." autocomplete="off" />
             <button type="submit">Enviar</button>
           </form>
         </footer>
@@ -55,8 +55,8 @@
     <div class="settings-screen" id="settingsScreen">
       <header class="settings-header">
         <div class="header-left">
-          <!-- SETINHA QUE VOLTA PARA AS CONVERSAS -->
-          <span class="back-btn" id="backToChatsBtn">&#8592;</span>
+          <!-- BOTÃO DE VOLTAR PARA AS CONVERSAS -->
+          <span class="back-btn" id="backToChatsBtn" title="Voltar para conversas">&#8592;</span>
           <h1 class="header-title">yuyu 愛</h1>
         </div>
         <div class="header-right">
@@ -105,15 +105,7 @@
           </div>
         </div>
 
-        <div class="setting-item">
-          <div class="icon">🌐</div>
-          <div class="text-info">
-            <div class="title">Idioma do app</div>
-            <div class="subtitle">Português (Brasil) (idioma do dispositivo)</div>
-          </div>
-        </div>
-
-        <!-- SEÇÃO CENTRAL META -->
+        <!-- PAINEL CENTRAL META -->
         <div class="meta-section">
           <div class="meta-header">
             <div class="meta-icon">∞</div>
