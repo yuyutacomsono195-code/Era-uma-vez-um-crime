@@ -33,7 +33,6 @@
     
     <!-- TELA 2: TELA INICIAL (CONVERSAS) -->
     <div class="screen" id="mainScreen">
-      <!-- BARRA LATERAL -->
       <aside class="sidebar">
         <header class="sidebar-header">
           <div class="user-profile">
@@ -43,10 +42,8 @@
             </div>
           </div>
           <div class="header-actions">
-            <!-- BOTÃO DOS TRÊS PONTINHOS -->
             <button class="icon-btn" id="menuToggleBtn" title="Menu">⋮</button>
             
-            <!-- MENU DROPDOWN -->
             <div class="dropdown-menu" id="dropdownMenu">
               <div class="menu-item">Novo grupo</div>
               <div class="menu-item">Nova comunidade</div>
@@ -71,7 +68,6 @@
         </div>
       </aside>
 
-      <!-- ÁREA DE MENSAGENS -->
       <main class="content-area">
         <header class="chat-header">
           <div class="avatar">GB</div>
@@ -82,7 +78,7 @@
         </header>
         
         <div class="messages-container" id="messagesContainer">
-          <div class="message received">Seja bem-vindo ao WhatsApp GB! Teste o envio de mensagens abaixo.</div>
+          <div class="message received">Seja bem-vindo ao WhatsApp GB! Escolha sua cor e fonte nas configurações.</div>
         </div>
         
         <footer class="chat-input-area">
@@ -107,6 +103,32 @@
       </header>
 
       <div class="settings-list">
+        
+        <!-- NOVA SEÇÃO: PERSONALIZAÇÃO -->
+        <div class="customization-section">
+          <h3 class="section-title">✨ Personalização GB</h3>
+          
+          <div class="custom-group">
+            <span>Cor do Tema:</span>
+            <div class="color-options">
+              <div class="color-dot" style="background: #00a884;" data-color="#00a884" title="Verde Padrão"></div>
+              <div class="color-dot" style="background: #1da1f2;" data-color="#1da1f2" title="Azul"></div>
+              <div class="color-dot" style="background: #9c27b0;" data-color="#9c27b0" title="Roxo"></div>
+              <div class="color-dot" style="background: #e91e63;" data-color="#e91e63" title="Rosa"></div>
+            </div>
+          </div>
+
+          <div class="custom-group">
+            <span>Estilo da Letra:</span>
+            <select id="fontSelector" class="custom-select">
+              <option value="'Poppins', sans-serif">Moderna (Poppins)</option>
+              <option value="'Courier New', Courier, monospace">Retro (Máquina)</option>
+              <option value="'Comic Sans MS', cursive, sans-serif">Divertida (Comic)</option>
+              <option value="'Times New Roman', Times, serif">Clássica (Times)</option>
+            </select>
+          </div>
+        </div>
+
         <div class="setting-item"><div class="icon">💳</div><div class="title">Pagamentos</div></div>
         <div class="setting-item"><div class="icon">🔑</div><div class="title">Conta</div></div>
         <div class="setting-item"><div class="icon">🔒</div><div class="title">Privacidade</div></div>
@@ -123,7 +145,6 @@
         
         <div class="setting-item" id="logoutBtn" style="margin-top: 20px;"><div class="icon">🚪</div><div class="title" style="color: #ef5350;">Sair (Fazer Logout)</div></div>
 
-        <!-- SEÇÃO META -->
         <div class="meta-section">
           <div class="meta-header">
             <div class="meta-icon">∞</div>
@@ -140,7 +161,7 @@
             <div class="app-item"><div class="app-icon">📷</div><span>Instagram</span></div>
             <div class="app-item"><div class="app-icon">f</div><span>Facebook</span></div>
             <div class="app-item"><div class="app-icon">@</div><span>Threads</span></div>
-            <div class="app-item"><div class="app-icon">🌀</div><span>Meta AI App</span></div>
+            <div class="app-item"><div class="app-icon">🌀</div><span>Meta AI</span></div>
             <div class="app-item"><div class="app-icon">▶</div><span>Vídeos App</span></div>
           </div>
         </div>
@@ -151,4 +172,5 @@
 
   <script src="script.js"></script>
 </body>
-</html>
+  </html>
+    
