@@ -3,109 +3,122 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WhatsApp GB Client</title>
+  <title>WhatsApp GB Pro</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div class="app-container">
+
+    <!-- TELA 1: LOGIN -->
+    <div class="screen active" id="loginScreen">
+      <div class="login-container">
+        <h2>Insira seu número de telefone</h2>
+        <p>O WhatsApp GB enviará um SMS para verificar seu número.</p>
+        
+        <div class="input-group">
+          <div class="country-input">
+            <span>País</span>
+            <input type="text" value="Brasil" readonly>
+          </div>
+          <div class="phone-input-row">
+            <input type="text" class="country-code" value="+55" placeholder="+55">
+            <input type="tel" class="phone-number" id="phoneInput" placeholder="Número de telefone">
+          </div>
+        </div>
+        
+        <button class="btn-next" id="loginBtn">Avançar</button>
+      </div>
+    </div>
     
-    <!-- TELA 1: CONVERSAS E CHAT (TELA INICIAL) -->
-    <div class="main-screen" id="mainScreen">
-      <!-- BARRA LATERAL (LISTA DE CONTATOS) -->
+    <!-- TELA 2: TELA INICIAL (CONVERSAS) -->
+    <div class="screen" id="mainScreen">
+      <!-- BARRA LATERAL (CONVERSAS E MENU) -->
       <aside class="sidebar">
         <header class="sidebar-header">
           <div class="user-profile">
             <div class="avatar" id="myAvatar">EU</div>
             <div>
-              <span id="myName">yuyu 愛</span>
-              <span class="gb-badge">GB PRO</span>
+              <span id="myName">WhatsApp GB</span>
             </div>
           </div>
-          <div>
-            <button class="icon-btn" id="openSettingsBtn" title="Configurações">⚙️</button>
+          <div class="header-actions">
+            <!-- BOTÃO DOS TRÊS PONTINHOS -->
+            <button class="icon-btn" id="menuToggleBtn" title="Menu">⋮</button>
+            
+            <!-- MENU DROPDOWN -->
+            <div class="dropdown-menu" id="dropdownMenu">
+              <div class="menu-item">Novo grupo</div>
+              <div class="menu-item">Nova comunidade</div>
+              <div class="menu-item">Lista de transmissão</div>
+              <div class="menu-item">Dispositivo conectado</div>
+              <div class="menu-item">Favoritos</div>
+              <div class="menu-item">Marca tudo lido</div>
+              <div class="menu-item">Pagamentos</div>
+              <div class="menu-item" id="goToSettingsBtn">Configurações</div>
+            </div>
           </div>
         </header>
 
-        <div class="chat-list" id="chatList"></div>
+        <div class="chat-list" id="chatList">
+          <!-- Exemplo de chat para preencher a tela -->
+          <div class="chat-item active">
+            <div class="avatar">GB</div>
+            <div class="chat-info">
+              <h4>Equipe GB</h4>
+              <p>Bem-vindo ao app!</p>
+            </div>
+          </div>
+        </div>
       </aside>
 
-      <!-- ÁREA PRINCIPAL DE MENSAGENS -->
+      <!-- ÁREA DE MENSAGENS -->
       <main class="content-area">
-        <header class="chat-header" id="chatHeader">
-          <div class="avatar" id="activeAvatar">?</div>
+        <header class="chat-header">
+          <div class="avatar">GB</div>
           <div class="chat-details">
-            <h3 id="activeName">Carregando...</h3>
-            <span class="status" id="activePhoneDisplay">+55 (83) 98888-0000</span>
+            <h3>Equipe GB</h3>
+            <span class="status">online</span>
           </div>
         </header>
-
-        <div class="messages-container" id="messagesContainer"></div>
-
+        <div class="messages-container">
+          <div class="message received">Seja bem-vindo ao WhatsApp GB! Teste as configurações no menu de 3 pontos.</div>
+        </div>
         <footer class="chat-input-area">
-          <form id="chatForm">
-            <input type="text" id="messageInput" placeholder="Digite uma mensagem..." autocomplete="off" />
-            <button type="submit">Enviar</button>
-          </form>
+          <div class="mock-input">Digite uma mensagem...</div>
         </footer>
       </main>
     </div>
 
-    <!-- TELA 2: CONFIGURAÇÕES (ESTILO DARK META) -->
-    <div class="settings-screen" id="settingsScreen">
+    <!-- TELA 3: CONFIGURAÇÕES -->
+    <div class="screen" id="settingsScreen">
       <header class="settings-header">
         <div class="header-left">
-          <!-- BOTÃO DE VOLTAR PARA AS CONVERSAS -->
-          <span class="back-btn" id="backToChatsBtn" title="Voltar para conversas">&#8592;</span>
-          <h1 class="header-title">yuyu 愛</h1>
+          <!-- BOTÃO VOLTAR -->
+          <span class="back-btn" id="backToMainBtn" title="Voltar">&#8592;</span>
+          <h1 class="header-title">Configurações</h1>
         </div>
         <div class="header-right">
           <span class="header-icon">🔍</span>
-          <span class="header-icon">🔳</span>
         </div>
       </header>
 
       <div class="settings-list">
-        <div class="setting-item">
-          <div class="icon">💳</div>
-          <div class="text-info">
-            <div class="title">Pagamentos</div>
-          </div>
-        </div>
+        <div class="setting-item"><div class="icon">💳</div><div class="title">Pagamentos</div></div>
+        <div class="setting-item"><div class="icon">🔑</div><div class="title">Conta</div></div>
+        <div class="setting-item"><div class="icon">🔒</div><div class="title">Privacidade</div></div>
+        <div class="setting-item"><div class="icon">📇</div><div class="title">Listas</div></div>
+        <div class="setting-item"><div class="icon">💬</div><div class="title">Conversas</div></div>
+        <div class="setting-item"><div class="icon">📢</div><div class="title">Lista de transmissão</div></div>
+        <div class="setting-item"><div class="icon">🔔</div><div class="title">Notificações</div></div>
+        <div class="setting-item"><div class="icon">⏳</div><div class="title">Armazenamento e dados</div></div>
+        <div class="setting-item"><div class="icon">🚶</div><div class="title">Acessibilidade</div></div>
+        <div class="setting-item"><div class="icon">🌐</div><div class="title">Idioma do app</div></div>
+        <div class="setting-item"><div class="icon">❓</div><div class="title">Ajuda e feedback</div></div>
+        <div class="setting-item"><div class="icon">👥</div><div class="title">Convidar amigos</div></div>
+        <div class="setting-item"><div class="icon">📲</div><div class="title">Atualizações do app</div></div>
 
-        <div class="setting-item">
-          <div class="icon">🔑</div>
-          <div class="text-info">
-            <div class="title">Conta</div>
-            <div class="subtitle">Notificações de segurança, mudança de número</div>
-          </div>
-        </div>
-
-        <div class="setting-item">
-          <div class="icon">🔒</div>
-          <div class="text-info">
-            <div class="title">Privacidade</div>
-            <div class="subtitle">Contas bloqueadas, mensagens temporárias</div>
-          </div>
-        </div>
-
-        <div class="setting-item">
-          <div class="icon">💬</div>
-          <div class="text-info">
-            <div class="title">Conversas</div>
-            <div class="subtitle">Tema, papel de parede, histórico de conversas</div>
-          </div>
-        </div>
-
-        <div class="setting-item">
-          <div class="icon">🔔</div>
-          <div class="text-info">
-            <div class="title">Notificações</div>
-            <div class="subtitle">Mensagens, grupos, ligações</div>
-          </div>
-        </div>
-
-        <!-- PAINEL CENTRAL META -->
+        <!-- SEÇÃO META -->
         <div class="meta-section">
           <div class="meta-header">
             <div class="meta-icon">∞</div>
@@ -116,13 +129,15 @@
           </div>
         </div>
 
+        <!-- LOGOS DA META -->
         <div class="meta-apps">
           <span class="meta-apps-title">Também da Meta</span>
           <div class="apps-grid">
             <div class="app-item"><div class="app-icon">📷</div><span>Instagram</span></div>
             <div class="app-item"><div class="app-icon">f</div><span>Facebook</span></div>
             <div class="app-item"><div class="app-icon">@</div><span>Threads</span></div>
-            <div class="app-item"><div class="app-icon">🌀</div><span>Meta AI</span></div>
+            <div class="app-item"><div class="app-icon">🌀</div><span>Meta AI App</span></div>
+            <div class="app-item"><div class="app-icon">▶</div><span>Vídeos App</span></div>
           </div>
         </div>
       </div>
@@ -132,4 +147,5 @@
 
   <script src="script.js"></script>
 </body>
-</html>
+                                    </html>
+                                    
