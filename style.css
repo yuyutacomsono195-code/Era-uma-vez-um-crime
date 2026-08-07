@@ -99,3 +99,44 @@ body {
 .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
 .modal-actions button { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: 500; background: none; color: #008069; }
 #confirmAddContact { background: #00a884; color: #fff; }
+/* Menu de contexto da mensagem */
+.message {
+  position: relative;
+  cursor: pointer;
+}
+
+.msg-menu {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #ffffff;
+  border: 1px solid #d1d7db;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  display: none;
+  flex-direction: column;
+  z-index: 10;
+  width: 130px;
+}
+
+.message:hover .msg-menu {
+  display: flex;
+}
+
+.msg-menu-item {
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #333;
+  cursor: pointer;
+  background: #fff;
+  border: none;
+  text-align: left;
+}
+
+.msg-menu-item:hover {
+  background-color: #f5f6f6;
+}
+
+.msg-menu-item.delete-for-everyone {
+  color: #ef5350;
+}
