@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WhatsApp GB Pro</title>
+  <title>WhatsApp</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,7 +14,7 @@
     <div class="screen active" id="loginScreen">
       <div class="login-container">
         <h2>Insira seu número de telefone</h2>
-        <p>O WhatsApp GB enviará um SMS para verificar seu número.</p>
+        <p>O WhatsApp verificará seu número de telefone.</p>
         
         <div class="input-group">
           <div class="country-input">
@@ -31,56 +31,59 @@
       </div>
     </div>
     
-    <!-- TELA 2: TELA INICIAL (CONVERSAS) -->
+    <!-- TELA 2: TELA INICIAL (ESTILO PLAY STORE) -->
     <div class="screen" id="mainScreen">
       <aside class="sidebar">
+        <!-- BARRA SUPERIOR ESTILO WHATSAPP ANDROID -->
         <header class="sidebar-header">
-          <div class="user-profile">
-            <div class="avatar" id="myAvatar">EU</div>
-            <div>
-              <span id="myName">WhatsApp GB</span>
+          <div class="whatsapp-top-bar">
+            <h2>WhatsApp</h2>
+            <div class="header-actions">
+              <button class="icon-btn" title="Pesquisar">🔍</button>
+              <button class="icon-btn" id="menuToggleBtn" title="Mais opções">⋮</button>
+              <div class="dropdown-menu" id="dropdownMenu">
+                <div class="menu-item">Novo grupo</div>
+                <div class="menu-item">Nova transmissão</div>
+                <div class="menu-item">Aparelhos conectados</div>
+                <div class="menu-item">Mensagens favoritas</div>
+                <div class="menu-item" id="goToSettingsBtn">Configurações</div>
+              </div>
             </div>
           </div>
-          <div class="header-actions">
-            <button class="icon-btn" id="menuToggleBtn" title="Menu">⋮</button>
-            <div class="dropdown-menu" id="dropdownMenu">
-              <div class="menu-item">Novo grupo</div>
-              <div class="menu-item">Nova comunidade</div>
-              <div class="menu-item">Lista de transmissão</div>
-              <div class="menu-item">Dispositivo conectado</div>
-              <div class="menu-item">Favoritos</div>
-              <div class="menu-item">Marca tudo lido</div>
-              <div class="menu-item">Pagamentos</div>
-              <div class="menu-item" id="goToSettingsBtn">Configurações</div>
-            </div>
+          <!-- ABAS DO WHATSAPP -->
+          <div class="whatsapp-tabs">
+            <span class="tab active">Conversas</span>
+            <span class="tab">Status</span>
+            <span class="tab">Chamadas</span>
           </div>
         </header>
 
         <div class="chat-list" id="chatList">
-          <!-- Os contatos serão gerados aqui via JS -->
+          <!-- Contatos gerados via JS -->
         </div>
 
-        <!-- BOTÃO DE NOVO CONTATO -->
-        <button class="fab-btn" id="newChatBtn" title="Novo Contato">+</button>
+        <button class="fab-btn" id="newChatBtn" title="Nova conversa">💬</button>
       </aside>
 
       <main class="content-area">
         <header class="chat-header">
-          <div class="avatar" id="activeChatAvatar">GB</div>
+          <div class="avatar" id="activeChatAvatar">W</div>
           <div class="chat-details">
-            <h3 id="activeChatName">Equipe GB</h3>
+            <h3 id="activeChatName">Contato</h3>
             <span class="status" id="chatStatus">online</span>
+          </div>
+          <div class="call-actions">
+            <button id="audioCallBtn" title="Chamada de voz">📞</button>
+            <button id="videoCallBtn" title="Chamada de vídeo">📹</button>
           </div>
         </header>
         
-        <div class="messages-container" id="messagesContainer">
-          <!-- Mensagens vão aparecer aqui -->
-        </div>
+        <div class="messages-container" id="messagesContainer"></div>
         
         <footer class="chat-input-area">
           <form id="chatForm">
-            <input type="text" id="msgInput" placeholder="Digite uma mensagem..." autocomplete="off">
-            <button type="submit" id="sendBtn">Enviar</button>
+            <input type="text" id="msgInput" placeholder="Mensagem" autocomplete="off">
+            <button type="submit" id="sendBtn">➤</button>
           </form>
         </footer>
       </main>
@@ -90,71 +93,33 @@
     <div class="screen" id="settingsScreen">
       <header class="settings-header">
         <div class="header-left">
-          <span class="back-btn" id="backToMainBtn" title="Voltar">&#8592;</span>
+          <span class="back-btn" id="backToMainBtn">&#8592;</span>
           <h1 class="header-title">Configurações</h1>
         </div>
       </header>
 
       <div class="settings-list">
-        
-        <!-- SEÇÃO: PERSONALIZAÇÃO -->
         <div class="customization-section">
-          <h3 class="section-title">✨ Personalização GB</h3>
-          
+          <h3 class="section-title">✨ Aparência</h3>
           <div class="custom-group">
             <span>Cor do Tema:</span>
             <div class="color-options">
-              <div class="color-dot" style="background: #00a884;" data-color="#00a884" title="Verde"></div>
-              <div class="color-dot" style="background: #1da1f2;" data-color="#1da1f2" title="Azul"></div>
-              <div class="color-dot" style="background: #9c27b0;" data-color="#9c27b0" title="Roxo"></div>
-              <div class="color-dot" style="background: #e91e63;" data-color="#e91e63" title="Rosa"></div>
+              <div class="color-dot" style="background: #00a884;" data-color="#00a884"></div>
+              <div class="color-dot" style="background: #1da1f2;" data-color="#1da1f2"></div>
+              <div class="color-dot" style="background: #9c27b0;" data-color="#9c27b0"></div>
             </div>
           </div>
-
-          <div class="custom-group">
-            <span>Estilo da Letra:</span>
-            <select id="fontSelector" class="custom-select">
-              <option value="'Poppins', sans-serif">Moderna</option>
-              <option value="'Courier New', Courier, monospace">Retro</option>
-              <option value="'Comic Sans MS', cursive, sans-serif">Divertida</option>
-            </select>
-          </div>
-
-          <div class="custom-group">
-            <span>Papel de Parede:</span>
-            <select id="wallpaperSelector" class="custom-select">
-              <option value="#0b141a">Escuro Padrão</option>
-              <option value="url('https://i.pinimg.com/736x/8c/98/99/8c98994518b575bfd8c949e91d20548b.jpg')">Doodles Clássico</option>
-              <option value="linear-gradient(to bottom right, #005c4b, #0b141a)">Degradê Elegante</option>
-              <option value="#1c262d">Cinza Escuro</option>
-            </select>
-          </div>
-
-          <div class="custom-group">
-            <span>Estilo do Balão:</span>
-            <select id="bubbleSelector" class="custom-select">
-              <option value="8px">Padrão</option>
-              <option value="20px">Redondo (Estilo iOS)</option>
-              <option value="0px">Quadrado (Retro)</option>
-            </select>
-          </div>
         </div>
-
-        <!-- LISTA PADRÃO -->
-        <div class="setting-item"><div class="icon">💳</div><div class="title">Pagamentos</div></div>
-        <div class="setting-item"><div class="icon">🔑</div><div class="title">Conta</div></div>
-        <div class="setting-item"><div class="icon">🔒</div><div class="title">Privacidade</div></div>
-        <div class="setting-item"><div class="icon">💬</div><div class="title">Conversas</div></div>
-        
-        <div class="setting-item" id="logoutBtn" style="margin-top: 20px;"><div class="icon">🚪</div><div class="title" style="color: #ef5350;">Sair (Fazer Logout)</div></div>
+        <div class="setting-item" id="logoutBtn"><div class="icon">🚪</div><div class="title" style="color: #ef5350;">Sair</div></div>
       </div>
     </div>
 
-    <!-- MODAL DE ADICIONAR CONTATO -->
+    <!-- MODAL NOVO CONTATO -->
     <div class="modal" id="addContactModal">
       <div class="modal-content">
-        <h3>Novo Contato</h3>
-        <input type="text" id="newContactName" placeholder="Nome da pessoa" autocomplete="off">
+        <h3>Nova Conversa</h3>
+        <input type="text" id="newContactName" placeholder="Nome do contato" autocomplete="off">
+        <input type="text" id="newContactPhone" placeholder="Número de telefone" autocomplete="off">
         <div class="modal-actions">
           <button id="cancelAddContact">Cancelar</button>
           <button id="confirmAddContact">Salvar</button>
@@ -166,5 +131,4 @@
 
   <script src="script.js"></script>
 </body>
-              </html>
-              
+</html>
