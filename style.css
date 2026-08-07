@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
 * {
   margin: 0;
@@ -9,7 +9,7 @@
 body {
   background-color: #080d11;
   color: #e0e6ea;
-  font-family: 'VT323', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -53,14 +53,18 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
+  font-weight: 500;
+  font-size: 15px;
 }
 
 .gb-badge {
   background-color: #00a884;
   color: #fff;
-  font-size: 11px;
+  font-size: 10px;
+  font-weight: 600;
   padding: 2px 6px;
   border-radius: 4px;
+  margin-left: 6px;
 }
 
 .avatar {
@@ -72,15 +76,24 @@ body {
   align-items: center;
   justify-content: center;
   color: #fff;
+  font-weight: 500;
+  font-size: 14px;
 }
 
 .icon-btn {
   background: none;
   border: none;
   color: #8696a0;
-  font-size: 20px;
+  font-size: 18px;
   cursor: pointer;
   padding: 8px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.icon-btn:hover {
+  background-color: #222d34;
+  color: #fff;
 }
 
 .chat-list {
@@ -94,15 +107,21 @@ body {
   padding: 12px 16px;
   gap: 12px;
   cursor: pointer;
-  border-bottom: 1px solid #222d34;
+  border-bottom: 1px solid #182229;
+  transition: background 0.2s;
 }
 
 .chat-item:hover {
-  background-color: #1f2c34;
+  background-color: #182229;
 }
 
 .chat-item.active {
-  background-color: #202c33;
+  background-color: #222d34;
+}
+
+.chat-item h4 {
+  font-size: 15px;
+  font-weight: 400;
 }
 
 .content-area {
@@ -119,6 +138,17 @@ body {
   align-items: center;
   padding: 0 16px;
   gap: 12px;
+  border-bottom: 1px solid #222d34;
+}
+
+.chat-details h3 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.chat-details .status {
+  font-size: 12px;
+  color: #8696a0;
 }
 
 .messages-container {
@@ -134,22 +164,28 @@ body {
   max-width: 65%;
   padding: 8px 12px;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 14px;
+  line-height: 1.4;
+  word-break: break-word;
 }
 
 .message.received {
   align-self: flex-start;
   background-color: #202c33;
+  color: #e9edef;
+  border-top-left-radius: 0;
 }
 
 .message.sent {
   align-self: flex-end;
   background-color: #005c4b;
+  color: #ffffff;
+  border-top-right-radius: 0;
 }
 
 .chat-input-area {
   background-color: #1f2c34;
-  padding: 10px;
+  padding: 10px 16px;
 }
 
 #chatForm {
@@ -159,23 +195,35 @@ body {
 
 #messageInput {
   flex: 1;
-  padding: 10px;
+  padding: 10px 14px;
   background: #2a3942;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   color: #fff;
-  font-size: 15px;
+  font-size: 14px;
   outline: none;
+  font-family: inherit;
+}
+
+#messageInput::placeholder {
+  color: #8696a0;
 }
 
 #chatForm button {
   background: #00a884;
   color: #fff;
   border: none;
-  padding: 10px 16px;
-  border-radius: 6px;
+  padding: 10px 18px;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 500;
+  font-size: 14px;
+  font-family: inherit;
+  transition: filter 0.2s;
+}
+
+#chatForm button:hover {
+  filter: brightness(0.9);
 }
 
 /* TELA DE CONFIGURAÇÕES */
@@ -203,16 +251,17 @@ body {
   justify-content: space-between;
   padding: 0 16px;
   background-color: #080d11;
+  border-bottom: 1px solid #141d24;
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 16px;
 }
 
 .back-btn {
-  font-size: 26px;
+  font-size: 22px;
   cursor: pointer;
   color: #e0e6ea;
   padding: 4px;
@@ -224,21 +273,24 @@ body {
 }
 
 .header-title {
-  font-size: 22px;
-  font-weight: normal;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .header-right {
   display: flex;
   gap: 16px;
+  font-size: 16px;
+  color: #8696a0;
 }
 
 .setting-item {
   display: flex;
   align-items: center;
-  padding: 16px 20px;
+  padding: 14px 20px;
   gap: 20px;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
 .setting-item:hover {
@@ -246,20 +298,22 @@ body {
 }
 
 .setting-item .icon {
-  font-size: 20px;
-  width: 28px;
+  font-size: 18px;
+  width: 24px;
   text-align: center;
   color: #a0acb5;
 }
 
 .text-info .title {
-  font-size: 18px;
+  font-size: 15px;
   color: #ffffff;
+  font-weight: 400;
 }
 
 .text-info .subtitle {
-  font-size: 14px;
+  font-size: 12px;
   color: #7d8b96;
+  margin-top: 2px;
 }
 
 .meta-section {
@@ -273,15 +327,21 @@ body {
   gap: 16px;
 }
 
+.meta-icon {
+  font-size: 20px;
+  color: #00a884;
+}
+
 .meta-apps {
   padding: 10px 20px 30px 20px;
 }
 
 .meta-apps-title {
-  font-size: 13px;
+  font-size: 12px;
   color: #5d6c77;
   display: block;
   margin-bottom: 15px;
+  font-weight: 500;
 }
 
 .apps-grid {
@@ -297,12 +357,18 @@ body {
   cursor: pointer;
 }
 
+.app-item span {
+  font-size: 11px;
+  color: #8696a0;
+}
+
 .app-icon {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   background-color: #111a21;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  }
+  font-size: 16px;
+}
