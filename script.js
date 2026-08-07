@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const loginScreen = document.getElementById('loginScreen');
+  const verifyScreen = document.getElementById('verifyScreen');
   const mainScreen = document.getElementById('mainScreen');
   const settingsScreen = document.getElementById('settingsScreen');
   
@@ -236,9 +237,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if(audioCallBtn) audioCallBtn.addEventListener('click', () => makeCall(false));
   if(videoCallBtn) videoCallBtn.addEventListener('click', () => makeCall(true));
 
-  // Login e Navegação
+  // Fluxo de Login com Verificação de Código
   if (localStorage.getItem('whatsapp_phone')) {
     loginScreen.classList.remove('active'); 
+    verifyScreen.classList.remove('active');
     mainScreen.classList.add('active');
     renderChatList(); 
     renderMessages();
@@ -246,13 +248,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const loginBtn = document.getElementById('loginBtn');
   const phoneInput = document.getElementById('phoneInput');
+  const verifyBtn = document.getElementById('verifyBtn');
+  const verifyCodeInput = document.getElementById('verifyCodeInput');
   const logoutBtn = document.getElementById('logoutBtn');
 
   if(loginBtn) {
     loginBtn.addEventListener('click', () => {
-      if(phoneInput && !phoneInput.value.trim()) return alert("Insira o número.");
+      if(phoneInput && !phoneInput.value.trim()) return alert("Insira o número de telefone.");
+      // Vai para a tela de verificação de código
+      loginScreen.classList.remove('active');
+      verifyScreen.classList.add('active');
+      if(verifyCodeInput) verifyCodeInput.focus();
+    });
+  }
+
+  if(verifyBtn) {
+    verifyBtn.addEventListener('click', () => {
+      const code = verifyCodeInput ? verifyCodeInput.value.trim() : '';
+      if(code.length < 4) return alert("Insira um código válido.");
+
       localStorage.setItem('whatsapp_phone', phoneInput ? phoneInput.value : 'active');
-      loginScreen.classList.remove('active'); 
+      verifyScreen.classList.remove('active'); 
       mainScreen.classList.add('active');
       renderChatList(); 
       renderMessages();
@@ -264,6 +280,8 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.removeItem('whatsapp_phone');
       settingsScreen.classList.remove('active'); 
       loginScreen.classList.add('active');
+      if(phoneInput) phoneInput.value = '';
+      if(verifyCodeInput) verifyCodeInput.value = '';
     });
   }
 
@@ -292,4 +310,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
-                          
+  
