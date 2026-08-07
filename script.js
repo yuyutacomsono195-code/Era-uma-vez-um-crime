@@ -4,12 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const mainScreen = document.getElementById('mainScreen');
   const settingsScreen = document.getElementById('settingsScreen');
 
-  // ELEMENTOS DO LOGIN
+  // ELEMENTOS
   const loginBtn = document.getElementById('loginBtn');
   const phoneInput = document.getElementById('phoneInput');
   const logoutBtn = document.getElementById('logoutBtn');
-
-  // ELEMENTOS DO CHAT E MENU
   const menuToggleBtn = document.getElementById('menuToggleBtn');
   const dropdownMenu = document.getElementById('dropdownMenu');
   const goToSettingsBtn = document.getElementById('goToSettingsBtn');
@@ -21,33 +19,56 @@ document.addEventListener('DOMContentLoaded', () => {
   const lastMessagePreview = document.getElementById('lastMessagePreview');
 
   // ==========================================
-  // 1. LÓGICA DE LOGIN (Salva no LocalStorage)
+  // PERSONALIZAÇÃO (CORES E FONTES)
   // ==========================================
-  
-  // Verifica se o usuário já fez login antes
+  const colorDots = document.querySelectorAll('.color-dot');
+  const fontSelector = document.getElementById('fontSelector');
+
+  // Carrega as configurações salvas ou usa o padrão
+  const savedColor = localStorage.getItem('gb_theme_color') || '#00a884';
+  const savedFont = localStorage.getItem('gb_theme_font') || "'Poppins', sans-serif";
+
+  // Aplica as configurações salvas assim que a página abre
+  document.documentElement.style.setProperty('--primary-color', savedColor);
+  document.documentElement.style.setProperty('--app-font', savedFont);
+  fontSelector.value = savedFont;
+
+  // Muda a cor quando clica nas bolinhas coloridas
+  colorDots.forEach(dot => {
+    dot.addEventListener('click', (e) => {
+      const selectedColor = e.target.getAttribute('data-color');
+      document.documentElement.style.setProperty('--primary-color', selectedColor);
+      localStorage.setItem('gb_theme_color', selectedColor); // Salva no navegador
+    });
+  });
+
+  // Muda a fonte quando seleciona no menu
+  fontSelector.addEventListener('change', (e) => {
+    const selectedFont = e.target.value;
+    document.documentElement.style.setProperty('--app-font', selectedFont);
+    localStorage.setItem('gb_theme_font', selectedFont); // Salva no navegador
+  });
+
+  // ==========================================
+  // LÓGICA DE LOGIN 
+  // ==========================================
   const savedPhone = localStorage.getItem('gb_user_phone');
   if (savedPhone) {
     loginScreen.classList.remove('active');
     mainScreen.classList.add('active');
   }
 
-  // Fazer Login
   loginBtn.addEventListener('click', () => {
     const phoneNumber = phoneInput.value.trim();
     if(phoneNumber === '') {
       alert("Por favor, insira seu número para continuar.");
       return;
     }
-    
-    // Salva o número no navegador
     localStorage.setItem('gb_user_phone', phoneNumber);
-    
-    // Troca de tela
     loginScreen.classList.remove('active');
     mainScreen.classList.add('active');
   });
 
-  // Fazer Logout (Botão adicionado nas configurações)
   logoutBtn.addEventListener('click', () => {
     localStorage.removeItem('gb_user_phone');
     settingsScreen.classList.remove('active');
@@ -56,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ==========================================
-  // 2. LÓGICA DO MENU DE 3 PONTINHOS
+  // LÓGICA DO MENU DE 3 PONTINHOS
   // ==========================================
   menuToggleBtn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -81,46 +102,36 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ==========================================
-  // 3. LÓGICA DO CHAT (Envio e Resposta Automática)
+  // LÓGICA DO CHAT (Envio e Resposta Automática)
   // ==========================================
-  
-  // Função para criar a bolha de mensagem na tela
   function addMessage(text, type) {
     const msgDiv = document.createElement('div');
     msgDiv.classList.add('message', type);
     msgDiv.innerText = text;
     messagesContainer.appendChild(msgDiv);
-    
-    // Rola para a mensagem mais recente
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    
-    // Atualiza o preview na barra lateral
     lastMessagePreview.innerText = text;
   }
 
-  // Evento de envio do formulário
   chatForm.addEventListener('submit', (e) => {
-    e.preventDefault(); // Impede a página de recarregar
+    e.preventDefault(); 
     
     const text = msgInput.value.trim();
-    if (!text) return; // Não envia vazio
+    if (!text) return; 
 
-    // Adiciona a mensagem que o usuário enviou
     addMessage(text, 'sent');
-    msgInput.value = ''; // Limpa o input
+    msgInput.value = ''; 
     
-    // Simula a Equipe GB "Digitando..."
     setTimeout(() => {
       chatStatus.innerText = "digitando...";
-      chatStatus.style.color = "#00a884";
+      // Usa a cor primária dinâmica para o status
+      chatStatus.style.color = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
     }, 500);
 
-    // Simula a resposta da Equipe GB após 2 segundos
     setTimeout(() => {
-      addMessage("Esta é uma resposta automática do sistema GB! Tudo funcionando perfeitamente.", 'received');
+      addMessage("As configurações de personalização já estão funcionando!", 'received');
       chatStatus.innerText = "online";
       chatStatus.style.color = "#8696a0";
     }, 2500);
   });
 });
-                                   
