@@ -1,14 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Dados de conversas iniciais
+  // Lista inicial de contatos
   const contacts = [
-    { id: '1', name: 'Maria Silva', avatar: 'MS', messages: [{ text: 'Oi! Conseguiu abrir o app?', type: 'received' }] },
-    { id: '2', name: 'Lucas Dev', avatar: 'LD', messages: [{ text: 'Testando a setinha de voltar!', type: 'received' }] }
+    { 
+      id: '1', 
+      name: 'Maria Silva', 
+      phone: '+55 (83) 98877-6655',
+      avatar: 'MS', 
+      messages: [{ text: 'Oi! Conseguiu abrir o app?', type: 'received' }] 
+    },
+    { 
+      id: '2', 
+      name: 'Lucas Dev', 
+      phone: '+55 (83) 99911-2233',
+      avatar: 'LD', 
+      messages: [{ text: 'Testando a setinha de voltar!', type: 'received' }] 
+    }
   ];
 
   let activeChatId = contacts[0].id;
 
-  // Elementos do DOM
-  const mainScreen = document.getElementById('mainScreen');
+  // Seletores do DOM
   const settingsScreen = document.getElementById('settingsScreen');
   const openSettingsBtn = document.getElementById('openSettingsBtn');
   const backToChatsBtn = document.getElementById('backToChatsBtn');
@@ -17,21 +28,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const messagesContainer = document.getElementById('messagesContainer');
   const activeName = document.getElementById('activeName');
   const activeAvatar = document.getElementById('activeAvatar');
+  const activePhoneDisplay = document.getElementById('activePhoneDisplay');
   const chatForm = document.getElementById('chatForm');
   const messageInput = document.getElementById('messageInput');
 
-  // --- NAVEGAÇÃO DE TELAS ---
-  // ABRIR CONFIGURAÇÕES
+  // --- CONTROLE DE TELAS (ABRIR / VOLTAR) ---
   openSettingsBtn.addEventListener('click', () => {
     settingsScreen.classList.add('active');
   });
 
-  // CLIQUE NA SETINHA: VOLTAR PARA A TELA INICIAL DE CONVERSAS
   backToChatsBtn.addEventListener('click', () => {
     settingsScreen.classList.remove('active');
   });
 
-  // --- LÓGICA DAS CONVERSAS ---
+  // --- GERENCIAMENTO DE CONVERSAS ---
   function renderChatList() {
     chatList.innerHTML = '';
     contacts.forEach(contact => {
@@ -60,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     activeName.textContent = contact.name;
     activeAvatar.textContent = contact.avatar;
+    activePhoneDisplay.textContent = contact.phone;
     messagesContainer.innerHTML = '';
 
     contact.messages.forEach(msg => {
@@ -72,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
   }
 
+  // --- ENVIO E RESPOSTA AUTOMÁTICA ---
   chatForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const text = messageInput.value.trim();
@@ -83,13 +95,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderMessages();
 
+    // Simulação de resposta recebida após 1 segundo
     setTimeout(() => {
-      contact.messages.push({ text: 'Mensagem recebida!', type: 'received' });
+      contact.messages.push({ text: 'Mensagem recebida com sucesso!', type: 'received' });
       renderMessages();
     }, 1000);
   });
 
-  // Inicialização
+  // Inicialização do aplicativo
   renderChatList();
   renderMessages();
 });
+      
