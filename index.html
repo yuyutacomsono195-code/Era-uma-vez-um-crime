@@ -31,10 +31,9 @@
       </div>
     </div>
     
-    <!-- TELA 2: TELA INICIAL (ESTILO PLAY STORE) -->
+    <!-- TELA 2: TELA PRINCIPAL -->
     <div class="screen" id="mainScreen">
       <aside class="sidebar">
-        <!-- BARRA SUPERIOR ESTILO WHATSAPP ANDROID -->
         <header class="sidebar-header">
           <div class="whatsapp-top-bar">
             <h2>WhatsApp</h2>
@@ -44,22 +43,27 @@
               <div class="dropdown-menu" id="dropdownMenu">
                 <div class="menu-item">Novo grupo</div>
                 <div class="menu-item">Nova transmissão</div>
-                <div class="menu-item">Aparelhos conectados</div>
-                <div class="menu-item">Mensagens favoritas</div>
                 <div class="menu-item" id="goToSettingsBtn">Configurações</div>
               </div>
             </div>
           </div>
-          <!-- ABAS DO WHATSAPP -->
           <div class="whatsapp-tabs">
-            <span class="tab active">Conversas</span>
-            <span class="tab">Status</span>
-            <span class="tab">Chamadas</span>
+            <span class="tab active" data-tab="chats">Conversas</span>
+            <span class="tab" data-tab="status">Status</span>
+            <span class="tab" data-tab="calls">Chamadas</span>
           </div>
         </header>
 
-        <div class="chat-list" id="chatList">
-          <!-- Contatos gerados via JS -->
+        <div class="chat-list" id="chatList"></div>
+
+        <div class="tab-content" id="statusTabContent" style="display: none; padding: 20px; color: #667781;">
+          <h3>Status</h3>
+          <p style="margin-top: 10px; font-size: 14px;">Nenhuma atualização recente</p>
+        </div>
+
+        <div class="tab-content" id="callsTabContent" style="display: none; padding: 20px; color: #667781;">
+          <h3>Chamadas</h3>
+          <p style="margin-top: 10px; font-size: 14px;">Para ligar, abra uma conversa e clique nos ícones no topo.</p>
         </div>
 
         <button class="fab-btn" id="newChatBtn" title="Nova conversa">💬</button>
@@ -82,8 +86,10 @@
         
         <footer class="chat-input-area">
           <form id="chatForm">
+            <button type="button" class="media-btn" onclick="takeCameraPhoto()" title="Tirar foto">📷</button>
             <input type="text" id="msgInput" placeholder="Mensagem" autocomplete="off">
-            <button type="submit" id="sendBtn">➤</button>
+            <button type="button" class="media-btn" onclick="toggleAudioRecord()" title="Gravar áudio">🎤</button>
+            <button type="submit" id="sendBtn" title="Enviar">➤</button>
           </form>
         </footer>
       </main>
@@ -121,8 +127,8 @@
         <input type="text" id="newContactName" placeholder="Nome do contato" autocomplete="off">
         <input type="text" id="newContactPhone" placeholder="Número de telefone" autocomplete="off">
         <div class="modal-actions">
-          <button id="cancelAddContact">Cancelar</button>
-          <button id="confirmAddContact">Salvar</button>
+          <button id="cancelAddContact" type="button">Cancelar</button>
+          <button id="confirmAddContact" type="button">Salvar</button>
         </div>
       </div>
     </div>
@@ -131,4 +137,5 @@
 
   <script src="script.js"></script>
 </body>
-</html>
+    </html>
+    
