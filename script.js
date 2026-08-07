@@ -311,3 +311,46 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
   
+  function renderMessages() {
+    messagesContainer.innerHTML = '';
+    activeChatName.innerText = currentChat;
+    activeChatAvatar.innerText = currentChat.substring(0, 2).toUpperCase();
+    
+    let chatObj = chatsData[currentChat];
+    let msgs = chatObj ? chatObj.messages : [];
+    
+    msgs.forEach((msg, index) => {
+      const div = document.createElement('div');
+      div.className = `message ${msg.type}`;
+      
+      let contentHtml = msg.html || msg.text;
+      
+      // Adiciona o menu flutuante em cada mensagem
+      div.innerHTML = `
+        ${contentHtml}
+        <div class="msg-menu">
+          <button class="msg-menu-item" onclick="deleteMessage(${index}, 'me')">Apagar para mim</button>
+          ${msg.type === 'sent' ? `<button class="msg-menu-item delete-for-everyone" onclick="deleteMessage(${index}, 'everyone')">Apagar para todos</button>` : ''}
+        </div>
+      `;
+      
+      messagesContainer.appendChild(div);
+    });
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+
+  // Função global para apagar a mensagem
+  window.deleteMessage = function(index, type) {
+    if (!chatsData[currentChat]) return;
+
+    if (type === 'everyone') {
+      chatsData[currentChat].messages[index] = { text: 'Esta mensagem foi apagada.', type: chatsData[currentChat].messages[index].type };
+    } else {
+      // Apaga totalmente do array se for para mim
+      chatsData[currentChat].messages.splice(index, 1);
+    }
+
+    saveChats();
+    renderMessages();
+    renderChatList();
+  };
