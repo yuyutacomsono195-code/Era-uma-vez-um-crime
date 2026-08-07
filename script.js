@@ -6,14 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
       name: 'Maria Silva', 
       phone: '+55 (83) 98877-6655',
       avatar: 'MS', 
-      messages: [{ text: 'Oi! Conseguiu abrir o app?', type: 'received' }] 
+      messages: [{ text: 'Oi! A fonte nova ficou muito bonita!', type: 'received' }] 
     },
     { 
       id: '2', 
       name: 'Lucas Dev', 
       phone: '+55 (83) 99911-2233',
       avatar: 'LD', 
-      messages: [{ text: 'Testando a setinha de voltar!', type: 'received' }] 
+      messages: [{ text: 'Ficou bem moderno o visual.', type: 'received' }] 
     }
   ];
 
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Simulação de resposta recebida após 1 segundo
     setTimeout(() => {
-      contact.messages.push({ text: 'Mensagem recebida com sucesso!', type: 'received' });
+      contact.messages.push({ text: 'Mensagem recebida!', type: 'received' });
       renderMessages();
     }, 1000);
   });
@@ -106,4 +106,4 @@ document.addEventListener('DOMContentLoaded', () => {
   renderChatList();
   renderMessages();
 });
-      
+    
