@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
 * {
   margin: 0;
@@ -9,34 +9,193 @@
 body {
   background-color: #080d11;
   color: #e0e6ea;
-  font-family: 'VT323', monospace, sans-serif;
+  font-family: 'VT323', -apple-system, sans-serif;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  overflow: hidden;
 }
 
-.settings-container {
-  width: 100%;
-  max-width: 412px;
+.app-container {
+  width: 100vw;
   height: 100vh;
-  background-color: #080d11;
+  position: relative;
+  background-color: #0b141a;
+}
+
+/* TELA DE CONVERSAS */
+.main-screen {
   display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.sidebar {
+  width: 30%;
+  min-width: 300px;
+  border-right: 1px solid #222d34;
+  background-color: #111b21;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  height: 60px;
+  background-color: #1f2c34;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.gb-badge {
+  background-color: #00a884;
+  color: #fff;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #6b7c85;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: #8696a0;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.chat-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.chat-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #222d34;
+}
+
+.chat-item.active {
+  background-color: #202c33;
+}
+
+.content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #0b141a;
+}
+
+.chat-header {
+  height: 60px;
+  background-color: #1f2c34;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+}
+
+.messages-container {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.message {
+  max-width: 65%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.message.received {
+  align-self: flex-start;
+  background-color: #202c33;
+}
+
+.message.sent {
+  align-self: flex-end;
+  background-color: #005c4b;
+}
+
+.chat-input-area {
+  background-color: #1f2c34;
+  padding: 10px;
+}
+
+#chatForm {
+  display: flex;
+  gap: 10px;
+}
+
+#messageInput {
+  flex: 1;
+  padding: 10px;
+  background: #2a3942;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+}
+
+#chatForm button {
+  background: #00a884;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* TELA DE CONFIGURAÇÕES (DARK META) */
+.settings-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #080d11;
+  z-index: 100;
+  display: none; /* Escondido por padrão */
   flex-direction: column;
   overflow-y: auto;
 }
 
-/* CABEÇALHO */
+.settings-screen.active {
+  display: flex; /* Exibe quando está ativo */
+}
+
 .settings-header {
   height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  position: sticky;
-  top: 0;
   background-color: #080d11;
-  z-index: 10;
 }
 
 .header-left {
@@ -46,27 +205,24 @@ body {
 }
 
 .back-btn {
-  font-size: 22px;
+  font-size: 26px;
   cursor: pointer;
+  color: #e0e6ea;
+  padding: 4px;
+}
+
+.back-btn:hover {
+  color: #00a884;
 }
 
 .header-title {
   font-size: 22px;
   font-weight: normal;
-  letter-spacing: 1px;
 }
 
 .header-right {
   display: flex;
   gap: 16px;
-  font-size: 18px;
-}
-
-/* LISTA DE OPÇÕES */
-.settings-list {
-  display: flex;
-  flex-direction: column;
-  padding: 8px 0;
 }
 
 .setting-item {
@@ -75,10 +231,9 @@ body {
   padding: 16px 20px;
   gap: 20px;
   cursor: pointer;
-  transition: background 0.2s;
 }
 
-.setting-item:active {
+.setting-item:hover {
   background-color: #121a21;
 }
 
@@ -89,16 +244,9 @@ body {
   color: #a0acb5;
 }
 
-.text-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
 .text-info .title {
   font-size: 18px;
   color: #ffffff;
-  letter-spacing: 0.5px;
 }
 
 .text-info .subtitle {
@@ -106,7 +254,6 @@ body {
   color: #7d8b96;
 }
 
-/* SEÇÃO CENTRAL DE CONTAS META */
 .meta-section {
   margin-top: 15px;
   padding: 20px;
@@ -118,12 +265,6 @@ body {
   gap: 16px;
 }
 
-.meta-icon {
-  font-size: 24px;
-  color: #ffffff;
-}
-
-/* REDES SOCIAIS DA META NO RODAPÉ */
 .meta-apps {
   padding: 10px 20px 30px 20px;
 }
@@ -137,9 +278,7 @@ body {
 
 .apps-grid {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  text-align: center;
+  justify-content: space-around;
 }
 
 .app-item {
@@ -158,11 +297,4 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  color: #fff;
-}
-
-.app-item span {
-  font-size: 12px;
-  color: #8c9ba5;
 }
