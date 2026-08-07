@@ -30,6 +30,20 @@
         <button class="btn-next" id="loginBtn">Avançar</button>
       </div>
     </div>
+
+    <!-- TELA 1.1: VERIFICAÇÃO DE CÓDIGO (SMS) -->
+    <div class="screen" id="verifyScreen">
+      <div class="login-container">
+        <h2>Insira o código de confirmação</h2>
+        <p>Enviamos um SMS com o código para o seu número.</p>
+        
+        <div class="input-group" style="border-bottom: 2px solid var(--primary-color);">
+          <input type="text" id="verifyCodeInput" placeholder="------" maxlength="6" autocomplete="off" style="width: 100%; padding: 12px; font-size: 24px; text-align: center; letter-spacing: 8px; border: none; background: transparent; outline: none; color: #333;">
+        </div>
+        
+        <button class="btn-next" id="verifyBtn">Confirmar Código</button>
+      </div>
+    </div>
     
     <!-- TELA 2: TELA PRINCIPAL -->
     <div class="screen" id="mainScreen">
@@ -137,5 +151,5 @@
 
   <script src="script.js"></script>
 </body>
-    </html>
-    
+                </html>
+                
