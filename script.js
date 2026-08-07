@@ -15,12 +15,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   // BANCO DE DADOS (CONTATOS E MENSAGENS)
   // ==========================================
-  let chatsData = {
+  let chatsData = JSON.parse(localStorage.getItem('gb_chats_data')) || {
     'Equipe GB': [
-      { text: 'Seja bem-vindo ao WhatsApp GB! Teste os novos temas e adicione contatos.', type: 'received' }
+      { text: 'Seja bem-vindo ao WhatsApp GB! Clique no botão + para adicionar uma nova conversa.', type: 'received' }
     ]
   };
-  let currentChat = 'Equipe GB';
+  let currentChat = localStorage.getItem('gb_current_chat') || 'Equipe GB';
+
+  function saveChats() {
+    localStorage.setItem('gb_chats_data', JSON.stringify(chatsData));
+  }
 
   function renderChatList() {
     chatListEl.innerHTML = '';
@@ -38,9 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
           <p>${lastMsg}</p>
         </div>
       `;
-      // Clica para trocar de chat
+      // Clica para trocar de conversa
       item.addEventListener('click', () => {
         currentChat = contact;
+        localStorage.setItem('gb_current_chat', currentChat);
         renderChatList();
         renderMessages();
       });
@@ -64,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================
-  // ADICIONAR NOVO CONTATO
+  // ADICIONAR NOVA CONVERSA (MODAL)
   // ==========================================
   const newChatBtn = document.getElementById('newChatBtn');
   const addContactModal = document.getElementById('addContactModal');
@@ -72,20 +77,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const confirmAddContact = document.getElementById('confirmAddContact');
   const newContactName = document.getElementById('newContactName');
 
-  newChatBtn.addEventListener('click', () => { addContactModal.classList.add('active'); });
-  cancelAddContact.addEventListener('click', () => { addContactModal.classList.remove('active'); newContactName.value = ''; });
+  newChatBtn.addEventListener('click', () => { 
+    addContactModal.classList.add('active'); 
+    newContactName.focus();
+  });
+
+  cancelAddContact.addEventListener('click', () => { 
+    addContactModal.classList.remove('active'); 
+    newContactName.value = ''; 
+  });
   
   confirmAddContact.addEventListener('click', () => {
     let name = newContactName.value.trim();
-    if (name && !chatsData[name]) {
-      chatsData[name] = []; // Cria a conversa vazia
-      currentChat = name; // Muda pra ela
+    if (name) {
+      if (!chatsData[name]) {
+        chatsData[name] = [
+          { text: `Conversa iniciada com ${name}. Diga olá!`, type: 'received' }
+        ];
+      }
+      currentChat = name;
+      localStorage.setItem('gb_current_chat', currentChat);
+      saveChats();
       renderChatList();
       renderMessages();
       addContactModal.classList.remove('active');
       newContactName.value = '';
-    } else if (chatsData[name]) {
-      alert('Esse contato já existe!');
+    } else {
+      alert('Por favor, digite um nome válido.');
+    }
+  });
+
+  // Permitir salvar apertando a tecla "Enter" no input do modal
+  newContactName.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      confirmAddContact.click();
     }
   });
 
@@ -97,22 +122,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const text = msgInput.value.trim();
     if (!text) return;
 
+    if (!chatsData[currentChat]) {
+      chatsData[currentChat] = [];
+    }
+
     // Salva a msg enviada
     chatsData[currentChat].push({ text: text, type: 'sent' });
     msgInput.value = '';
+    saveChats();
     renderMessages();
     renderChatList(); // Atualiza a prévia na barra lateral
 
-    // Simula resposta após 1.5s
+    // Simula resposta automática após alguns segundos
     setTimeout(() => {
       chatStatus.innerText = "digitando...";
       chatStatus.style.color = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
     }, 500);
 
     setTimeout(() => {
-      chatsData[currentChat].push({ text: `Oi! Você enviou: "${text}"`, type: 'received' });
+      chatsData[currentChat].push({ text: `Mensagem recebida de ${currentChat}: "${text}"`, type: 'received' });
       chatStatus.innerText = "online";
       chatStatus.style.color = "#8696a0";
+      saveChats();
       renderMessages();
       renderChatList();
     }, 2000);
@@ -126,7 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const wallpaperSelector = document.getElementById('wallpaperSelector');
   const bubbleSelector = document.getElementById('bubbleSelector');
 
-  // Load Saved
   const savedColor = localStorage.getItem('gb_theme_color') || '#00a884';
   const savedFont = localStorage.getItem('gb_theme_font') || "'Poppins', sans-serif";
   const savedBg = localStorage.getItem('gb_theme_bg') || '#0b141a';
@@ -137,9 +167,9 @@ document.addEventListener('DOMContentLoaded', () => {
   document.documentElement.style.setProperty('--chat-bg', savedBg);
   document.documentElement.style.setProperty('--bubble-radius', savedBubble);
   
-  fontSelector.value = savedFont;
-  wallpaperSelector.value = savedBg;
-  bubbleSelector.value = savedBubble;
+  if(fontSelector) fontSelector.value = savedFont;
+  if(wallpaperSelector) wallpaperSelector.value = savedBg;
+  if(bubbleSelector) bubbleSelector.value = savedBubble;
 
   colorDots.forEach(dot => {
     dot.addEventListener('click', (e) => {
@@ -149,52 +179,91 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  fontSelector.addEventListener('change', (e) => {
-    document.documentElement.style.setProperty('--app-font', e.target.value);
-    localStorage.setItem('gb_theme_font', e.target.value);
-  });
+  if(fontSelector) {
+    fontSelector.addEventListener('change', (e) => {
+      document.documentElement.style.setProperty('--app-font', e.target.value);
+      localStorage.setItem('gb_theme_font', e.target.value);
+    });
+  }
 
-  wallpaperSelector.addEventListener('change', (e) => {
-    document.documentElement.style.setProperty('--chat-bg', e.target.value);
-    localStorage.setItem('gb_theme_bg', e.target.value);
-  });
+  if(wallpaperSelector) {
+    wallpaperSelector.addEventListener('change', (e) => {
+      document.documentElement.style.setProperty('--chat-bg', e.target.value);
+      localStorage.setItem('gb_theme_bg', e.target.value);
+    });
+  }
 
-  bubbleSelector.addEventListener('change', (e) => {
-    document.documentElement.style.setProperty('--bubble-radius', e.target.value);
-    localStorage.setItem('gb_theme_bubble', e.target.value);
-  });
+  if(bubbleSelector) {
+    bubbleSelector.addEventListener('change', (e) => {
+      document.documentElement.style.setProperty('--bubble-radius', e.target.value);
+      localStorage.setItem('gb_theme_bubble', e.target.value);
+    });
+  }
 
   // ==========================================
   // NAVEGAÇÃO E LOGIN 
   // ==========================================
   if (localStorage.getItem('gb_user_phone')) {
-    loginScreen.classList.remove('active'); mainScreen.classList.add('active');
-    renderChatList(); renderMessages();
+    loginScreen.classList.remove('active'); 
+    mainScreen.classList.add('active');
+    renderChatList(); 
+    renderMessages();
   }
 
-  document.getElementById('loginBtn').addEventListener('click', () => {
-    if(document.getElementById('phoneInput').value.trim() === '') return alert("Insira o número.");
-    localStorage.setItem('gb_user_phone', 'logged');
-    loginScreen.classList.remove('active'); mainScreen.classList.add('active');
-    renderChatList(); renderMessages();
-  });
+  const loginBtn = document.getElementById('loginBtn');
+  const phoneInput = document.getElementById('phoneInput');
+  const logoutBtn = document.getElementById('logoutBtn');
 
-  document.getElementById('logoutBtn').addEventListener('click', () => {
-    localStorage.removeItem('gb_user_phone');
-    settingsScreen.classList.remove('active'); loginScreen.classList.add('active');
-  });
+  if(loginBtn) {
+    loginBtn.addEventListener('click', () => {
+      if(phoneInput && phoneInput.value.trim() === '') return alert("Insira o número.");
+      localStorage.setItem('gb_user_phone', phoneInput ? phoneInput.value : 'logged');
+      loginScreen.classList.remove('active'); 
+      mainScreen.classList.add('active');
+      renderChatList(); 
+      renderMessages();
+    });
+  }
+
+  if(logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('gb_user_phone');
+      settingsScreen.classList.remove('active'); 
+      loginScreen.classList.add('active');
+    });
+  }
 
   const menuToggleBtn = document.getElementById('menuToggleBtn');
   const dropdownMenu = document.getElementById('dropdownMenu');
-  menuToggleBtn.addEventListener('click', (e) => { e.stopPropagation(); dropdownMenu.classList.toggle('show'); });
-  document.addEventListener('click', (e) => { if (!dropdownMenu.contains(e.target) && e.target !== menuToggleBtn) dropdownMenu.classList.remove('show'); });
+  
+  if(menuToggleBtn && dropdownMenu) {
+    menuToggleBtn.addEventListener('click', (e) => { 
+      e.stopPropagation(); 
+      dropdownMenu.classList.toggle('show'); 
+    });
+    document.addEventListener('click', (e) => { 
+      if (!dropdownMenu.contains(e.target) && e.target !== menuToggleBtn) {
+        dropdownMenu.classList.remove('show');
+      } 
+    });
+  }
 
-  document.getElementById('goToSettingsBtn').addEventListener('click', () => {
-    dropdownMenu.classList.remove('show'); mainScreen.classList.remove('active'); settingsScreen.classList.add('active');
-  });
-  document.getElementById('backToMainBtn').addEventListener('click', () => {
-    settingsScreen.classList.remove('active'); mainScreen.classList.add('active');
-  });
+  const goToSettingsBtn = document.getElementById('goToSettingsBtn');
+  const backToMainBtn = document.getElementById('backToMainBtn');
 
+  if(goToSettingsBtn) {
+    goToSettingsBtn.addEventListener('click', () => {
+      dropdownMenu.classList.remove('show'); 
+      mainScreen.classList.remove('active'); 
+      settingsScreen.classList.add('active');
+    });
+  }
+  
+  if(backToMainBtn) {
+    backToMainBtn.addEventListener('click', () => {
+      settingsScreen.classList.remove('active'); 
+      mainScreen.classList.add('active');
+    });
+  }
 });
-        
+                          
