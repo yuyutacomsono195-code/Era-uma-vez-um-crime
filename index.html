@@ -2,154 +2,42 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WhatsApp</title>
+  <title>Clone do Instagram</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div class="app-container">
+    <!-- Cabeçalho -->
+    <header class="navbar">
+      <h1>InstaClone</h1>
+    </header>
 
-    <!-- TELA 1: LOGIN -->
-    <div class="screen active" id="loginScreen">
-      <div class="login-container">
-        <h2>Insira seu número de telefone</h2>
-        <p>O WhatsApp verificará seu número de telefone.</p>
-        
-        <div class="input-group">
-          <div class="country-input">
-            <span>País</span>
-            <input type="text" value="Brasil" readonly>
-          </div>
-          <div class="phone-input-row">
-            <input type="text" class="country-code" value="+55" placeholder="+55" readonly>
-            <input type="tel" class="phone-number" id="phoneInput" placeholder="Número de telefone">
-          </div>
+    <!-- Feed de Postagens -->
+    <main class="feed">
+      <article class="post">
+        <div class="post-header">
+          <div class="avatar"></div>
+          <strong>usuario_exemplo</strong>
         </div>
         
-        <button class="btn-next" id="loginBtn">Avançar</button>
-      </div>
-    </div>
-
-    <!-- TELA 1.1: VERIFICAÇÃO DE CÓDIGO (SMS) -->
-    <div class="screen" id="verifyScreen">
-      <div class="login-container">
-        <h2>Insira o código de confirmação</h2>
-        <p>Enviamos um SMS com o código para o seu número.</p>
-        
-        <div class="input-group" style="border-bottom: 2px solid var(--primary-color);">
-          <input type="text" id="verifyCodeInput" placeholder="------" maxlength="6" autocomplete="off" style="width: 100%; padding: 12px; font-size: 24px; text-align: center; letter-spacing: 8px; border: none; background: transparent; outline: none; color: #333;">
+        <!-- Área da Foto -->
+        <div class="post-image">
+          <p>Sua foto aqui</p>
         </div>
         
-        <button class="btn-next" id="verifyBtn">Confirmar Código</button>
-      </div>
-    </div>
-    
-    <!-- TELA 2: TELA PRINCIPAL -->
-    <div class="screen" id="mainScreen">
-      <aside class="sidebar">
-        <header class="sidebar-header">
-          <div class="whatsapp-top-bar">
-            <h2>WhatsApp</h2>
-            <div class="header-actions">
-              <button class="icon-btn" title="Pesquisar">🔍</button>
-              <button class="icon-btn" id="menuToggleBtn" title="Mais opções">⋮</button>
-              <div class="dropdown-menu" id="dropdownMenu">
-                <div class="menu-item">Novo grupo</div>
-                <div class="menu-item">Nova transmissão</div>
-                <div class="menu-item" id="goToSettingsBtn">Configurações</div>
-              </div>
-            </div>
-          </div>
-          <div class="whatsapp-tabs">
-            <span class="tab active" data-tab="chats">Conversas</span>
-            <span class="tab" data-tab="status">Status</span>
-            <span class="tab" data-tab="calls">Chamadas</span>
-          </div>
-        </header>
-
-        <div class="chat-list" id="chatList"></div>
-
-        <div class="tab-content" id="statusTabContent" style="display: none; padding: 20px; color: #667781;">
-          <h3>Status</h3>
-          <p style="margin-top: 10px; font-size: 14px;">Nenhuma atualização recente</p>
+        <!-- Ações do Post -->
+        <div class="post-actions">
+          <button class="like-btn" id="likeButton">🤍 Curtir</button>
         </div>
-
-        <div class="tab-content" id="callsTabContent" style="display: none; padding: 20px; color: #667781;">
-          <h3>Chamadas</h3>
-          <p style="margin-top: 10px; font-size: 14px;">Para ligar, abra uma conversa e clique nos ícones no topo.</p>
+        <div class="post-caption">
+          <strong>usuario_exemplo</strong> Aprendendo a programar hoje! 💻🚀
         </div>
-
-        <button class="fab-btn" id="newChatBtn" title="Nova conversa">💬</button>
-      </aside>
-
-      <main class="content-area">
-        <header class="chat-header">
-          <div class="avatar" id="activeChatAvatar">W</div>
-          <div class="chat-details">
-            <h3 id="activeChatName">Contato</h3>
-            <span class="status" id="chatStatus">online</span>
-          </div>
-          <div class="call-actions">
-            <button id="audioCallBtn" title="Chamada de voz">📞</button>
-            <button id="videoCallBtn" title="Chamada de vídeo">📹</button>
-          </div>
-        </header>
-        
-        <div class="messages-container" id="messagesContainer"></div>
-        
-        <footer class="chat-input-area">
-          <form id="chatForm">
-            <button type="button" class="media-btn" onclick="takeCameraPhoto()" title="Tirar foto">📷</button>
-            <input type="text" id="msgInput" placeholder="Mensagem" autocomplete="off">
-            <button type="button" class="media-btn" onclick="toggleAudioRecord()" title="Gravar áudio">🎤</button>
-            <button type="submit" id="sendBtn" title="Enviar">➤</button>
-          </form>
-        </footer>
-      </main>
-    </div>
-
-    <!-- TELA 3: CONFIGURAÇÕES -->
-    <div class="screen" id="settingsScreen">
-      <header class="settings-header">
-        <div class="header-left">
-          <span class="back-btn" id="backToMainBtn">&#8592;</span>
-          <h1 class="header-title">Configurações</h1>
-        </div>
-      </header>
-
-      <div class="settings-list">
-        <div class="customization-section">
-          <h3 class="section-title">✨ Aparência</h3>
-          <div class="custom-group">
-            <span>Cor do Tema:</span>
-            <div class="color-options">
-              <div class="color-dot" style="background: #00a884;" data-color="#00a884"></div>
-              <div class="color-dot" style="background: #1da1f2;" data-color="#1da1f2"></div>
-              <div class="color-dot" style="background: #9c27b0;" data-color="#9c27b0"></div>
-            </div>
-          </div>
-        </div>
-        <div class="setting-item" id="logoutBtn"><div class="icon">🚪</div><div class="title" style="color: #ef5350;">Sair</div></div>
-      </div>
-    </div>
-
-    <!-- MODAL NOVO CONTATO -->
-    <div class="modal" id="addContactModal">
-      <div class="modal-content">
-        <h3>Nova Conversa</h3>
-        <input type="text" id="newContactName" placeholder="Nome do contato" autocomplete="off">
-        <input type="text" id="newContactPhone" placeholder="Número de telefone" autocomplete="off">
-        <div class="modal-actions">
-          <button id="cancelAddContact" type="button">Cancelar</button>
-          <button id="confirmAddContact" type="button">Salvar</button>
-        </div>
-      </div>
-    </div>
-
+      </article>
+    </main>
   </div>
 
   <script src="script.js"></script>
 </body>
-                </html>
-                
+</html>
+
